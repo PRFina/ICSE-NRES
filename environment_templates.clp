@@ -33,7 +33,7 @@
 )
 ; Relative humidity
 (deftemplate humidity
-    1 100 percent 
+    0 100 percent 
     (
         (low (z 0 30))
         (middle (pi 30 50))
@@ -44,12 +44,13 @@
 
 ;express how much a given plant structure is visibile
 (deftemplate lifetime
-    1 100 percent 
+    0 100 percent 
     (
         (absent (0 1)(0 0))
         (growing (0 0) (25 1) (25 0))
         (full (25 0) (25 1) (75 1) (75 0))
-        (decline (75 1) (100 0))
+        (decline (75 0) (75 1) (100 0))
     )
 )
 
+;;TODO define plant template
