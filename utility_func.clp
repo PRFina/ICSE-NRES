@@ -7,6 +7,21 @@
         else (return ?r))  
 )
 
+(deffunction init_rank_assertions()
+
+(bind ?categorie (deftemplate-slot-allowed-values patologia categoria))
+(bind ?strutture (deftemplate-slot-allowed-values sintomo struttura))
+
+   (loop-for-count (?i 1 (- (length$ ?categorie) 1))
+       do
+       (bind ?categoria (nth$ ?i ?categorie))
+       (loop-for-count (?j 1 (- (length$ ?strutture) 1))
+           do
+           (bind ?struttura (nth$ ?j ?strutture))
+           (assert (damaged_structs_rank (categoria ?categoria) (struttura ?struttura) (counter 0)))
+       )
+   )
+)
 
 ; To use in production
 ;(deffunction real_to_system_calendar()
