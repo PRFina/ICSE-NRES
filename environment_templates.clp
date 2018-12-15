@@ -10,17 +10,6 @@
     )
 )
 
-;(deftemplate temperature
-;    -15 40 celsius 
-;    (
-;        (frost (z -15 5))
-;        (cold (PI 5 5))
-;        (mild (PI 5 15))
-;        (warm  (PI 5 30))
-;        (hot  (s 25 40))
-;    )
-;)
-
 ; Typical range of a continental/temperate climates
 (deftemplate temperature
     -15 40 celsius 
@@ -53,4 +42,12 @@
     )
 )
 
-;;TODO define plant template
+
+(deftemplate grapevine
+    (slot radice (type FUZZY-VALUE lifetime))
+    (slot ceppo (type FUZZY-VALUE lifetime))
+    (slot tralcio (type FUZZY-VALUE lifetime))
+    (slot foglia (type FUZZY-VALUE lifetime))
+    (slot infiorescenza (type FUZZY-VALUE lifetime))
+    (slot grappolo (type FUZZY-VALUE lifetime))
+)

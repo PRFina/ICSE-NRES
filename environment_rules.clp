@@ -1,10 +1,11 @@
-
+;; Season Rules
 (defrule define_season 
     (current_day ?day)
     =>
     (assert (season (pi 5 ?day)))
 )
 
+;; Temperature Rules
 (defrule define_temperature_low
     (season winter)
     =>
@@ -22,3 +23,4 @@
     =>
     (assert (temperature high))
 )
+
