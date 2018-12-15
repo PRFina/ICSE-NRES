@@ -3,20 +3,20 @@
 (deftemplate season
     1 365 day 
     (
-        (spring (PI 55 90))
-        (summer (PI 55 180))
-        (autumn (PI 55 270))
-        (winter (1 1) (55 0) (305 0) (365 1));;TODO smoothing singleton values    )
+        (spring (PI 70 90))
+        (summer (PI 70 180))
+        (autumn (PI 70 270))
+        (winter (1 1) (70 0) (290 0) (365 1));;TODO smoothing singleton values    )
     )
 )
 
 ; Typical range of a continental/temperate climates
 (deftemplate temperature
-    -15 40 celsius 
+    -5 38 celsius 
     (
-        (low (z -15 8))
-        (middle (pi 10 15))
-        (high (s 20 40))
+        (low (z -5 10))
+        (middle (pi 15 20))
+        (high (s 25 38))
         
     )
 )

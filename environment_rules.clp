@@ -24,3 +24,15 @@
     (assert (temperature high))
 )
 
+;; Grapevine Rules
+(defrule assert_
+    (season spring)
+    (temperature middle)
+    =>
+    (assert (grapevine (radice full)
+                       (ceppo full)
+                       (tralcio full)
+                       (foglia absent)
+                       (infiorescenza absent)
+                       (grappolo absent)))
+)
