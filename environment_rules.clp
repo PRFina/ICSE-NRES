@@ -42,8 +42,8 @@
 )
 
 (defrule fase_fenologica_riposo_vegetativa
-    (season spring)
-    (temperature low)
+    (season winter)
+    (temperature middle)
     =>
     (assert (grapevine (fase riposo_vegetativa)
                        (radice yes)
@@ -55,8 +55,8 @@
 )
 
 (defrule fase_fenologica_vegetativa
-    (season spring)
-    (temperature middle)
+    (season somewhat spring and not winter)
+    (temperature somewhat middle and not low)
     =>
     (assert (grapevine (fase vegetativa)
                        (radice yes)
@@ -68,8 +68,8 @@
 )
 
 (defrule fase_fenologica_vegetativa_riproduttiva
-    (season spring)
-    (temperature middle)
+    (season somewhat spring and not summer)
+    (temperature somewhat middle and not high)
     =>
     (assert (grapevine (fase vegetativa_riproduttiva)
                        (radice yes)
@@ -81,8 +81,8 @@
 )
 
 (defrule fase_fenologica_riproduttiva
-    (season summer)
-    (temperature high)
+    (season somewhat summer and not spring)
+    (temperature somewhat high and not middle)
     =>
     (assert (grapevine (fase riproduttiva)
                        (radice yes)
@@ -94,8 +94,8 @@
 )
 
 (defrule fase_fenologica_riproduttiva_riposo
-    (season autumn)
-    (temperature middle)
+    (season very autumn)
+    (temperature very middle)
     =>
     (assert (grapevine (fase riproduttiva_riposo)
                        (radice yes)
@@ -105,6 +105,7 @@
                        (infiorescenza absent)
                        (grappolo decline)))
 )
+
 
 ;; Regole cateogorie malattie
 ;; @TODO chiedere a michele
