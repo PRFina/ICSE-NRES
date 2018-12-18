@@ -10,7 +10,7 @@
     )
 )
 
-; Typical range of a continental/temperate climates
+; Typical range of Italy's climates
 (deftemplate temperature
     -5 38 celsius 
     (

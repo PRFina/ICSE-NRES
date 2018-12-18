@@ -16,22 +16,23 @@
     (return (< (fact-slot-value ?a counter)(fact-slot-value ?b counter)))
 )
 
-
 ;check all struttura and categoria elements that matchs
 (defrule check_update_rank
-    (sintomo (struttura ?s)(nome ?x))
+    ?f <- (sintomo (struttura ?s)(nome ?x))
     (patologia (nome ?x)(categoria ?c))
     =>
-    (assert (update_rank ?c ?s))
+    (assert (update_rank ?c ?s ?f))
 )
+
 
 ;update increasing by 1 damaged_structs_rank elements
 ;most damaged plant parts grouped by category
 (defrule update_rank
-    ?update_rank_fact <- (update_rank ?c ?s)
-    ?f1 <- (damaged_structs_rank (categoria ?c)(struttura ?s)(counter ?cnt))
+    ?update_rank_fact <- (update_rank ?c ?s ?f)
+    ?f1 <- (damaged_structs_rank (categoria ?c)(struttura ?s)(counter ?cnt) (asserted_slots $?as))
     =>
     (retract ?update_rank_fact)
     (bind ?count (+ ?cnt 1))
-    (modify ?f1 (counter ?count))
+    (modify ?f1 (counter ?count)
+                (asserted_slots (get_asserted_slot_names_from_sintomo ?f ?as)))
 )
