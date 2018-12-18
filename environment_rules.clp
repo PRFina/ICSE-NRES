@@ -154,6 +154,7 @@
         (create-fuzzy-value season autumn)
         ?f   
     )
+    (printout t "Defuzzified Season: " (moment-defuzzify ?f) crlf)
 )
 
 (defrule plot_temperature
@@ -165,5 +166,6 @@
         (create-fuzzy-value temperature high)
         ?f   
     )
+    (printout t "Defuzzified Temperature: " (moment-defuzzify ?f) crlf)
 )
 
