@@ -22,3 +22,8 @@
         then yes 
     else no)
 )
+
+(defrule templ_quest
+        =>
+        (bind ?ans(yes-or-no-p(format nil "La struttura %s presenta %s?" ?str ?sin)))
+)
