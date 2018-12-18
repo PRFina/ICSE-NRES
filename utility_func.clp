@@ -18,7 +18,10 @@
        (loop-for-count (?j 1 (- (length$ ?strutture) 1))
            do
            (bind ?struttura (nth$ ?j ?strutture))
-           (assert (damaged_structs_rank (categoria ?categoria) (struttura ?struttura) (counter 0)))
+           (assert (damaged_structs_rank (categoria ?categoria)
+                                         (struttura ?struttura)
+                                         (counter 0)
+                                         (asserted_slots (create$))))
        )
    )
 )
@@ -32,3 +35,25 @@
 ;        then (return (+ ?r 365))
 ;        else (return ?r))  
 ;)
+
+; Function to return a multifield filled with asserted slots (not nil) from deftemplate sintomo facts
+(deffunction get_asserted_slot_names_from_sintomo (?fact ?old_asserted_slots)  
+    (bind ?slot_names (fact-slot-names ?fact)) ;get sintomo slots from a fact
+    (bind ?attributes (subseq$ ?slot_names 2 (- (length ?slot_names) 1))) ; filter slot_names removing struttura and nome slots
+   
+    ;;(bind ?asserted_attributes (create$))
+    ;create a multifield adding the slot name only if its value is different from nil
+    (progn$ (?field ?attributes)  
+            (if
+                (and (neq (fact-slot-value ?fact ?field) nil)
+                     (not (and (deftemplate-slot-multip sintomo ?field) ; check if ?field is a multislot and it's empty
+                               (eq (nth$ 1 (fact-slot-value ?fact ?field)) nil))
+                     )
+                     (not (member$ ?field ?old_asserted_slots))
+                )
+            then 
+                (bind ?old_asserted_slots (insert$ ?old_asserted_slots 1 ?field))
+            )
+    )
+    (return ?old_asserted_slots)
+)
