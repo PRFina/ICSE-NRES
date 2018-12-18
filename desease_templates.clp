@@ -32,4 +32,5 @@
 (deftemplate damaged_structs_rank (slot categoria)
                                   (slot struttura)
                                   (slot counter)
+                                  (multislot asserted_slots)
 )
