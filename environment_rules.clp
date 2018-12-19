@@ -33,9 +33,9 @@
     (temperature low)
     =>
     (assert (grapevine (fase riposo)
-                       (radice yes)
-                       (ceppo yes)
-                       (tralcio yes)
+                       (radice full)
+                       (ceppo full)
+                       (tralcio full)
                        (foglia absent)
                        (infiorescenza absent)
                        (grappolo absent)))
@@ -46,9 +46,9 @@
     (temperature middle)
     =>
     (assert (grapevine (fase riposo_vegetativa)
-                       (radice yes)
-                       (ceppo yes)
-                       (tralcio yes)
+                       (radice full)
+                       (ceppo full)
+                       (tralcio full)
                        (foglia growing)
                        (infiorescenza growing)
                        (grappolo absent)))
@@ -59,9 +59,9 @@
     (temperature somewhat middle and not low)
     =>
     (assert (grapevine (fase vegetativa)
-                       (radice yes)
-                       (ceppo yes)
-                       (tralcio yes)
+                       (radice full)
+                       (ceppo full)
+                       (tralcio full)
                        (foglia full)
                        (infiorescenza full)
                        (grappolo growing)))
@@ -72,9 +72,9 @@
     (temperature somewhat middle and not high)
     =>
     (assert (grapevine (fase vegetativa_riproduttiva)
-                       (radice yes)
-                       (ceppo yes)
-                       (tralcio yes)
+                       (radice full)
+                       (ceppo full)
+                       (tralcio full)
                        (foglia full)
                        (infiorescenza decline)
                        (grappolo growing)))
@@ -85,9 +85,9 @@
     (temperature somewhat high and not middle)
     =>
     (assert (grapevine (fase riproduttiva)
-                       (radice yes)
-                       (ceppo yes)
-                       (tralcio yes)
+                       (radice full)
+                       (ceppo full)
+                       (tralcio full)
                        (foglia full)
                        (infiorescenza absent)
                        (grappolo full)))
@@ -98,14 +98,13 @@
     (temperature very middle)
     =>
     (assert (grapevine (fase riproduttiva_riposo)
-                       (radice yes)
-                       (ceppo yes)
-                       (tralcio yes)
+                       (radice full)
+                       (ceppo full)
+                       (tralcio full)
                        (foglia decline)
                        (infiorescenza absent)
                        (grappolo decline)))
 )
-
 
 ;; Regole cateogorie malattie
 ;; @TODO chiedere a michele

@@ -5,4 +5,6 @@
 (load "environment_rules.clp")
 (load "utility_func.clp")
 ;(batch "test#prf.clp")
-(batch "test#fuzzy_prf.clp")
+;(batch "test#fuzzy_prf.clp")
+
+(batch "test_season-temp-fenol_prf.clp")
