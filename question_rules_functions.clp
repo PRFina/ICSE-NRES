@@ -1,7 +1,7 @@
 
 ; generic question function
 
-(deffunction ask-question (?question $?allowed-values)
+(deffunction ask_question (?question $?allowed-values)
    (printout t ?question)
    (bind ?answer (read))
    (if (lexemep ?answer) 
@@ -14,16 +14,16 @@
    ?answer
 )
 
-; specific yes/no question function
-
-(deffunction yes-or-no-p (?question)
-   (bind ?response (ask-question ?question yes no y n))
+(deffunction binary_question (?question)
+   (bind ?response (ask_question ?question yes no y n))
    (if (or (eq ?response yes) (eq ?response y))
-        then yes 
-    else no)
+        then TRUE 
+    else FALSE)
 )
 
-(defrule templ_quest
-        =>
-        (bind ?ans(yes-or-no-p(format nil "La struttura %s presenta %s?" ?str ?sin)))
+(deffunction generate_question (?struttura ?sintomo)
+    (bind ?allowed_values (delete-member$ (deftemplate-slot-allowed-values sintomo ?sintomo) nil))
+    (ask_question (format nil "La struttura %s presenta %s? (%s)" ?struttura ?sintomo (implode$ ?allowed_values))
+                  ?allowed_values) 
+
 )
