@@ -19,9 +19,9 @@
 ;(run)
 ;(facts)
 
-;(assert (current_day (real_to_system_calendar 100)))
-;(run)
-;(facts)
+(assert (current_day (real_to_system_calendar 105)))
+(run)
+(facts)
 
 ;(assert (current_day (real_to_system_calendar 120)))
 ;(run)
@@ -55,9 +55,9 @@
 ;(run)
 ;(facts)
 
-(assert (current_day (real_to_system_calendar 280)))
-(run)
-(facts)
+;(assert (current_day (real_to_system_calendar 280)))
+;(run)
+;(facts)
 
 ;(assert (current_day (real_to_system_calendar 300)))
 ;(run)

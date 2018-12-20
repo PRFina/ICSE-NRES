@@ -108,40 +108,61 @@
 
 ;; Regole cateogorie malattie
 ;; @TODO chiedere a michele
-(defrule estensione_localizzata 
-    (estensione localizzata)
-    => 
-    (assert (patologia (categoria insetti)) CF 0.7)
-    (assert (patologia (categoria funghi)) CF 0.7)
-    (assert (patologia (categoria virus)) CF 0.3)
-    (assert (patologia (categoria batteri)) CF 0.3)
-    (assert (patologia (categoria nematodi)) CF 0.3)
-    (assert (patologia (categoria fitoplasmi)) CF 0.3)
+(defrule estensione_localizzata
+   (estensione localizzata)
+   =>
+   (assert (category(name insetti)(membership high)))
+   (assert (category(name funghi)(membership high)))
+   (assert (category(name virus)(membership low)))
+   (assert (category(name batteri)(membership low)))
+   (assert (category(name nematodi)(membership low)))
+   (assert (category(name fitoplasmi)(membership low)))
 )
 
 (defrule estensione_ampia
-    (estensione ampia)
-    => 
-    (assert (categoria insetti) CF 0.3)
-    (assert (categoria funghi) CF 0.3)
-    (assert (categoria virus) CF 0.7)
-    (assert (categoria batteri) CF 0.7)
-    (assert (categoria nematodi) CF 0.7)
-    (assert (categoria fitoplasmi) CF 0.7)
+   (estensione ampia)
+   =>
+   (assert (category(name insetti)(membership low)))
+   (assert (category(name funghi)(membership low)))
+   (assert (category(name virus)(membership high)))
+   (assert (category(name batteri)(membership high)))
+   (assert (category(name nematodi)(membership high)))
+   (assert (category(name fitoplasmi)(membership high)))
 )
 
-;test
-;(defrule categoria_funghi
-;    (season summer or spring)
-;    (temperature middle or high)
-;    (humidity high)
-;    ?f <- (patologia (categoria funghi))
-;    =>
-;    (bind ?CF (get-cf ?f))
-;    (printout t "CF old: " ?CF " CF new: " (+ ?CF 0.15))
-;    (modify ?f (categoria virus))   
-;)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;,
+(defrule def_temp_low
+  (temperature low)
+  =>
+  (assert (category(name insetti)(membership low)))
+  (assert (category(name funghi)(membership low)))
+  (assert (category(name virus)(membership low)))
+  (assert (category(name batteri)(membership low)))
+  (assert (category(name nematodi)(membership low)))
+  (assert (category(name fitoplasmi)(membership low)))
+)
 
+(defrule def_temp_mid
+  (temperature middle)
+  =>
+  (assert (category(name insetti)(membership high)))
+  (assert (category(name funghi)(membership high)))
+  (assert (category(name virus)(membership high)))
+  (assert (category(name batteri)(membership high)))
+  (assert (category(name nematodi)(membership high)))
+  (assert (category(name fitoplasmi)(membership high)))
+)
+
+(defrule def_temp_high
+  (temperature high)
+  =>
+  (assert (category(name insetti)(membership high)))
+  (assert (category(name funghi)(membership low)))
+  (assert (category(name virus)(membership middle)))
+  (assert (category(name batteri)(membership middle)))
+  (assert (category(name nematodi)(membership middle)))
+  (assert (category(name fitoplasmi)(membership middle)))
+)
 
 
 ;; Debug rules
@@ -168,6 +189,20 @@
         ?f   
     )
     (printout t "Defuzzified Temperature: " (moment-defuzzify ?f) crlf)
+)
+
+(defrule plot_membership
+    ?f <- (category (name ?x) (membership ?y))
+    =>
+    ;(bind ?value (nth$ 2 (deftemplate-slot-allowed-values category (get-fuzzy-slot ?f membership) ) ))
+    ;(plot-fuzzy-value t “.+-^” 0 100
+    ;    ;(create-fuzzy-value memb ?y)
+    ;    (create-fuzzy-value memb low)
+    ;    (create-fuzzy-value memb middle)
+    ;    (create-fuzzy-value memb high)
+    ;    ;?f
+    ;)
+    (printout t "Defuzzified Membership: "?x crlf (moment-defuzzify (get-fuzzy-slot ?f membership)) crlf)
 )
 
 (defrule debug_fase_struttura

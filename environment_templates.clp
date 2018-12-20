@@ -41,6 +41,20 @@
     )
 )
 
+(deftemplate memb
+   0 100
+   (
+       (low (z 0 30))
+       (middle (pi 20 50))
+       (high (s 70 100))
+   )
+)
+
+(deftemplate category
+       (slot name)
+       (slot membership (type FUZZY-VALUE memb))
+)
+
 ; Models fase fenologica with fuzzy values / used for debug
 ;(deftemplate fase
 ;    0 120 point
