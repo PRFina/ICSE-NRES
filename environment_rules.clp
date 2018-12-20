@@ -130,16 +130,17 @@
     (assert (categoria fitoplasmi) CF 0.7)
 )
 
-(defrule categoria_funghi
-    (season summer or spring)
-    (temperature middle or high)
-    (humidity high)
-    ?f <- (patologia (categoria funghi))
-    =>
-    (bind ?CF (get-cf ?f))
-    (printout t "CF old: " ?CF " CF new: " (+ ?CF 0.15))
-    (modify ?f (categoria virus))   
-)
+;test
+;(defrule categoria_funghi
+;    (season summer or spring)
+;    (temperature middle or high)
+;    (humidity high)
+;    ?f <- (patologia (categoria funghi))
+;    =>
+;    (bind ?CF (get-cf ?f))
+;    (printout t "CF old: " ?CF " CF new: " (+ ?CF 0.15))
+;    (modify ?f (categoria virus))   
+;)
 
 
 
@@ -169,3 +170,18 @@
     (printout t "Defuzzified Temperature: " (moment-defuzzify ?f) crlf)
 )
 
+(defrule debug_fase_struttura
+    ?f <- (grapevine (radice ?radice)
+                     (ceppo ?ceppo)
+                     (tralcio ?tralcio)
+                     (foglia ?foglia)
+                     (infiorescenza ?infiorescenza)
+                     (grappolo ?grappolo))
+    =>
+    (printout t "Defuzzified radice: " (moment-defuzzify (get-fuzzy-slot ?f radice)) crlf)
+    (printout t "Defuzzified ceppo: " (moment-defuzzify (get-fuzzy-slot ?f ceppo)) crlf)
+    (printout t "Defuzzified tralcio: " (moment-defuzzify (get-fuzzy-slot ?f tralcio)) crlf)
+    (printout t "Defuzzified foglia: " (moment-defuzzify (get-fuzzy-slot ?f foglia)) crlf)
+    (printout t "Defuzzified infiorescenza: " (moment-defuzzify (get-fuzzy-slot ?f infiorescenza)) crlf)
+    (printout t "Defuzzified grappolo: " (moment-defuzzify (get-fuzzy-slot ?f grappolo)) crlf)
+)
