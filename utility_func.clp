@@ -21,7 +21,8 @@
            (assert (damaged_structs_rank (categoria ?categoria)
                                          (struttura ?struttura)
                                          (counter 0)
-                                         (asserted_slots (create$))))
+                                         (asserted_slots (create$))
+                                         (global_rank 0)))
        )
    )
 )
@@ -56,4 +57,17 @@
             )
     )
     (return ?old_asserted_slots)
+)
+
+
+(deffunction set_update_false()
+    (do-for-all-facts ((?f sintomo))
+                      (eq ?f:update_flag TRUE)
+                      (modify ?f (update_flag FALSE)))
+)
+
+(deffunction set_update_true()
+    (do-for-all-facts ((?f sintomo))
+                      (eq ?f:update_flag FALSE)
+                      (modify ?f (update_flag TRUE)))
 )

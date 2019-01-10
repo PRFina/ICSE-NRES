@@ -15,6 +15,7 @@
                     (slot escrescenze(allowed-values si no nil)(default nil))
                     (slot puntura(allowed-values si no nil)(default nil))
                     (slot nome)
+                    (slot update_flag(default TRUE))
 )
 
 ;modella il legame tra patologia e categoria usando nome come attributo di join
@@ -22,15 +23,16 @@
                       (slot categoria(allowed-values insetti funghi batteri fitoplasmi nematodi virus nil)(default nil))
 )
 
-;(deftemplate ambiente(multislot stagione(allowed-values inverno primavera estate autunno nil) (default nil))
-;                     (slot temperatura(range -10 40))
-;                     (multislot fasefenologica(allowed-values radice ceppo tralcio gemma foglia infiorescenza grappolo nil)(default nil))
-;                     (slot estensione(allowed-values locale esteso nil)(default nil))
-;)
 
 ;template per classificare gli elementi di struttura
 (deftemplate damaged_structs_rank (slot categoria)
                                   (slot struttura)
                                   (slot counter)
                                   (multislot asserted_slots)
+                                  (slot global_rank)
+)
+
+;modella le categorie gestite nel modulo environment
+(deftemplate categoria (slot nome)
+                       (slot punteggio)
 )
