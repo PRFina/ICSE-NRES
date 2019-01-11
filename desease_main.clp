@@ -1,3 +1,6 @@
+(defmodule CALC (export ?ALL))
+(defmodule MAIN (import CALC ?ALL))
+
 (load "desease_templates.clp")
 
 (load "desease_facts.clp")
@@ -16,3 +19,4 @@
         (categoria (nome virus) (punteggio 0.3))
         (categoria (nome insetti) (punteggio 0.2))
         (categoria (nome nematodi) (punteggio 0.1)))
+

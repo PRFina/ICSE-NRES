@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; PATOLOGIE FUNGHI ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;
-(deffacts CALC::initial_patologie
+(deffacts initial_patologie
     (patologia(nome peronospora)
             (categoria funghi))
     (sintomo(nome peronospora)
@@ -42,21 +42,7 @@
     (sintomo(nome oidio)
             (struttura tralcio)
             (muffa bianca) 
-            (deformazione si))
-    
-    (patologia(nome botrite)
-            (categoria funghi)) 
-    (sintomo(nome botrite)
-            (struttura foglia)
-            (macchiacolore giallo))
-    (sintomo(nome botrite)
-            (struttura grappolo)
-            (caduta si)
-            (muffa grigia))
-    (sintomo(nome botrite)
-            (struttura tralcio)
-            (disseccamento si)
-            (colore bruno))                       
+            (deformazione si))                    
     
     (patologia(nome marciumeradicale)
             (categoria funghi))  
@@ -68,56 +54,7 @@
             (macchiacolore bianco))
     (sintomo(nome marciumeradicale)
             (struttura radice)
-            (macchiacolore bianco))                                                    
-    
-    (patologia(nome verticilliosi)
-            (categoria funghi))
-    (sintomo(nome verticilliosi)
-            (struttura foglia)
-            (disseccamento si))
-    (sintomo(nome verticilliosi)
-            (struttura ceppo)
-            (tacche si))                        
-
-    (patologia(nome maldellesca)
-            (categoria funghi))
-    (sintomo(nome maldellesca)
-            (struttura foglia)
-            (macchiacolore giallo)
-            (nervature verde)
-            (disseccamento si))
-    (sintomo(nome maldellesca)
-            (struttura grappolo)
-            (macchiacolore bruno)
-            (macchiaforma puntiforme))
-    (sintomo(nome maldellesca)
-            (struttura ceppo)                               
-            (deformazione si)
-            (macchiacolore bianco)
-            (marciume spugnoso))
-    (sintomo(nome maldellesca)
-            (struttura ceppo)                               
-            (deformazione si)
-            (macchiacolore giallo)
-            (marciume spugnoso))
-    
-    (patologia(nome marciumebianco)
-            (categoria funghi))
-    (sintomo(nome marciumebianco)
-            (struttura grappolo)
-            (macchiacolore giallo)
-            (muffa scura))
-    (sintomo(nome marciumebianco)
-            (struttura grappolo)
-            (macchiacolore bianco)
-            (muffa scura))
-    (sintomo(nome marciumebianco)
-            (struttura grappolo)
-            (macchiacolore bruno)
-            (muffa scura))
-    (sintomo(nome marciumebianco)
-            (struttura tralcio)
-            (tacche si))                      
+            (macchiacolore bianco))                                                                   
     
     (patologia(nome marciumenero)
             (categoria funghi))
@@ -140,21 +77,6 @@
             (struttura grappolo)
             (macchiacolore nero))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; PATOLOGIE BATTERI ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;
-    (patologia(nome rognadellavite)
-            (categoria batteri))
-    (sintomo(nome rognadellavite)
-            (struttura tralcio)
-            (tacche si)
-            (escrescenze si)
-            (colore bruno))
-    (sintomo(nome rognadellavite)
-            (struttura ceppo)
-            (tacche si)
-            (escrescenze si)
-            (colore bruno))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; FITOPLASMI DELLA VITE ;;;
@@ -183,18 +105,6 @@
             (macchiacolore nero)
             (macchiaforma puntiforme))
 
-;;;;;;;;;;;;;;;;
-;;; NEMATODI ;;;
-;;;;;;;;;;;;;;;;
-    (patologia(nome nematodi)
-            (categoria nematodi))
-    (sintomo(nome nematodi)
-            (struttura ceppo)
-            (escrescenze si))
-    (sintomo(nome nematodi)
-            (struttura radice)
-            (escrescenze si))
-
 ;;;;;;;;;;;;;;;
 ;;; INSETTI ;;;
 ;;;;;;;;;;;;;;;
@@ -207,41 +117,6 @@
     (sintomo(nome cocciniglia)
             (struttura grappolo)
             (fattoredsm basso))
-
-    (patologia(nome tripidedellavite)
-            (categoria insetti))
-    (sintomo(nome tripidedellavite)
-            (struttura foglia)
-            (macchiacolore giallo)
-            (deformazione si))
-    (sintomo(nome tripidedellavite)
-            (struttura grappolo)
-            (fattoredsm ritardo)
-            (macchiacolore bruno))
-    (sintomo(nome tripidedellavite)
-            (struttura infiorescenza)
-            (fattoredsm aborto)
-            (macchiacolore giallo))
-
-    (patologia(nome tignolettadellavite)
-            (categoria insetti))
-    (sintomo(nome tignolettadellavite)
-            (struttura grappolo)
-            (colore bruno)
-            (puntura si))
-
-    (patologia(nome tignola)
-            (categoria insetti))
-    (sintomo(nome tignola)
-            (struttura foglia)
-            (disseccamento si))
-    (sintomo(nome tignola)
-            (struttura grappolo)
-            (macchiacolore bianco)
-            (puntura si))
-    (sintomo(nome tignola)
-            (struttura infiorescenza)
-            (fattoredsm aborto))
 
     (patologia(nome tetranichidae)
             (categoria insetti))
@@ -286,18 +161,26 @@
     (sintomo(nome accartocciamento)
             (struttura tralcio)
             (fattoredsm irregolare))
-
-    (patologia(nome arricciamento)
-            (categoria virus))
-    (sintomo(nome arricciamento)
-            (struttura foglia)
-            (deformazione si)
-            (macchiaforma mosaico)
-            (nervature deformazione))
-    (sintomo(nome arricciamento)
-            (struttura tralcio)
-            (fattoredsm irregolare))
-    (sintomo(nome arricciamento)
-            (struttura ceppo)
-            (fattoredsm irregolare aborto))
 )
+
+;(defrule faidomanda
+;    (fai domanda)
+;    =>
+;    ;sostituire insetti con categoria più probabile
+;    ;sostituire 2 con 1 per prendere il counter più alto
+;    (bind ?fact (get_rank_pos insetti 1))
+;    (bind ?sintomo (nth$ 1 (fact-slot-value ?fact (nth$ 4 (fact-slot-names ?fact)))))
+;    (bind ?struttura (fact-slot-value ?fact (nth$ 2 (fact-slot-names ?fact))))
+;    (bind ?resp (generate_question ?struttura ?sintomo))
+;    (if (eq ?resp no)
+;        then     (retract *)
+;                (batch "test#assert.clp")
+;    (retract ?fact) ;esempio fatto melatafumag
+;    (init_rank_assertions)
+;        else (assert (sintomo-utente ?sintomo ?resp))
+;    )
+;
+;)
+
+
+;(nth$ 1 (fact-slot-values 347 (fact-slot-names 347))) 
