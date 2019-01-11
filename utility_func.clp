@@ -40,7 +40,7 @@
 ; Function to return a multifield filled with asserted slots (not nil) from deftemplate sintomo facts
 (deffunction CALC::get_asserted_slot_names_from_sintomo (?fact ?old_asserted_slots)  
     (bind ?slot_names (fact-slot-names ?fact)) ;get sintomo slots from a fact
-    (bind ?attributes (subseq$ ?slot_names 2 (- (length ?slot_names) 1))) ; filter slot_names removing struttura and nome slots
+    (bind ?attributes (subseq$ ?slot_names 2 (- (length ?slot_names) 2))) ; filter slot_names removing struttura and nome slots
    
     ;;(bind ?asserted_attributes (create$))
     ;create a multifield adding the slot name only if its value is different from nil
