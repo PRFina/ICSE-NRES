@@ -1,5 +1,5 @@
 ;modella l'entità sintomo
-(deftemplate CALC::sintomo(slot struttura(allowed-values radice ceppo tralcio foglia infiorescenza grappolo nil)(default nil))
+(deftemplate sintomo(slot struttura(allowed-values radice ceppo tralcio foglia infiorescenza grappolo nil)(default nil))
                           (slot colore(allowed-values bruno chiaro scuro verde giallo rosso bianco grigio nero nil)(default nil))
                           (slot macchiacolore(allowed-values bruno chiaro scuro verde giallo rosso bianco grigio nero nil)(default nil))
                           (slot macchiaforma(allowed-values regolare irregolare puntiforme mosaico nil)(default nil))
@@ -19,13 +19,13 @@
 )
 
 ;modella il legame tra patologia e categoria usando nome come attributo di join
-(deftemplate CALC::patologia(slot nome)
+(deftemplate patologia(slot nome)
                             (slot categoria(allowed-values insetti funghi batteri fitoplasmi nematodi virus nil)(default nil))
 )
 
 
 ;template per classificare gli elementi di struttura
-(deftemplate CALC::damaged_structs_rank (slot categoria)
+(deftemplate damaged_structs_rank (slot categoria)
                                         (slot struttura)
                                         (slot counter)
                                         (multislot asserted_slots)
@@ -33,6 +33,6 @@
 )
 
 ;modella le categorie gestite nel modulo environment
-(deftemplate CALC::categoria (slot nome)
+(deftemplate categoria (slot nome)
                              (slot punteggio)
 )

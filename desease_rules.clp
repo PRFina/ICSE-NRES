@@ -1,5 +1,5 @@
 ;get the fact-address of damaged_struct_rank  with category categoria in the pos rank position
-(deffunction CALC::get_rank_pos(?pos)
+(deffunction get_rank_pos(?pos)
     (bind ?facts_to_be_sorted
         (find-all-facts ((?f damaged_structs_rank))
             (neq ?f:counter 0)
@@ -10,12 +10,12 @@
 )
 
 ;funzione di ordinamento decrescente
-(deffunction CALC::sorting(?a ?b)
+(deffunction sorting(?a ?b)
     (return (< (fact-slot-value ?a global_rank)(fact-slot-value ?b global_rank)))
 )
 
 ;check all struttura and categoria elements that matchs
-(defrule CALC::check_update_rank
+(defrule check_update_rank
     ?f <- (sintomo (struttura ?s)(nome ?x)(update_flag TRUE))
     (patologia (nome ?x)(categoria ?c))
     =>
@@ -25,7 +25,7 @@
 
 ;update increasing by 1 damaged_structs_rank elements
 ;most damaged plant parts grouped by category
-(defrule CALC::update_rank
+(defrule update_rank
     ?update_rank_fact <- (update_rank ?c ?s ?f)
     ?f1 <- (damaged_structs_rank (categoria ?c)(struttura ?s)(counter ?cnt)(asserted_slots $?as)(global_rank ?gr))
     (categoria (nome ?c) (punteggio ?val))
@@ -38,12 +38,34 @@
                 (global_rank ?glob))
 )
 
+;; maybe is useless??
+(defrule clean_rank_counter
+    (phase-delete)
+    ?f <- (damaged_structs_rank (counter ?c&:(eq ?c 0)))   
+    =>
+    (retract ?f)
+)
 
-(defrule CALC::check_fine_update
+(defrule clean_rank_global
+    (phase-delete)
+    ?f <- (damaged_structs_rank (global_rank ?gr&:(eq ?gr 0)))   
+    =>
+    (retract ?f)
+)
+
+(defrule reset_rank
+    (phase-reset)
+    ?f <- (damaged_structs_rank (counter ?c&:(neq ?c 0))
+                                (global_rank ?gr&:(neq ?gr 0)))
+    =>
+    (modify ?f (counter 0) (global_rank 0))
+)
+
+
+(defrule check_fine_update
     (not (update_rank))
     =>
     (printout t "Fase update_rank finita" crlf)
-    (facts)
     (set_update_false)
 )
 

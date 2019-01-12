@@ -1,13 +1,14 @@
-(defmodule CALC (export ?ALL))
-(defmodule MAIN (import CALC ?ALL))
+;(defmodule CALC (export ?ALL))
+;(defmodule MAIN (import CALC ?ALL))
 
 (load "desease_templates.clp")
 
-(load "desease_facts.clp")
+(load "test_deffacts.clp")
 
 (load "utility_func.clp")
-;(load "question_rules_functions.clp")
 (load "desease_rules.clp")
+(load "question_rules_functions.clp")
+
 
 
 (reset)
