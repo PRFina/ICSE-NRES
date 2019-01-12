@@ -38,7 +38,7 @@
                 (global_rank ?glob))
 )
 
-;; maybe is useless??
+;;TODO maybe is useless?? (is counter != 0 when glob =0?)
 (defrule clean_rank_counter
     (phase-delete)
     ?f <- (damaged_structs_rank (counter ?c&:(eq ?c 0)))   
@@ -53,12 +53,13 @@
     (retract ?f)
 )
 
+;; TODO maybe reset also asserted slot to reflect sintomo retraction changes?
 (defrule reset_rank
     (phase-reset)
     ?f <- (damaged_structs_rank (counter ?c&:(neq ?c 0))
                                 (global_rank ?gr&:(neq ?gr 0)))
     =>
-    (modify ?f (counter 0) (global_rank 0))
+    (modify ?f (counter 0) (global_rank 0) (asserted_slots))
 )
 
 
@@ -69,6 +70,19 @@
     (set_update_false)
 )
 
+(defrule clean_sintomi
+    ?f <- (QandA (struttura ?s)
+                 (sintomo ?smo)
+                 (risposta ?risp))
+    =>
+    (retract ?f)
+    (do-for-all-facts ((?fs sintomo))
+                      (and (eq ?fs:struttura ?s)
+                           (neq (fact-slot-value ?fs ?smo) ?risp)
+                      )  
+                      (retract ?fs)
+    )
+)            
 
 
 

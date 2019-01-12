@@ -36,3 +36,8 @@
 (deftemplate categoria (slot nome)
                              (slot punteggio)
 )
+
+(deftemplate QandA 
+    (slot struttura)
+    (slot sintomo)
+    (slot risposta))
