@@ -163,7 +163,7 @@
             (categoria fitoplasmi))
     (sintomo(nome fitoplasmidellavite)
             (struttura ceppo))
-    (sintomo(nome fitoplasmidellavite)
+    (sintomo(nome fitoplasmidellavite) ;OR da rivedere
             (struttura foglia)
             (colore giallo)
             (deformazione si)
@@ -245,7 +245,7 @@
 
     (patologia(nome tetranichidae)
             (categoria insetti))
-    (sintomo(nome tetranichidae)
+    (sintomo(nome tetranichidae) ;OR da rivedere
             (struttura foglia)
             (colore giallo)
             (macchiaforma puntiforme)
