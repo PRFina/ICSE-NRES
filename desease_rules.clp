@@ -38,6 +38,7 @@
                 (global_rank ?glob))
 )
 
+;; maybe is useless??
 (defrule clean_rank_counter
     (phase-delete)
     ?f <- (damaged_structs_rank (counter ?c&:(eq ?c 0)))   
@@ -52,6 +53,13 @@
     (retract ?f)
 )
 
+(defrule reset_rank
+    (phase-reset)
+    ?f <- (damaged_structs_rank (counter ?c&:(neq ?c 0))
+                                (global_rank ?gr&:(neq ?gr 0)))
+    =>
+    (modify ?f (counter 0) (global_rank 0))
+)
 
 
 (defrule check_fine_update
