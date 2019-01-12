@@ -38,6 +38,21 @@
                 (global_rank ?glob))
 )
 
+(defrule clean_rank_counter
+    (phase-delete)
+    ?f <- (damaged_structs_rank (counter ?c&:(eq ?c 0)))   
+    =>
+    (retract ?f)
+)
+
+(defrule clean_rank_global
+    (phase-delete)
+    ?f <- (damaged_structs_rank (global_rank ?gr&:(eq ?gr 0)))   
+    =>
+    (retract ?f)
+)
+
+
 
 (defrule check_fine_update
     (not (update_rank))
