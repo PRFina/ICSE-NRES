@@ -7,7 +7,7 @@
         else (return ?r))  
 )
 
-(deffunction CALC::init_rank_assertions()
+(deffunction init_rank_assertions()
 
 (bind ?categorie (deftemplate-slot-allowed-values patologia categoria))
 (bind ?strutture (deftemplate-slot-allowed-values sintomo struttura))
@@ -38,7 +38,7 @@
 ;)
 
 ; Function to return a multifield filled with asserted slots (not nil) from deftemplate sintomo facts
-(deffunction CALC::get_asserted_slot_names_from_sintomo (?fact ?old_asserted_slots)  
+(deffunction get_asserted_slot_names_from_sintomo (?fact ?old_asserted_slots)  
     (bind ?slot_names (fact-slot-names ?fact)) ;get sintomo slots from a fact
     (bind ?attributes (subseq$ ?slot_names 2 (- (length ?slot_names) 2))) ; filter slot_names removing struttura and nome slots
    
@@ -60,13 +60,13 @@
 )
 
 
-(deffunction CALC::set_update_false()
+(deffunction set_update_false()
     (do-for-all-facts ((?f sintomo))
                       (eq ?f:update_flag TRUE)
                       (modify ?f (update_flag FALSE)))
 )
 
-(deffunction CALC::set_update_true()
+(deffunction set_update_true()
     (do-for-all-facts ((?f sintomo))
                       (eq ?f:update_flag FALSE)
                       (modify ?f (update_flag TRUE)))
