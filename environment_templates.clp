@@ -43,11 +43,11 @@
 
 (deftemplate memb
    0 100
-   (
-       (low (z 0 30))
-       (middle (pi 20 50))
-       (high (s 70 100))
-   )
+    (
+        (low (z 0 30))
+        (middle (pi 20 50))
+        (high (s 70 100))
+    )
 )
 
 (deftemplate category
@@ -56,21 +56,21 @@
 )
 
 ; Models fase fenologica with fuzzy values / used for debug
-;(deftemplate fase
-;    0 120 point
-;    (   
-;        (riposo (0 1) (10 1) (30 0)) 
-;        (riposo_vegetativa (10 0) (30 1) (50 0))
-;        (vegetativa (30 0) (50 1) (70 0))
-;        (vegetativa_riproduttiva (50 0) (70 1) (90 0)) 
-;        (riproduttiva (70 0) (90 1) (110 0))
-;        (riproduttiva_riposo (90 0) (110 1) (120 1))
-;    )
-;)
+(deftemplate fase
+    0 120 point
+    (   
+        (riposo (0 1) (10 1) (30 0)) 
+        (riposo_vegetativa (10 0) (30 1) (50 0))
+        (vegetativa (30 0) (50 1) (70 0))
+        (vegetativa_riproduttiva (50 0) (70 1) (90 0)) 
+        (riproduttiva (70 0) (90 1) (110 0))
+        (riproduttiva_riposo (90 0) (110 1) (120 1))
+    )
+)
 
 ; Grapevine structure with fuzzy values
 (deftemplate grapevine
-    (slot fase) ;(type FUZZY-VALUE fase)) / used for debug
+    (slot fase (type FUZZY-VALUE fase)) ;/ used for debug
     (slot radice (type FUZZY-VALUE lifetime))
     (slot ceppo (type FUZZY-VALUE lifetime))
     (slot tralcio (type FUZZY-VALUE lifetime))
