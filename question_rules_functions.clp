@@ -1,6 +1,4 @@
 
-
-
 (deffunction ask_question (?question $?allowed-values)
    (printout t ?question crlf)
    (bind ?answer (read))
@@ -23,8 +21,9 @@
 
 (deffunction build_question (?struttura ?sintomo)
     (bind ?allowed_values (delete-member$ (deftemplate-slot-allowed-values sintomo ?sintomo) nil))
-    (ask_question (format nil "La struttura %s presenta %s? (%s)" ?struttura ?sintomo (implode$ ?allowed_values))
-                  ?allowed_values) 
+    (bind ?answer (ask_question (format nil "La struttura %s presenta %s? (%s)" ?struttura ?sintomo (implode$ ?allowed_values))
+                  ?allowed_values))
+    ?answer
 
 )
 
@@ -34,5 +33,8 @@
                                (asserted_slots $? ?as $?))
     (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
     =>   
-    (build_question ?s ?as)
+    (bind ?answer (build_question ?s ?as))
+    (assert (QandA (struttura ?s)
+                 (sintomo ?as)
+                 (risposta ?answer)))
 )
