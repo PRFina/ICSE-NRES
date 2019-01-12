@@ -43,7 +43,6 @@
     (not (update_rank))
     =>
     (printout t "Fase update_rank finita" crlf)
-    (facts)
     (set_update_false)
 )
 
