@@ -14,7 +14,6 @@
                           (slot melatafumag(allowed-values si no nil)(default nil))
                           (slot escrescenze(allowed-values si no nil)(default nil))
                           (slot puntura(allowed-values si no nil)(default nil))
-                          (slot update_flag(default TRUE))
                           (slot nome)
 )
 
