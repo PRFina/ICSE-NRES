@@ -130,8 +130,8 @@
    (assert (category(name fitoplasmi)(membership low)))
 )
 
-(defrule estensione_ampia
-   (estensione ampia)
+(defrule estensione_estesa
+   (estensione estesa)
    =>
    (assert (category(name insetti)(membership low)))
    (assert (category(name funghi)(membership low)))
