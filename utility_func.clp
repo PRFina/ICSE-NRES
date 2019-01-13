@@ -58,16 +58,3 @@
     )
     (return ?old_asserted_slots)
 )
-
-
-;(deffunction set_update_false()
-;    (do-for-all-facts ((?f sintomo))
-;                      (eq ?f:update_flag TRUE)
-;                      (modify ?f (update_flag FALSE)))
-;)
-;
-;(deffunction set_update_true()
-;    (do-for-all-facts ((?f sintomo))
-;                      (eq ?f:update_flag FALSE)
-;                      (modify ?f (update_flag TRUE)))
-;)
