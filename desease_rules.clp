@@ -16,7 +16,8 @@
 
 ;check all struttura and categoria elements that matchs
 (defrule check_update_rank
-    ?f <- (sintomo (struttura ?s)(nome ?x)(update_flag TRUE))
+    (phase-update)
+    ?f <- (sintomo (struttura ?s)(nome ?x))
     (patologia (nome ?x)(categoria ?c))
     =>
     (assert (update_rank ?c ?s ?f))
@@ -67,7 +68,7 @@
     (not (update_rank))
     =>
     (printout t "Fase update_rank finita" crlf)
-    (set_update_false)
+    ;(set_update_false)
 )
 ; Retract symptoms that doesn't matchwith user anser
 (defrule clean_sintomi
