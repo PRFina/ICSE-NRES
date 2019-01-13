@@ -69,7 +69,7 @@
     (printout t "Fase update_rank finita" crlf)
     (set_update_false)
 )
-
+; Retract symptoms that doesn't matchwith user anser
 (defrule clean_sintomi
     ?f <- (QandA (struttura ?s)
                  (sintomo ?smo)
@@ -83,7 +83,16 @@
                       )  
                       (retract ?fs)
     )
-)            
+)         
+
+(deffunction calculate_rank (?category_belief ?structure_lifetime ?symptoms_freq ?w1 ?w2 ?w3)
+    (bind ?op1 (** ?category_belief ?w1))
+    (bind ?op2 (** ?structure_lifetime ?w2))
+    (bind ?op3 (** (log10 (+ ?symptoms_freq 1)) ?w3))
+
+    (return (* ?op1 ?op2 ?op3))
+)
+
 
 
 

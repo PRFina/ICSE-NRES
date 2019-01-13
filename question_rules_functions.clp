@@ -39,6 +39,7 @@ $?value
 )
 
 (defrule day_question
+    (phase-environment)
     =>
     (bind $?range_day (range_two_val 1  365))
     (bind ?value (ask_question "Inserire giorno: " $?range_day))
