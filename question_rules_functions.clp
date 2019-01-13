@@ -19,16 +19,6 @@
     else FALSE)
 )
 
-(deffunction generic_question (?question)
-    (printout t ?question)
-    (bind ?answer (read))
-    (while (not (and (> ?answer 0)
-                (< ?answer 366))) do
-        (printout t ?question)
-        (bind ?answer (read)))
-    ?answer
-)
-
 (deffunction build_question (?struttura ?sintomo)
     (bind ?allowed_values (delete-member$ (deftemplate-slot-allowed-values sintomo ?sintomo) nil))
     (bind ?answer (ask_question (format nil "La struttura %s presenta %s? (%s)" ?struttura ?sintomo (implode$ ?allowed_values))
@@ -37,9 +27,21 @@
 
 )
 
+(deffunction range_two_val(?first ?second)
+    (bind $?value (create$))
+    (if (< ?first ?second)
+    then
+        (loop-for-count (?i ?first ?second) do
+            (bind $?value (insert$ ?value 1 ?i))
+        )
+    )
+$?value
+)
+
 (defrule day_question
     =>
-    (bind ?value (generic_question "Inserire giorno: "))
+    (bind $?range_day (range_two_val 1  365))
+    (bind ?value (ask_question "Inserire giorno: " $?range_day))
     (assert (current_day (real_to_system_calendar ?value)))
 )
 
@@ -51,7 +53,7 @@
 )
 
 (defrule generate_question
-    (phase-generate) ;; activation flag
+    (phase-question) ;; activation flag
     ?f <-(damaged_structs_rank (struttura ?s)
                                (asserted_slots $? ?as $?))
     (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position

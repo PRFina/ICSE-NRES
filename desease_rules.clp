@@ -79,6 +79,7 @@
     (do-for-all-facts ((?fs sintomo))
                       (and (eq ?fs:struttura ?s)
                            (neq (fact-slot-value ?fs ?smo) ?risp)
+                           (neq (fact-slot-value ?fs ?smo) nil)
                       )  
                       (retract ?fs)
     )
