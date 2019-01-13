@@ -7,6 +7,7 @@
 (load "question_rules_functions.clp")
 (load "test_euristiche.clp")
 
-;(set-alpha-value 0.2)
+;(set-alpha-value 0.1)
+(assert (fases environment))
 
 (run)

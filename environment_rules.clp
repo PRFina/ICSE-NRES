@@ -61,7 +61,7 @@
                        (ceppo full)
                        (tralcio full)
                        (foglia growing)
-                       (infiorescenza growing)
+                       (infiorescenza absent)
                        (grappolo absent)))
 )
 
@@ -74,8 +74,8 @@
                        (ceppo full)
                        (tralcio full)
                        (foglia full)
-                       (infiorescenza full)
-                       (grappolo growing)))
+                       (infiorescenza growing)
+                       (grappolo absent)))
 )
 
 (defrule fase_fenologica_vegetativa_riproduttiva
@@ -130,8 +130,8 @@
    (assert (category(name fitoplasmi)(membership low)))
 )
 
-(defrule estensione_ampia
-   (estensione ampia)
+(defrule estensione_estesa
+   (estensione estesa)
    =>
    (assert (category(name insetti)(membership low)))
    (assert (category(name funghi)(membership low)))
