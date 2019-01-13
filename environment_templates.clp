@@ -34,12 +34,22 @@
 (deftemplate lifetime
     0 105 point 
     (
-        (absent (pi 15 15))
-        (growing (pi 15 40))
-        (full (pi 15 65))
-        (decline (pi 15 90))
+        (absent (pi 15 15)) ;weight: 0
+        (growing (pi 15 40)) ;weight: 0,8
+        (full (pi 15 65)) ;weight: 0,6
+        (decline (pi 15 90)) ;weight: 0,3
     )
 )
+
+;(deftemplate lifetime
+;    0 1 point 
+;    (
+;        (absent (pi 0.125 0.125)) ;weight: 0
+;        (decline (pi 0.15 0.35) ;weight: 0,8
+;        (full (pi  ) ;weight: 0,6
+;        (growing (pi 0,20 0,80) ;weight: 0,3
+;    )
+;)
 
 (deftemplate memb
    0 100
