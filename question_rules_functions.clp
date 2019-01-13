@@ -28,7 +28,7 @@
 )
 
 (defrule generate_question
-    (phase-generate) ;; activation flag
+    (phase-question) ;; activation flag
     ?f <-(damaged_structs_rank (struttura ?s)
                                (asserted_slots $? ?as $?))
     (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
