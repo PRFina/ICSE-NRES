@@ -358,3 +358,28 @@
     (printout t "La malattia è: Arricciamento Fogliare" crlf)
 )
 
+
+
+;Create
+(deffunction create_sintomo_string(?patologia ?struttura)
+    (bind ?f (format nil "(sintomo (struttura %s)%n" ?struttura))
+    (bind ?sintomi "")
+    (do-for-all-facts ((?x aov)) 
+                      (eq ?x:struttura ?struttura)
+                      (bind ?sintomi (str-cat ?sintomi (format nil "(%s %s)%n" ?x:sintomo ?x:valore)))
+    )
+    (bind ?l (format nil "(nome %s))" ?patologia))
+    (return (str-cat ?f ?sintomi ?l))
+)
+
+(deffunction create_patologia_string(?nome ?categoria)
+    (open "learned-deffacts.txt" data "a")
+    (bind ?patologia (format nil "(deffacts %s %n(patologia (nome %s) %n(categoria %s))%n%n" ?nome ?nome ?categoria))
+    (do-for-all-facts ((?x aov))
+                      (eq 1 1)  
+                      (bind ?patologia (str-cat ?patologia (create_sintomo_string ?nome ?x:struttura) (format nil "%n%n")))
+    )
+
+    (printout data (str-cat ?patologia ")") crlf)
+    (close)
+)
