@@ -77,6 +77,7 @@
                  (risposta ?risp))
 
     =>
+    (assert (aov (struttura ?s) (sintomo ?smo) (valore ?risp)))
     (retract ?f)
     (do-for-all-facts ((?fs sintomo))
                       (and (eq ?fs:struttura ?s) ; same symptom structure as question
@@ -93,7 +94,6 @@
                            (neq (fact-slot-value ?fs ?smo) nil)
                       )  
                       (retract ?fs) ; retract symptom
-                      (retract ?ph) ;stop asking questions if ?fs is retracted
     )
 ) 
 

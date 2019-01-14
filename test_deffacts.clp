@@ -162,25 +162,3 @@
    ;         (struttura tralcio)
    ;         (fattoredsm irregolare))
 )
-
-;(defrule faidomanda
-;    (fai domanda)
-;    =>
-;    ;sostituire insetti con categoria più probabile
-;    ;sostituire 2 con 1 per prendere il counter più alto
-;    (bind ?fact (get_rank_pos insetti 1))
-;    (bind ?sintomo (nth$ 1 (fact-slot-value ?fact (nth$ 4 (fact-slot-names ?fact)))))
-;    (bind ?struttura (fact-slot-value ?fact (nth$ 2 (fact-slot-names ?fact))))
-;    (bind ?resp (generate_question ?struttura ?sintomo))
-;    (if (eq ?resp no)
-;        then     (retract *)
-;                (batch "test#assert.clp")
-;    (retract ?fact) ;esempio fatto melatafumag
-;    (init_rank_assertions)
-;        else (assert (sintomo-utente ?sintomo ?resp))
-;    )
-;
-;)
-
-
-;(nth$ 1 (fact-slot-values 347 (fact-slot-names 347))) 
