@@ -39,6 +39,7 @@ $?value
 )
  
 (defrule day_question
+    (phase-environment)
     =>
     (bind $?range_day (range_two_val 1  365))
     (bind ?value (ask_question "Inserire giorno: (1 - 365)" $?range_day))
@@ -55,7 +56,7 @@ $?value
 (defrule generate_question
     (phase-question) ;; activation flag
     ?f <-(damaged_structs_rank (struttura ?s)
-                               (asserted_slots $? ?as $?))
+                               (asserted_slots $? ?as $?))    
     (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
     =>   
     (bind ?answer (build_question ?s ?as))

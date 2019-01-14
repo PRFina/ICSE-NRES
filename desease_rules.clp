@@ -16,7 +16,8 @@
 
 ;check all struttura and categoria elements that matchs
 (defrule check_update_rank
-    ?f <- (sintomo (struttura ?s)(nome ?x)(update_flag TRUE))
+    (phase-rank)
+    ?f <- (sintomo (struttura ?s)(nome ?x))
     (patologia (nome ?x)(categoria ?c))
     =>
     (assert (update_rank ?c ?s ?f))
@@ -67,23 +68,44 @@
     (not (update_rank))
     =>
     (printout t "Fase update_rank finita" crlf)
-    (set_update_false)
 )
-
+; Retract symptoms that doesn't match with user anser
 (defrule clean_sintomi
+    ?ph <- (phase-question)
     ?f <- (QandA (struttura ?s)
                  (sintomo ?smo)
                  (risposta ?risp))
+
     =>
     (retract ?f)
     (do-for-all-facts ((?fs sintomo))
-                      (and (eq ?fs:struttura ?s)
-                           (neq (fact-slot-value ?fs ?smo) ?risp)
+                      (and (eq ?fs:struttura ?s) ; same symptom structure as question
+                           (neq (fact-slot-value ?fs ?smo) ?risp) 
                            (neq (fact-slot-value ?fs ?smo) nil)
                       )  
-                      (retract ?fs)
+                      (retract ?fs) ; retract symptom
+                      (retract ?ph) ;stop asking questions if ?fs is retracted
     )
-)            
+    ; TODO check this
+    (do-for-all-facts ((?fs sintomo))
+                      (and (eq ?fs:struttura ?s) ; same symptom structure as question
+                           (eq (fact-slot-value ?fs ?smo) ?risp) 
+                           (neq (fact-slot-value ?fs ?smo) nil)
+                      )  
+                      (retract ?fs) ; retract symptom
+                      (retract ?ph) ;stop asking questions if ?fs is retracted
+    )
+) 
+
+
+(deffunction calculate_rank (?category_belief ?structure_lifetime ?symptoms_freq ?w1 ?w2 ?w3)
+    (bind ?op1 (** ?category_belief ?w1))
+    (bind ?op2 (** ?structure_lifetime ?w2))
+    (bind ?op3 (** (log10 (+ ?symptoms_freq 1)) ?w3))
+
+    (return (* ?op1 ?op2 ?op3))
+)
+
 
 
 
