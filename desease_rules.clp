@@ -16,7 +16,8 @@
 
 ;check all struttura and categoria elements that matchs
 (defrule check_update_rank
-    ?f <- (sintomo (struttura ?s)(nome ?x)(update_flag TRUE))
+    (phase-rank)
+    ?f <- (sintomo (struttura ?s)(nome ?x))
     (patologia (nome ?x)(categoria ?c))
     =>
     (assert (update_rank ?c ?s ?f))
@@ -67,9 +68,8 @@
     (not (update_rank))
     =>
     (printout t "Fase update_rank finita" crlf)
-    (set_update_false)
 )
-
+; Retract symptoms that doesn't matchwith user anser
 (defrule clean_sintomi
     ?f <- (QandA (struttura ?s)
                  (sintomo ?smo)
@@ -83,7 +83,16 @@
                       )  
                       (retract ?fs)
     )
-)            
+)         
+
+(deffunction calculate_rank (?category_belief ?structure_lifetime ?symptoms_freq ?w1 ?w2 ?w3)
+    (bind ?op1 (** ?category_belief ?w1))
+    (bind ?op2 (** ?structure_lifetime ?w2))
+    (bind ?op3 (** (log10 (+ ?symptoms_freq 1)) ?w3))
+
+    (return (* ?op1 ?op2 ?op3))
+)
+
 
 
 

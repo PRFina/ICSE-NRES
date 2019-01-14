@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; PATOLOGIE FUNGHI ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;
-(deffacts CALC::initial_patologie
+(deffacts initial_patologie
     (patologia(nome peronospora)
             (categoria funghi))
     (sintomo(nome peronospora)

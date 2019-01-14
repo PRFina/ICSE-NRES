@@ -37,18 +37,19 @@
     )
 $?value
 )
-
+ 
 (defrule day_question
+    (phase-environment)
     =>
     (bind $?range_day (range_two_val 1  365))
-    (bind ?value (ask_question "Inserire giorno: " $?range_day))
+    (bind ?value (ask_question "Inserire giorno: (1 - 365)" $?range_day))
     (assert (current_day (real_to_system_calendar ?value)))
 )
 
 (defrule estensione_question
     (current_day ?x)
     =>
-    (bind ?ans (ask_question "L'estensione della malattia è localizzata o estesa a tutta la vigna?" localizzata ampia))
+    (bind ?ans (ask_question "L'estensione della malattia è localizzata o estesa a tutta la vigna? (localizzata | estesa)" localizzata estesa))
     (assert (estensione ?ans))
 )
 
