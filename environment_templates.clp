@@ -31,25 +31,26 @@
 )
 
 ; Express how much a given plant structure is visibile
-(deftemplate lifetime
-    0 105 point 
-    (
-        (absent (pi 15 15)) ;weight: 0
-        (growing (pi 15 40)) ;weight: 0,8
-        (full (pi 15 65)) ;weight: 0,6
-        (decline (pi 15 90)) ;weight: 0,3
-    )
-)
 
 ;(deftemplate lifetime
-;    0 1 point 
+;    0 105 point 
 ;    (
-;        (absent (pi 0.125 0.125)) ;weight: 0
-;        (decline (pi 0.15 0.35) ;weight: 0,8
-;        (full (pi  ) ;weight: 0,6
-;        (growing (pi 0,20 0,80) ;weight: 0,3
+;        (absent (pi 15 15)) ;weight: 0
+;        (growing (pi 15 40)) ;weight: 0,8
+;        (full (pi 15 65)) ;weight: 0,6
+;        (decline (pi 15 90)) ;weight: 0,3
 ;    )
 ;)
+
+(deftemplate lifetime
+    0 1 point 
+    (
+        (absent (pi 0.14 0.14)) ;weight: 0
+        (decline (pi 0.14 0.38)) ;weight: 0,8
+        (growing (pi 0.14 0.62)) ;weight: 0,3
+        (full (pi 0.14 0.86)) ;weight: 0,6
+    )
+)
 
 (deftemplate memb
    0 100
