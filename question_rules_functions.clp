@@ -8,7 +8,13 @@
       (printout t ?question)
       (bind ?answer (read))
       (if (lexemep ?answer) 
-          then (bind ?answer (lowcase ?answer))))
+          then (bind ?answer (lowcase ?answer)))
+   )
+   (if (eq ?answer altro) 
+        then (printout t "quale?")
+             (bind ?answer (read)))
+    (if (lexemep ?answer) 
+        then (bind ?answer (lowcase ?answer))) 
    ?answer
 )
 
@@ -19,12 +25,37 @@
     else FALSE)
 )
 
+(deffunction get_allowed_values (?struttura ?sintomo)
+    (bind ?allowed_values (create$))
+
+    (do-for-all-facts ((?s symptom))
+                      (and (eq ?s:structure ?struttura)
+                           (eq ?s:name ?sintomo)
+                           (not (member$ ?s:value ?allowed_values)))                     
+                      (bind ?allowed_values (insert$ ?allowed_values 1 ?s:value)) 
+    )
+    (insert$ ?allowed_values (+ 1 (length$ ?allowed_values)) altro)
+)
+
 (deffunction build_question (?struttura ?sintomo)
-    (bind ?allowed_values (delete-member$ (deftemplate-slot-allowed-values sintomo ?sintomo) nil))
+    (bind ?allowed_values (get_allowed_values ?struttura ?sintomo))
     (bind ?answer (ask_question (format nil "La struttura %s presenta %s? (%s)" ?struttura ?sintomo (implode$ ?allowed_values))
                   ?allowed_values))
     ?answer
+)
 
+(defrule generate_question
+    (phase-question) ;; activation flag
+    ?f <-(damaged_structs_rank (struttura ?s)
+                               (asserted_slots $? ?as $?))    
+    (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
+    =>   
+    (bind ?answer (build_question ?s ?as))
+    (assert (QandA (struttura ?s)
+                 (sintomo ?as)
+                 (risposta ?answer)))
+    (agenda)
+    (facts)
 )
 
 (deffunction range_two_val(?first ?second)
@@ -51,16 +82,4 @@ $?value
     =>
     (bind ?ans (ask_question "L'estensione della malattia è localizzata o estesa a tutta la vigna? (localizzata | estesa)" localizzata estesa))
     (assert (estensione ?ans))
-)
-
-(defrule generate_question
-    (phase-question) ;; activation flag
-    ?f <-(damaged_structs_rank (struttura ?s)
-                               (asserted_slots $? ?as $?))    
-    (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
-    =>   
-    (bind ?answer (build_question ?s ?as))
-    (assert (QandA (struttura ?s)
-                 (sintomo ?as)
-                 (risposta ?answer)))
 )

@@ -1,7 +1,6 @@
 ;(defmodule CALC (export ?ALL))
 ;(defmodule MAIN (import CALC ?ALL))
 (load "diagnosis_templates.clp")
-
 (load "desease_templates.clp")
 
 (load "test_deffacts.clp")
@@ -13,7 +12,7 @@
 
 
 (reset)
-(init_rank_assertions)
+(init_rank)
 
 (assert (categoria (nome funghi) (punteggio 0.7))
         (categoria (nome fitoplasmi) (punteggio 0.5))
