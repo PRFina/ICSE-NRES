@@ -1,0 +1,188 @@
+GIORNO: 1 ok
+Defuzzified fase: 12.7800242747499
+Defuzzified radice: 0.913455090404981
+Defuzzified ceppo: 0.913455090404981
+Defuzzified tralcio: 0.913455090404981
+Defuzzified foglia: 0.130849837215443
+Defuzzified infiorescenza: 0.0865449095950194
+Defuzzified grappolo: 0.0865449095950194
+
+
+GIORNO: 20 ok
+Defuzzified fase: 12.3166263476897
+Defuzzified radice: 0.916423714759536
+Defuzzified ceppo: 0.916423714759536
+Defuzzified tralcio: 0.916423714759536
+Defuzzified foglia: 0.12571585310693
+Defuzzified infiorescenza: 0.0835762852404643
+Defuzzified grappolo: 0.0835762852404643
+
+
+GIORNO: 40 ok
+Defuzzified fase: 13.9384580001164
+Defuzzified radice: 0.905901919863615
+Defuzzified ceppo: 0.905901919863615
+Defuzzified tralcio: 0.905901919863615
+Defuzzified foglia: 0.147081108092713
+Defuzzified infiorescenza: 0.0940980801363852
+Defuzzified grappolo: 0.0940980801363852
+
+
+GIORNO: 60 ok
+Defuzzified fase: 40.0223303414822
+Defuzzified radice: 0.889249878857444
+Defuzzified ceppo: 0.889249878857444
+Defuzzified tralcio: 0.889249878857444
+Defuzzified foglia: 0.482504498252362
+Defuzzified infiorescenza: 0.337946544294128
+Defuzzified grappolo: 0.322597343743855
+
+
+GIORNO: 80 ok
+Defuzzified fase: 60.0
+Defuzzified radice: 0.908452856564765
+Defuzzified ceppo: 0.908452856564765
+Defuzzified tralcio: 0.908452856564765
+Defuzzified foglia: 0.908452856564765
+Defuzzified infiorescenza: 0.5
+Defuzzified grappolo: 0.357957022200332
+
+
+GIORNO: 100 ok
+Defuzzified fase: 60.0
+Defuzzified radice: 0.91729242626027
+Defuzzified ceppo: 0.91729242626027
+Defuzzified tralcio: 0.91729242626027
+Defuzzified foglia: 0.91729242626027
+Defuzzified infiorescenza: 0.5
+Defuzzified grappolo: 0.35165171938087
+
+
+GIORNO: 120 ok
+Defuzzified fase: 60.0
+Defuzzified radice: 0.9146359376717
+Defuzzified ceppo: 0.9146359376717
+Defuzzified tralcio: 0.9146359376717
+Defuzzified foglia: 0.9146359376717
+Defuzzified infiorescenza: 0.5
+Defuzzified grappolo: 0.353790724548867
+
+
+GIORNO: 140 ok
+Defuzzified fase: 64.9133682900296
+Defuzzified radice: 0.896157750102321
+Defuzzified ceppo: 0.896157750102321
+Defuzzified tralcio: 0.896157750102321
+Defuzzified foglia: 0.896157750102321
+Defuzzified infiorescenza: 0.432076997469684
+Defuzzified grappolo: 0.457242642128198
+
+
+GIORNO: 160 ok
+Defuzzified fase: 80.2666666666667
+Defuzzified radice: 0.898562477001524
+Defuzzified ceppo: 0.898562477001524
+Defuzzified tralcio: 0.898562477001524
+Defuzzified foglia: 0.898562477001524
+Defuzzified infiorescenza: 0.259220641851806
+Defuzzified grappolo: 0.690362152036389
+
+
+GIORNO: 180 ok
+Defuzzified fase: 90.0
+Defuzzified radice: 0.915511192579533
+Defuzzified ceppo: 0.915511192579533
+Defuzzified tralcio: 0.915511192579533
+Defuzzified foglia: 0.915511192579533
+Defuzzified infiorescenza: 0.0844888074204673
+Defuzzified grappolo: 0.915511192579533
+
+
+GIORNO: 200 ok
+Defuzzified fase: 90.0
+Defuzzified radice: 0.916997056659308
+Defuzzified ceppo: 0.916997056659308
+Defuzzified tralcio: 0.916997056659308
+Defuzzified foglia: 0.916997056659308
+Defuzzified infiorescenza: 0.0830029433406917
+Defuzzified grappolo: 0.916997056659308
+
+
+GIORNO: 220 ok
+Defuzzified fase: 90.0
+Defuzzified radice: 0.906689430136348
+Defuzzified ceppo: 0.906689430136348
+Defuzzified tralcio: 0.906689430136348
+Defuzzified foglia: 0.906689430136348
+Defuzzified infiorescenza: 0.0933105698636523
+Defuzzified grappolo: 0.906689430136348
+
+
+GIORNO: 240 ok
+Defuzzified fase: 91.5998413718271
+Defuzzified radice: 0.882130855923894
+Defuzzified ceppo: 0.882130855923894
+Defuzzified tralcio: 0.882130855923894
+Defuzzified foglia: 0.770112985857388
+Defuzzified infiorescenza: 0.117869144076106
+Defuzzified grappolo: 0.770112985857388
+
+
+GIORNO: 260 ok
+Defuzzified fase: 107.109462201325
+Defuzzified radice: 0.900705870491624
+Defuzzified ceppo: 0.900705870491624
+Defuzzified tralcio: 0.900705870491624
+Defuzzified foglia: 0.38
+Defuzzified infiorescenza: 0.0992941295083766
+Defuzzified grappolo: 0.38
+
+
+GIORNO: 280 ok
+Defuzzified fase: 108.985415854716
+Defuzzified radice: 0.916805311814325
+Defuzzified ceppo: 0.916805311814325
+Defuzzified tralcio: 0.916805311814325
+Defuzzified foglia: 0.38
+Defuzzified infiorescenza: 0.083194688185675
+Defuzzified grappolo: 0.38
+
+
+GIORNO: 300 ok
+Defuzzified fase: 108.298697217902
+Defuzzified radice: 0.911425387057325
+Defuzzified ceppo: 0.911425387057325
+Defuzzified tralcio: 0.911425387057325
+Defuzzified foglia: 0.38
+Defuzzified infiorescenza: 0.0885746129426747
+Defuzzified grappolo: 0.38
+
+
+GIORNO: 320 ok
+Defuzzified fase: 63.8827019093353
+Defuzzified radice: 0.882435637456644
+Defuzzified ceppo: 0.882435637456644
+Defuzzified tralcio: 0.882435637456644
+Defuzzified foglia: 0.376897359238644
+Defuzzified infiorescenza: 0.117564362543356
+Defuzzified grappolo: 0.281104955470596
+
+
+GIORNO: 340 ok
+Defuzzified fase: 15.7167007112471
+Defuzzified radice: 0.898440837927271
+Defuzzified ceppo: 0.898440837927271
+Defuzzified tralcio: 0.898440837927271
+Defuzzified foglia: 0.169671725634956
+Defuzzified infiorescenza: 0.101559162072729
+Defuzzified grappolo: 0.103600514734959
+
+
+GIORNO: 360 ok
+Defuzzified fase: 13.2182975615962
+Defuzzified radice: 0.91055234871905
+Defuzzified ceppo: 0.91055234871905
+Defuzzified tralcio: 0.91055234871905
+Defuzzified foglia: 0.136536195737814
+Defuzzified infiorescenza: 0.08944765128095
+Defuzzified grappolo: 0.08944765128095

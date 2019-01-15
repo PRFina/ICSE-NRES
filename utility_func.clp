@@ -7,6 +7,12 @@
         else (return ?r))  
 )
 
+(deffunction system_to_real_calendar(?day)
+    (bind ?r (mod (- (+ ?day 15) 1) 365) )
+    (if (< ?r 0) 
+        then (return (+ ?r 365))
+        else (return ?r))  
+)
 (deffunction init_rank_assertions()
 
 (bind ?categorie (deftemplate-slot-allowed-values patologia categoria))
