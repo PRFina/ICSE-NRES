@@ -8,6 +8,6 @@
 (load "test_euristiche.clp")
 
 ;(set-alpha-value 0.1)
-(assert (fases environment))
+(assert (phase-environment))
 
 (run)
