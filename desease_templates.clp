@@ -22,7 +22,6 @@
                      (slot structure (allowed-values radice ceppo tralcio infiorescenza foglia grappolo)(default ?NONE))
                      (slot name (default ?NONE))
                      (slot value (default ?NONE))
-                     (multislot allowed (default nil))
 )
 
 ;modella il legame tra patologia e categoria usando nome come attributo di join
