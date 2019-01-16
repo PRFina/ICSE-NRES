@@ -100,7 +100,6 @@
                      (name ?smo))
 
     =>
-    (assert (aov (struttura ?s) (sintomo ?smo) (valore ?risp)))
     (retract ?fs)
     (retract ?f)
 ) 

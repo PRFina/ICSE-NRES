@@ -51,6 +51,7 @@
     (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
     =>   
     (bind ?answer (build_question ?s ?as))
+    (assert (oav (object ?s) (attribute ?smo) (value ?risp)))
     (assert (QandA (struttura ?s)
                  (sintomo ?as)
                  (risposta ?answer)))
