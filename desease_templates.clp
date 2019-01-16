@@ -20,6 +20,7 @@
 )
 
 ;modella la risposta dell'utente
-(deftemplate QandA (slot struttura)
-                   (slot sintomo)
-                   (slot risposta))
+(deftemplate QandA (slot structure)
+                   (slot symptom)
+                   (slot answer)
+)

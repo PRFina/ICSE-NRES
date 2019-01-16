@@ -99,9 +99,9 @@
 ; Retract symptoms related with with question
 (defrule clean_sintomi_by_evidence
     ?ph <- (phase-question)
-    ?f  <- (QandA (struttura ?s)
-                 (sintomo ?smo)
-                 (risposta ?risp))
+    ?f  <- (QandA (structure ?s)
+                  (symptom ?smo)
+                  (answer ?risp))
     ?fs  <- (symptom (structure ?s)
                      (name ?smo))
 

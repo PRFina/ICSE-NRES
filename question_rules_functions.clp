@@ -52,11 +52,9 @@
     =>   
     (bind ?answer (build_question ?s ?as))
     (assert (oav (object ?s) (attribute ?as) (value ?answer)))
-    (assert (QandA (struttura ?s)
-                 (sintomo ?as)
-                 (risposta ?answer)))
-    (agenda)
-    (facts)
+    (assert (QandA (structure ?s)
+                   (symptom ?as)
+                   (answer ?answer)))
 )
 
 (deffunction range_two_val(?first ?second)
