@@ -12,19 +12,15 @@
 
 
 ;template per classificare gli elementi di struttura
-(deftemplate damaged_structs_rank (slot categoria)
-                                  (slot struttura)
-                                  (slot counter)
-                                  (multislot asserted_slots)
-                                  (slot global_rank)
-)
-
-;modella le categorie gestite nel modulo environment
-(deftemplate categoria (slot nome)
-                       (slot punteggio)
+(deftemplate damaged_struct (slot category)
+                            (slot structure)
+                            (slot symptoms_freq)
+                            (multislot symptoms)
+                            (slot rank)
 )
 
 ;modella la risposta dell'utente
-(deftemplate QandA (slot struttura)
-                   (slot sintomo)
-                   (slot risposta))
+(deftemplate QandA (slot structure)
+                   (slot symptom)
+                   (slot answer)
+)

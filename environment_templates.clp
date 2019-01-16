@@ -62,17 +62,6 @@
     )
 )
 
-; Grapevine structure with fuzzy values
-;(deftemplate grapevine
-;    (slot fase (type FUZZY-VALUE fase)) ;/ used for debug
-;    (slot radice (type FUZZY-VALUE lifetime))
-;    (slot ceppo (type FUZZY-VALUE lifetime))
-;    (slot tralcio (type FUZZY-VALUE lifetime))
-;    (slot foglia (type FUZZY-VALUE lifetime))
-;    (slot infiorescenza (type FUZZY-VALUE lifetime))
-;    (slot grappolo (type FUZZY-VALUE lifetime))
-;)
-
 (deftemplate grapevine 
     (slot phenological_phase (type FUZZY-VALUE phenological))
     (slot structure (allowed-values radice ceppo tralcio foglia infiorescenza grappolo))

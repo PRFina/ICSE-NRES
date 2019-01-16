@@ -18,15 +18,62 @@
        (loop-for-count (?j 1 (length$ ?structures))
            do
            (bind ?structure (nth$ ?j ?structures))
-           (assert (damaged_structs_rank (categoria ?category)
-                                         (struttura ?structure)
-                                         (counter 0)
-                                         (asserted_slots (create$))
-                                         (global_rank 0)))
+           (assert (damaged_struct (category ?category)
+                                   (structure ?structure)
+                                   (symptoms_freq 0)
+                                   (symptoms (create$))
+                                   (rank 0)))
        )
    )
 )
 
+;Function to star app
+(deffunction select_option_system()
+    (printout t "" crlf)
+    (printout t "" crlf)
+    (printout t "****************************************************************************************************" crlf)
+    (printout t "*                                                                                                  *" crlf)
+    (printout t "*                                                                                                  *" crlf)
+    (printout t "*   |||||                 |||   ||||||||||||||||||       ||||||||||||||||||   ||||||||||||||||||   *" crlf)
+    (printout t "*   ||| |||               |||   |||            ||||      |||                  |||                  *" crlf)
+    (printout t "*   |||   |||             |||   |||             ||||     |||                  |||                  *" crlf)
+    (printout t "*   |||     |||           |||   |||            ||||      |||                  |||                  *" crlf)
+    (printout t "*   |||       |||         |||   ||||||||||||||||||       ||||||||             ||||||||||||||||||   *" crlf)
+    (printout t "*   |||         |||       |||   |||            |||       |||                                 |||   *" crlf)
+    (printout t "*   |||           |||     |||   |||             |||      |||                                 |||   *" crlf)
+    (printout t "*   |||             |||   |||   |||              |||     |||                                 |||   *" crlf)
+    (printout t "*   |||               ||| |||   |||               |||    |||                                 |||   *" crlf)
+    (printout t "*   |||                 |||||   |||                |||   ||||||||||||||||||   ||||||||||||||||||   *" crlf)
+    (printout t "*                                                                                                  *" crlf)
+    (printout t "*                                                                                                  *" crlf)
+    (printout t "****************************************************************************************************" crlf)
+    (printout t "" crlf)    
+    (printout t "                                                                                      NRES v 1.0" crlf)
+    (printout t "" crlf)
+    (printout t "" crlf)
+    (printout t "Benvenuto" crlf)
+    (printout t "Premere:" crlf
+                         "1) per effettuare una nuova diagnosi" crlf
+                         "2) per inserire una nuova patologia" crlf
+                         "3) per avviare la modalità debug" crlf)
+    (bind ?answer (read))
+    (switch ?answer
+        
+        (case 1 then 
+            (assert (phase-environment))
+            (assert (mode_diagnosis))
+            (run)
+        )
+        (case 2 then 
+            (assert (mode_engineering))
+            (run)
+        )
+        (case 3 then 
+            (assert (mode_debug))
+            (run)
+        )
+    ) 
+)
 ; To use in production
 ;(deffunction real_to_system_calendar()
 ;    (bind ?day (nth$ 8 (create$ (local-time))))

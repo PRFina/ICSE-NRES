@@ -37,14 +37,10 @@
 
 
 (defrule oidio
-;OR 
+
     (oav(object foglia)
         (attribute macchiacolore)
         (value giallo|scuro))
-    ;(oav(object foglia)
-    ;    (attribute macchiacolore)
-    ;    (value scuro))
-;end OR
     (oav(object foglia)
         (attribute deformazione)
         (value si))
@@ -144,14 +140,10 @@
     (oav(object grappolo)
         (attribute macchiaforma)
         (value puntiforme))
-;OR
+
     (oav(object ceppo)
         (attribute macchiacolore)
         (value bianco|giallo))
-    ;(oav(object ceppo)
-    ;    (attribute macchiacolore)
-    ;    (value giallo))
-;end OR
     (oav(object ceppo)	    
         (attribute marciume)
         (value spugnoso))
@@ -164,17 +156,10 @@
 
 
 (defrule marciumebianco
-;OR
+
     (oav(object grappolo)
         (attribute macchiacolore)
         (value giallo|bianco|bruno))
-    ;(oav(object grappolo)
-    ;    (attribute macchiacolore)
-    ;    (value bianco))
-    ;(oav(object grappolo)
-    ;    (attribute macchiacolore)
-    ;    (value bruno))
-;end OR
     (oav(object grappolo)
         (attribute muffa)
         (value scura))
@@ -204,17 +189,11 @@
     (oav(object infiorescenza)
         (attribute fattoredsm)
         (value aborto))
-;OR
+
     (oav(object grappolo)
         (attribute macchiacolore)
         (value bianco|bruno|nero))
-    ;(oav(object grappolo)
-    ;	(attribute macchiacolore)
-    ;	(value bruno))
-    ;(oav(object grappolo)
-    ;	(attribute macchiacolore)
-    ;	(value nero))
-;end OR
+
     =>
     (printout t "La malattia è: Marciume Nero" crlf)
 )
@@ -254,14 +233,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defrule fitoplasmidellavite
-;OR
     (oav(object foglia)
         (attribute colore)
         (value giallo|rosso))
-    ;(oav(object foglia)
-    ;    (attribute colore)
-    ;    (value rosso))
-;end OR
+
     (oav(object foglia)
         (attribute deformazione)
         (value si))  
@@ -386,14 +361,10 @@
 
 
 (defrule tetranichidae   
-;OR
+
     (oav(object foglia)
         (attribute colore)
         (value giallo|rosso))
-    ;(oav(object foglia)
-    ;    (attribute colore)
-    ;    (value rosso))
-;end OR
     (oav(object foglia)
         (attribute macchiaforma)
         (value puntiforme))
@@ -465,7 +436,6 @@
         (attribute fattoredsm)
         (value irregolare))
 
-;and
     (oav(object ceppo)
         (attribute fattoredsm)
         (value irregolare))
@@ -474,28 +444,4 @@
         (value aborto))
     =>
     (printout t "La malattia è: Arricciamento Fogliare" crlf)
-)
-
-
-
-;Create
-(deffunction create_sintomo_string(?patologia ?struttura ?sintomo ?valore)
-    ;(bind ?f (format nil "(symptom (structure %s)%n" ?struttura))
-    (bind ?sintomi "")
-    (bind ?sintomi (str-cat ?sintomi (format nil "(symptom (desease %s)%n" ?patologia)))
-    (bind ?sintomi (str-cat ?sintomi (format nil "(structure %s)%n" ?struttura)))
-    (bind ?sintomi (str-cat ?sintomi (format nil "(name %s)%n(value %s))%n" ?sintomo ?valore)))
-    (return ?sintomi)
-)
-
-(deffunction create_patologia_string(?nome ?categoria)
-    (open "learned-deffacts.txt" data "a")
-    (bind ?patologia "")
-    (bind ?patologia (format nil "(deffacts %s %n%n(desease (name %s) %n(category %s))%n%n" ?nome ?nome ?categoria))
-    (do-for-all-facts ((?x aov))
-                      (eq 1 1)
-                      (bind ?patologia (str-cat ?patologia (create_sintomo_string ?nome ?x:struttura ?x:sintomo ?x:valore) (format nil "%n")))
-    )
-    (printout data (str-cat ?patologia ")") crlf)
-    (close)
 )

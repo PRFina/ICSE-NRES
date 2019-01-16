@@ -174,6 +174,7 @@
 )
 
 (defrule debug_fase_struttura
+    (mode-debug)
     ?f <- (grapevine (phenological_phase ?fase)
                      (structure ?structure)
                      (value ?value))
@@ -183,17 +184,4 @@
     (printout t "Defuzzified structure: " ?structure crlf)
     (printout t "Defuzzified value: " (moment-defuzzify (get-fuzzy-slot ?f value)) crlf)
     (printout t "-------------------------" crlf)
-)
-
-
-;Debug fasi fenologiche
-(defrule debug_environment
-    (phase-debug)
-    =>
-    (assert (categoria (nome funghi) (punteggio 0.7))
-            (categoria (nome fitoplasmi) (punteggio 0.5))
-            (categoria (nome batteri) (punteggio 0.4))
-            (categoria (nome virus) (punteggio 0.3))
-            (categoria (nome insetti) (punteggio 0.2))
-            (categoria (nome nematodi) (punteggio 0.1)))
 )
