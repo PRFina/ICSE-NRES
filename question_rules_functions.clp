@@ -74,7 +74,7 @@ $?value
 (defrule day_question
     (phase-environment)
     =>
-    (bind $?range_day (range_two_val 1  365))
+    (bind $?range_day (range_two_val 1 365))
     (bind ?value (ask_question "Inserire giorno: (1 - 365)" $?range_day))
     (assert (current_day (real_to_system_calendar ?value)))
 )
@@ -84,4 +84,36 @@ $?value
     =>
     (bind ?ans (ask_question "L'estensione della malattia è localizzata o estesa a tutta la vigna? (localizzata | estesa)" localizzata estesa))
     (assert (estensione ?ans))
+)
+
+;Domanda che potrebbe triggerare le euristiche: grandine, tre_dieci, due_quindici, def_temp_mid_funghi
+(defrule precipitazioni_question
+    (estensione ?x)
+    =>
+    (bind ?ans (ask_question "Nell'ultimo periodo, si sono verificate (con modesta frequenza) precipitazioni di tipo? (pioggia | grandine | no)" pioggia grandine no))
+    (assert (precipitazioni ?ans))
+)
+
+;Domanda facoltativa che potrebbe triggerare l'euristica: potatura_primaverile
+(defrule potatura_primaverile_question
+    (precipitazioni ?x)
+    (temperature middle and not low)
+    (season spring and not winter)
+    (or (grapevine (structure infiorescenza)(value decline))
+        (grapevine (structure infiorescenza)(value growing)))
+    ;(grapevine (structure foglia)(value absent))
+    ;(grapevine (structure grappolo)(value absent))
+    =>
+    (bind ?ans (ask_question "E' stata effettuata la potatura stagionale? (si | no)" si no))
+    (assert (potatura_primaverile ?ans))
+)
+
+;Domanda facoltativa che potrebbe triggerare l'euristica: potatura_invernale
+(defrule potatura_invernale
+    (precipitazioni ?x)
+    (season winter and not spring)
+    (temperature low and not middle)
+    =>
+    (bind ?ans (ask_question "E' stata effettuata la potatura stagionale? (si | no)" si no))
+    (assert (potatura_invernale ?ans))
 )

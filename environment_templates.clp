@@ -26,10 +26,10 @@
 (deftemplate lifetime
     0 1 point 
     (
-        (absent (z 0 0.28)) ;weight: 0
-        (decline (pi 0.14 0.38)) ;weight: 0,8
-        (growing (pi 0.14 0.62)) ;weight: 0,3
-        (full (s 0.72 1)) ;weight: 0,6
+        (absent (z 0 0.28))
+        (decline (pi 0.14 0.38))
+        (growing (pi 0.14 0.62))
+        (full (s 0.72 1))
     )
 )
 

@@ -2,8 +2,9 @@
 (defrule def_temp_low
     (season winter)
     (temperature low)
+    ?f <- (category (name insetti) (membership high))
     =>
-    (assert (category(name insetti)(membership low)))
+    (modify ?f (membership (create-fuzzy-value memb middle)))
     (printout t "Inverno -> Insetti letargo" crlf)
 )
 
@@ -15,13 +16,14 @@
     (or (season spring)
         (season autumn))
     ?f <- (temperature ?x)
+    ?f1 <- (category (name insetti) (membership high))
     (precipitazioni pioggia)
     =>
     (bind ?value (moment-defuzzify ?f))
     (if (and (>= ?value 10)
              (<= ?value 26))
         then
-            (assert (category (name funghi)(membership high)))
+            (modify ?f1 (membership (create-fuzzy-value memb high)))
             (printout t "Primavera/Autunno + Temperature medie + Pioggia -> Clima umido -> Funghi" crlf)
     )
 )
@@ -31,6 +33,7 @@
 (defrule def_temp_mid_insetti
     (season spring)
     (temperature middle)
+    ?f <- (category (name insetti) (membership ?x))
     =>
     (assert (category (name insetti)(membership middle)))
     (printout t "Primavera + Temperature medie -> inizio Insetti" crlf)
@@ -57,8 +60,8 @@
 ;La regola dei "tre dieci" è generalmente legata alla peronospora ma presenta condizioni favorevoli allo sviluppo di FUNGHI (aggiungere?)
 (defrule tre_dieci
     ;Semantica: germogli di circa 10cm
-    (grapevine (foglia growing))
-    (grapevine (infiorescenza growing))
+    (grapevine (structure foglia)(value growing))
+    (grapevine (structure infiorescenza)(value growing))
     
     ;Semantica: temperatura di almeno 10° (non superiore a 26°)
     ?f <- (temperature ?x)
@@ -95,7 +98,6 @@
 ;Semantica: la potatura invernale può causare sulle strutture presenti (tralcio e ceppo) ferite (tacche) nelle quali
 ;           trovano terreno fertile i batteri
 (defrule potatura_inverno
-    (season winter)
     (potatura si)
     =>
     (assert (category(name batteri)(membership middle)))
@@ -111,12 +113,7 @@
 ;           strutture presenti (tralcio, ceppo e infiorescenza - ma non foglia e grappolo) ferite (tacche) nelle quali
 ;           trovano terreno fertile i batteri
 (defrule potatura_primavera
-    (season spring)
     (potatura si)
-    (or (grapevine (infiorescenza growing))
-        (grapevine (infiorescenza full)))
-    (grapevine (foglia absent))
-    (grapevine (grappolo absent))
     =>
     (assert (category(name batteri)(membership middle)))
     ;(assert (sintomo (struttura tralcio) 
