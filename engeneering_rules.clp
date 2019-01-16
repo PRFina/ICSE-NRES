@@ -1,5 +1,5 @@
 (defrule expert_quest
-    ?f <- (mode_engeneering)
+    ?f <- (mode_engineering)
     =>
     (retract ?f)
     (printout t "Inserire il nome della malattia: ")

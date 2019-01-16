@@ -7,7 +7,7 @@
 
 (load "test_deffacts.clp")
 (load "learning_func.clp")
-(load "engeneering_rules.clp")
+(load "engineering_rules.clp")
 (load "desease_rules.clp")
 (load "question_rules_functions.clp")
 (load "environment_rules.clp")

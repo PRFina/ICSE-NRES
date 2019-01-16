@@ -174,6 +174,7 @@
 )
 
 (defrule debug_fase_struttura
+    (mode-debug)
     ?f <- (grapevine (phenological_phase ?fase)
                      (structure ?structure)
                      (value ?value))
