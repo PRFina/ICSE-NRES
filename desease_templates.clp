@@ -12,11 +12,11 @@
 
 
 ;template per classificare gli elementi di struttura
-(deftemplate damaged_structs_rank (slot categoria)
-                                  (slot struttura)
-                                  (slot counter)
-                                  (multislot asserted_slots)
-                                  (slot global_rank)
+(deftemplate damaged_struct (slot category)
+                            (slot structure)
+                            (slot symptoms_freq)
+                            (multislot symptoms)
+                            (slot rank)
 )
 
 ;modella le categorie gestite nel modulo environment
