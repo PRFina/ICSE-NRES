@@ -11,6 +11,7 @@
 (load "desease_rules.clp")
 (load "question_rules_functions.clp")
 (load "environment_rules.clp")
+(load "metarules.clp")
 
 
 

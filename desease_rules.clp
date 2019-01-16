@@ -70,12 +70,7 @@
                 (global_rank ?rank))
 )
 
-(defrule check_fine_update
-    (phase-rank)
-    (not (update_rank))
-    =>
-    (printout t "Fase update_rank finita" crlf)
-)
+
 
 ;;TODO maybe is useless?? (is counter != 0 when glob =0?)
 (defrule clean_rank_counter
