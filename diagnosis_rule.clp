@@ -1,359 +1,477 @@
-; template diagnosi per modellare le asserzioni fatte dal modulo di calcolo
+;regole che si attivano in caso di malattie diagnosticate
 
-(deftemplate diagnosi(slot struttura(allowed-values radice ceppo tralcio foglia infiorescenza grappolo nil)(default nil))
-                     (slot colore(allowed-values bruno chiaro scuro verde giallo rosso bianco grigio nero nil)(default nil))
-                     (slot macchiacolore(allowed-values bruno chiaro scuro verde giallo rosso bianco grigio nero nil)(default nil))
-                     (slot macchiaforma(allowed-values regolare irregolare puntiforme mosaico nil)(default nil))
-                     (slot muffa(allowed-values grigia bianca scura nil)(default nil))
-                     (slot deformazione(allowed-values si no nil)(default nil))
-                     (slot marciume(allowed-values si no spugnoso nil)(default nil))
-                     (slot disseccamento(allowed-values si no nil)(default nil))
-                     (slot caduta(allowed-values si no nil)(default nil))
-                     (slot nervature(allowed-values verde deformazione nil)(default nil))
-                     (slot tacche(allowed-values si no nil)(default nil))
-                     (multislot fattoredsm(allowed-values basso irregolare ritardo aborto nil)(default nil))
-                     (slot melatafumag(allowed-values si no nil)(default nil))
-                     (slot escrescenze(allowed-values si no nil)(default nil))
-                     (slot puntura(allowed-values si no nil)(default nil))
-)
+;;;;;;;;;;;;;;
+;;; FUNGHI ;;;
+;;;;;;;;;;;;;;
 
-; regole che modellano le malattie e matchano i sintomi per eseguire la diagnosi
+(defrule peronospora  
+    (oav(object foglia)
+        (attribute macchiaforma)
+        (value regolare))
+    (oav(object foglia)
+        (attribute macchiacolore)
+        (value giallo))
+    (oav(object foglia)
+        (attribute muffa)
+        (value bianca))
+    (oav(object foglia)    
+        (attribute disseccamento)
+        (value si))
+    
+    (oav(object infiorescenza)
+        (attribute colore)
+        (value bruno))
+    (oav(object infiorescenza)
+        (attribute deformazione)
+        (value si))
 
-;;;;;;;;;;;;;;;;;;;;;;;;
-;;; PATOLOGIE FUNGHI ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defrule peronospora
-    (diagnosi
-            (struttura foglia)
-            (macchiaforma regolare)
-            (macchiacolore giallo)
-            (muffa bianca)      
-            (disseccamento si))
-    (diagnosi
-            (struttura infiorescenza)
-            (colore bruno)
-            (deformazione si))
-    (diagnosi
-            (struttura grappolo)
-            (deformazione si)
-            (disseccamento si))
+    (oav(object grappolo)
+        (attribute deformazione)
+        (value si))
+    (oav(object grappolo)
+        (attribute disseccamento)
+        (value si))
     =>
     (printout t "La malattia è: Peronospora" crlf)
 )
 
+
 (defrule oidio
-    (diagnosi
-            (struttura foglia)
-            (macchiacolore giallo)
-            (deformazione si))
-    (diagnosi
-            (struttura foglia)
-            (macchiacolore scuro)
-            (deformazione si))
-    (diagnosi
-            (struttura infiorescenza)
-            (colore bianco)
-            (deformazione si))
-    (diagnosi
-            (struttura grappolo)
-            (caduta si)
-            (muffa bianca))
-    (diagnosi
-            (struttura tralcio)
-            (muffa bianca) 
-            (deformazione si))
+;OR 
+    (oav(object foglia)
+        (attribute macchiacolore)
+        (value giallo))
+    (oav(object foglia)
+        (attribute macchiacolore)
+        (value scuro))
+;end OR
+    (oav(object foglia)
+        (attribute deformazione)
+        (value si))
+    
+    (oav(object infiorescenza)
+        (attribute colore)
+        (value bianco))
+    (oav(object infiorescenza)
+        (attribute deformazione)
+        (value si))
+
+    (oav(object grappolo)
+        (attribute caduta)
+        (value si))
+    (oav(object grappolo)
+        (attribute muffa)
+        (value bianca))
+
+    (oav(object tralcio)
+        (attribute muffa)
+        (value bianca))
+    (oav(object tralcio)
+        (attribute deformazione)
+        (value si))
     =>
     (printout t "La malattia è: Oidio" crlf)
 )
 
+
 (defrule botrite
-    (diagnosi
-            (struttura foglia)
-            (macchiacolore giallo))
-    (diagnosi
-            (struttura grappolo)
-            (caduta si)
-            (muffa grigia))
-    (diagnosi
-            (struttura tralcio)
-            (disseccamento si)
-            (colore bruno))
-    =>
-    (printout t "La malattia è: Botrite" crlf) 
+    (oav(object foglia)
+        (attribute macchiacolore)
+        (value giallo))
+
+    (oav(object grappolo)
+        (attribute caduta)
+        (value si))
+    (oav(object grappolo)
+        (attribute muffa)
+        (value grigia))
+
+    (oav(object tralcio)
+        (attribute disseccamento)
+        (value si))
+    (oav(object tralcio)
+        (attribute colore)
+        (value bruno))
+	=>
+    (printout t "La malattia è: Botrite" crlf)
 )
 
-(defrule marciumeradicale
-    (diagnosi
-            (struttura foglia)
-            (disseccamento si))
-    (diagnosi
-            (struttura ceppo)
-            (macchiacolore bianco))
-    (diagnosi
-            (struttura radice)
-            (macchiacolore bianco))    
+
+(defrule marciumeradicale    
+    (oav(object foglia)
+        (attribute disseccamento)
+        (value si))
+
+    (oav(object ceppo)
+        (attribute macchiacolore)
+        (value bianco))
+
+    (oav(object radice)
+        (attribute macchiacolore)
+        (value bianco))
     =>
-    (printout t "La malattia è: Marciume Radicale" crlf)                                                
+    (printout t "La malattia è: Marciume Radicale" crlf)
 )
+
 
 (defrule verticilliosi
-    (diagnosi
-            (struttura foglia)
-            (disseccamento si))
-    (diagnosi
-            (struttura ceppo)
-            (tacche si)) 
+    (oav(object foglia)
+        (attribute disseccamento)
+        (value si))
+
+    (oav(object ceppo)
+        (attribute tacche)
+        (value si))
     =>
-    (printout t "La malattia è: Verticilliosi" crlf)                       
+    (printout t "La malattia è: Verticilliosi" crlf)
 )
 
+
 (defrule maldellesca
-    (diagnosi
-            (struttura foglia)
-            (macchiacolore giallo)
-            (nervature verde)
-            (disseccamento si))
-    (diagnosi
-            (struttura grappolo)
-            (macchiacolore bruno)
-            (macchiaforma puntiforme))
-    (diagnosi
-            (struttura ceppo)                               
-            (deformazione si)
-            (macchiacolore bianco)
-            (marciume spugnoso))
-    (diagnosi
-            (struttura ceppo)                               
-            (deformazione si)
-            (macchiacolore giallo)
-            (marciume spugnoso))
+    (oav(object foglia)
+        (attribute macchiacolore)
+        (value giallo))
+    (oav(object foglia)
+        (attribute nervature)
+        (value verde))
+    (oav(object foglia)
+        (attribute disseccamento)
+        (value si))
+
+    (oav(object grappolo)
+        (attribute macchiacolore)
+        (value bruno))
+    (oav(object grappolo)
+        (attribute macchiaforma)
+        (value puntiforme))
+;OR
+    (oav(object ceppo)
+        (attribute macchiacolore)
+        (value bianco))
+    (oav(object ceppo)
+        (attribute macchiacolore)
+        (value giallo))
+;end OR
+    (oav(object ceppo)	    
+        (attribute marciume)
+        (value spugnoso))
+    (oav(object ceppo)
+        (attribute deformazione)
+        (value si))
     =>
     (printout t "La malattia è: Mal dell' esca" crlf)
 )
 
+
 (defrule marciumebianco
-    (diagnosi
-            (struttura grappolo)
-            (macchiacolore giallo)
-            (muffa scura))
-    (diagnosi
-            (struttura grappolo)
-            (macchiacolore bianco)
-            (muffa scura))
-    (diagnosi
-            (struttura grappolo)
-            (macchiacolore bruno)
-            (muffa scura))
-    (diagnosi
-            (struttura tralcio)
-            (tacche si))
+;OR
+    (oav(object grappolo)
+        (attribute macchiacolore)
+        (value giallo))
+    (oav(object grappolo)
+        (attribute macchiacolore)
+        (value bianco))
+    (oav(object grappolo)
+        (attribute macchiacolore)
+        (value bruno))
+;end OR
+    (oav(object grappolo)
+        (attribute muffa)
+        (value scura))
+
+    (oav(object tralcio)
+        (attribute tacche)
+        (value si))
     =>
-    (printout t "La malattia è: Marciume Bianco" crlf)                  
-)
-    
+    (printout t "La malattia è: Marciume Bianco" crlf)
+)             
+
+
 (defrule marciumenero
-    (diagnosi
-            (struttura foglia)
-            (colore bruno)
-            (macchiaforma regolare))
-    (diagnosi
-            (struttura infiorescenza)
-            (tacche si)
-            (colore scuro)
-            (fattoredsm aborto))
-    (diagnosi
-            (struttura grappolo)
-            (macchiacolore bianco))
-    (diagnosi
-            (struttura grappolo)
-            (macchiacolore bruno))
-    (diagnosi
-            (struttura grappolo)
-            (macchiacolore nero))
+    (oav(object foglia)
+        (attribute colore)
+        (value bruno))
+    (oav(object foglia)
+        (attribute macchiaforma)
+        (value regolare))
+
+    (oav(object infiorescenza)
+        (attribute tacche)
+        (value si))
+    (oav(object infiorescenza)
+        (attribute colore)
+        (value scuro))
+    (oav(object infiorescenza)
+        (attribute fattoredsm)
+        (value aborto))
+;OR
+    (oav(object grappolo)
+        (attribute macchiacolore)
+        (value bianco))
+    (oav(object grappolo)
+    	(attribute macchiacolore)
+    	(value bruno))
+    (oav(object grappolo)
+    	(attribute macchiacolore)
+    	(value nero))
+;end OR
     =>
     (printout t "La malattia è: Marciume Nero" crlf)
 )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; PATOLOGIE BATTERI ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;
+;;;; BATTERI ;;;
+;;;;;;;;;;;;;;;;
+
 (defrule rognadellavite
-    (diagnosi
-            (struttura tralcio)
-            (tacche si)
-            (escrescenze si)
-            (colore bruno))
-    (diagnosi
-            (struttura ceppo)
-            (tacche si)
-            (escrescenze si)
-            (colore bruno))
+    (oav(object tralcio)
+        (attribute tacche)
+        (value si))
+    (oav(object tralcio)
+        (attribute escrescenze)
+        (value si))
+    (oav(object tralcio)
+        (attribute colore)
+        (value bruno))
+
+    (oav(object ceppo)
+        (attribute tacche)
+        (value si))
+    (oav(object ceppo)
+        (attribute escrescenze)
+        (value si))
+    (oav(object ceppo)
+        (attribute colore)
+        (value bruno))
     =>
     (printout t "La malattia è: Rogna della Vite" crlf)
 )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; FITOPLASMI DELLA VITE ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; FITOPLASMI DELLA VITE ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defrule fitoplasmidellavite
-    (diagnosi
-            (struttura ceppo))
-    (diagnosi
-            (struttura foglia)
-            (colore giallo)
-            (deformazione si)
-            (caduta si))
-    (diagnosi
-            (struttura foglia)
-            (colore rosso)
-            (deformazione si)
-            (caduta si))
-    (diagnosi
-            (struttura grappolo)
-            (disseccamento si)
-            (caduta si))
-    (diagnosi
-            (struttura tralcio)
-            (fattoredsm basso)
-            (macchiacolore nero)
-            (macchiaforma puntiforme))
+;OR
+    (oav(object foglia)
+        (attribute colore)
+        (value giallo))
+    (oav(object foglia)
+        (attribute colore)
+        (value rosso))
+;end OR
+    (oav(object foglia)
+        (attribute deformazione)
+        (value si))  
+    (oav(object foglia)
+        (attribute caduta)
+        (value si))
+
+    (oav(object grappolo)
+        (attribute disseccamento)
+        (value si))
+    (oav(object grappolo)
+        (attribute caduta)
+        (value si))
+
+    (oav(object tralcio)
+        (attribute fattoredsm)
+        (value basso))
+    (oav(object tralcio)
+        (attribute macchiacolore)
+        (value nero))
+    (oav(object tralcio)
+        (attribute macchiaforma)
+        (value puntiforme))
     =>
     (printout t "La malattia è: Fitoplasmi della Vite" crlf)
 )
 
-;;;;;;;;;;;;;;;;
-;;; NEMATODI ;;;
-;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;
+;;;; NEMATODI ;;;
+;;;;;;;;;;;;;;;;;
+
 (defrule nematodi
-    (diagnosi
-            (struttura ceppo)
-            (escrescenze si))
-    (diagnosi
-            (struttura radice)
-            (escrescenze si))
+    (oav(object ceppo)
+        (attribute escrescenze)
+        (value si))
+
+    (oav(object radice)
+        (attribute escrescenze)
+        (value si))
     =>
     (printout t "La malattia è: Nematodi" crlf)
 )
 
-;;;;;;;;;;;;;;;
-;;; INSETTI ;;;
-;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;
+;;;; INSETTI ;;;
+;;;;;;;;;;;;;;;;
+
 (defrule cocciniglia
-    (diagnosi
-            (struttura foglia)
-            (disseccamento si)
-            (melatafumag si))
-    (diagnosi
-            (struttura grappolo)
-            (fattoredsm basso))
+    (oav(object foglia)
+        (attribute disseccamento)
+        (value si))
+    (oav(object foglia)
+        (attribute melatafumag)
+        (value si))
+
+    (oav(object grappolo)
+        (attribute fattoredsm)
+        (value basso))
     =>
     (printout t "La malattia è: Cocciniglia" crlf)
 )
 
+
 (defrule tripidedellavite
-    (diagnosi
-            (struttura foglia)
-            (macchiacolore giallo)
-            (deformazione si))
-    (diagnosi
-            (struttura grappolo)
-            (fattoredsm ritardo)
-            (macchiacolore bruno))
-    (diagnosi
-            (struttura infiorescenza)
-            (fattoredsm aborto)
-            (macchiacolore giallo))
+    (oav(object foglia)
+        (attribute macchiacolore)
+        (value giallo))
+    (oav(object foglia)
+        (attribute deformazione)
+        (value si))
+
+    (oav(object grappolo)
+        (attribute fattoredsm)
+        (value ritardo))
+    (oav(object grappolo)
+        (attribute macchiacolore)
+        (value bruno))
+
+    (oav(object infiorescenza)
+        (attribute fattoredsm)
+        (value aborto))
+    (oav(object infiorescenza)
+        (attribute macchiacolore)
+        (value giallo))
     =>
     (printout t "La malattia è: Tripide della Vite" crlf)
 )
 
-(defrule tignolettadellavite
-    (diagnosi
-            (struttura grappolo)
-            (colore bruno)
-            (puntura si))
+
+(defrule tignolettadellavite    
+    (oav(object grappolo)
+        (attribute colore)
+        (value bruno))
+    (oav(object grappolo)
+        (attribute puntura)
+        (value si))
     =>
     (printout t "La malattia è: Tignoletta della Vite" crlf)
 )
 
-(defrule tignola
-    (diagnosi
-            (struttura foglia)
-            (disseccamento si))
-    (diagnosi
-            (struttura grappolo)
-            (macchiacolore bianco)
-            (puntura si))
-    (diagnosi
-            (struttura infiorescenza)
-            (fattoredsm aborto))
+
+(defrule tignola   
+    (oav(object foglia)
+        (attribute disseccamento)
+        (value si))
+
+    (oav(object grappolo)
+        (attribute macchiacolore)
+        (value bianco))
+    (oav(object grappolo)
+        (attribute puntura)
+        (value si))
+
+    (oav(object infiorescenza)
+        (attribute fattoredsm)
+        (value aborto))
     =>
     (printout t "La malattia è: Tignola" crlf)
 )
 
-(defrule tetranichidae
-    (diagnosi
-            (struttura foglia)
-            (colore giallo)
-            (macchiaforma puntiforme)
-            (disseccamento si))
-    (diagnosi
-            (struttura foglia)
-            (colore rosso)
-            (macchiaforma puntiforme)
-            (disseccamento si))
-    (diagnosi
-            (struttura grappolo)
-            (fattoredsm basso))
+
+(defrule tetranichidae   
+;OR
+    (oav(object foglia)
+        (attribute colore)
+        (value giallo))
+    (oav(object foglia)
+        (attribute colore)
+        (value rosso))
+;end OR
+    (oav(object foglia)
+        (attribute macchiaforma)
+        (value puntiforme))
+    (oav(object foglia)
+        (attribute disseccamento)
+        (value si))
+
+    (oav(object grappolo)
+        (attribute fattoredsm)
+        (value basso))
     =>
     (printout t "La malattia è: Tetranichidae" crlf)
 )
 
-;;;;;;;;;;;;;
-;;; VIRUS ;;;
-;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;
+;;;; VIRUS ;;;
+;;;;;;;;;;;;;;
+
 (defrule legnoriccio
-    (diagnosi
-            (struttura foglia)
-            (colore giallo))
-    (diagnosi
-            (struttura tralcio)
-            (fattoredsm basso))
-    (diagnosi
-            (struttura ceppo)
-            (tacche si))
+    (oav(object foglia)
+        (attribute colore)
+        (value giallo))
+
+    (oav(object tralcio)
+        (attribute fattoredsm)
+        (value basso))
+
+    (oav(object ceppo)
+        (attribute tacche)
+        (value si))
     =>
     (printout t "La malattia è: Legno Riccio" crlf)
 )
 
+
 (defrule accartocciamento
-    (diagnosi
-            (struttura foglia)
-            (deformazione si)
-            (colore rosso))
-    (diagnosi
-            (struttura grappolo)
-            (fattoredsm basso))
-    (diagnosi
-            (struttura tralcio)
-            (fattoredsm irregolare))
+    (oav(object foglia)
+        (attribute deformazione)
+        (value si))
+    (oav(object foglia)
+        (attribute colore)
+        (value rosso))
+
+    (oav(object grappolo)
+        (attribute fattoredsm)
+        (value basso))
+
+    (oav(object tralcio)
+        (attribute fattoredsm)
+        (value irregolare))
     =>
     (printout t "La malattia è: Accartocciamento Fogliare" crlf)
 )
 
+
 (defrule arricciamento
-    (diagnosi
-            (struttura foglia)
-            (deformazione si)
-            (macchiaforma mosaico)
-            (nervature deformazione))
-    (diagnosi
-            (struttura tralcio)
-            (fattoredsm irregolare))
-    (diagnosi
-            (struttura ceppo)
-            (fattoredsm irregolare aborto))
+    (oav(object foglia)
+        (attribute deformazione)
+        (value si))
+    (oav(object foglia)
+        (attribute macchiaforma)
+        (value mosaico))
+    (oav(object foglia)
+        (attribute nervature)
+        (value deformazione))
+
+    (oav(object tralcio)
+        (attribute fattoredsm)
+        (value irregolare))
+
+;and
+    (oav(object ceppo)
+        (attribute fattoredsm)
+        (value irregolare))
+    (oav(object ceppo)
+        (attribute fattoredsm)
+        (value aborto))
     =>
     (printout t "La malattia è: Arricciamento Fogliare" crlf)
 )
