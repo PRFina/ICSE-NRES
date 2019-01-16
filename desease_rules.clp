@@ -1,8 +1,8 @@
-;get the fact-address of damaged_struct_rank  with category categoria in the pos rank position
+;get the fact-address of damaged_struct  with category category in the pos rank position
 (deffunction get_rank_pos(?pos)
     (bind ?facts_to_be_sorted
-        (find-all-facts ((?f damaged_structs_rank))
-            (neq ?f:counter 0)
+        (find-all-facts ((?f damaged_struct))
+            (neq ?f:symptoms_freq 0)
         )
     )
     (bind ?sorted_facts (sort sorting ?facts_to_be_sorted))
@@ -11,10 +11,10 @@
 
 ;funzione di ordinamento decrescente
 (deffunction sorting(?a ?b)
-    (return (< (fact-slot-value ?a global_rank)(fact-slot-value ?b global_rank)))
+    (return (< (fact-slot-value ?a rank)(fact-slot-value ?b rank)))
 )
 
-;check all struttura and categoria elements that matchs
+;check all struttura and category elements that matchs
 (defrule check_update_rank
     (phase-rank)
     ?f <- (symptom (desease ?d)
@@ -46,28 +46,28 @@
 )
 
 
-;update increasing by 1 damaged_structs_rank elements
+;update increasing by 1 damaged_struct elements
 ;most damaged plant parts grouped by category
 (defrule update_rank
     ?update_rank_fact <- (update_rank ?c ?s ?n)
-    ?f1 <- (damaged_structs_rank (categoria ?c)
-                                 (struttura ?s)
-                                 (counter ?cnt)
-                                 (asserted_slots $?as))
+    ?f1 <- (damaged_struct (category ?c)
+                           (structure ?s)
+                           (symptoms_freq ?cnt)
+                           (symptoms $?as))
     (category (name ?c) 
               (membership ?cat_belief))
 
     (grapevine (structure ?s)
-                      (value ?lifetime))
+               (value ?lifetime))
     =>
     (retract ?update_rank_fact)
     (bind ?freq (+ ?cnt 1))
     (bind ?rank (calculate_rank (moment-defuzzify ?cat_belief) (get_structure_lifetime ?s ?lifetime) ?freq 1 1 1))
     (if (not(member ?n ?as)) 
         then (bind ?as (insert$ ?as 1 ?n)))
-    (modify ?f1 (counter ?freq)
-                (asserted_slots ?as)
-                (global_rank ?rank))
+    (modify ?f1 (symptoms_freq ?freq)
+                (symptoms ?as)
+                (rank ?rank))
 )
 
 
@@ -75,24 +75,24 @@
 ;;TODO maybe is useless?? (is counter != 0 when glob =0?)
 (defrule clean_rank_counter
     (phase-clean)
-    ?f <- (damaged_structs_rank (counter ?c&:(eq ?c 0)))   
+    ?f <- (damaged_struct (symptoms_freq ?c&:(eq ?c 0)))   
     =>
     (retract ?f)
 )
 
 (defrule clean_rank_global
     (phase-clean)
-    ?f <- (damaged_structs_rank (global_rank ?gr&:(eq ?gr 0)))   
+    ?f <- (damaged_struct (rank ?gr&:(eq ?gr 0)))   
     =>
     (retract ?f)
 )
 
 (defrule reset_rank
     (phase-reset)
-    ?f <- (damaged_structs_rank (counter ?c&:(neq ?c 0))
-                                (global_rank ?gr&:(neq ?gr 0)))
+    ?f <- (damaged_struct (symptoms_freq ?c&:(neq ?c 0))
+                          (rank ?gr&:(neq ?gr 0)))
     =>
-    (modify ?f (counter 0) (global_rank 0) (asserted_slots))
+    (modify ?f (symptoms_freq 0) (rank 0) (symptoms))
 )
 
 

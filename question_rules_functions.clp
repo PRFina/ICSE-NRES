@@ -46,9 +46,8 @@
 
 (defrule generate_question
     (phase-question) ;; activation flag
-    ?f <-(damaged_structs_rank
-                               (struttura ?s)
-                               (asserted_slots $? ?as $?))    
+    ?f <-(damaged_struct (structure ?s)
+                         (symptoms $? ?as $?))    
     (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
     =>   
     (bind ?answer (build_question ?s ?as))
