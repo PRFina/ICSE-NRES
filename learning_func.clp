@@ -11,7 +11,7 @@
     (bind ?patologia (format nil "(deffacts %s %n%n(desease (name %s) %n(category %s))%n%n" ?nome ?nome ?categoria))
     (do-for-all-facts ((?x oav))
                       (eq 1 1)
-                      (bind ?patologia (str-cat ?patologia (create_string_deffacts ?nome ?x:struttura ?x:sintomo ?x:valore) (format nil "%n")))
+                      (bind ?patologia (str-cat ?patologia (create_string_deffacts ?nome ?x:object ?x:attribute ?x:value) (format nil "%n")))
     )
     (printout data (str-cat ?patologia ")") crlf)
     (close)
@@ -29,7 +29,7 @@
     (bind ?patologia (format nil "(defrule %s %n%n" ?nome))
     (do-for-all-facts ((?x oav))
                       (eq 1 1)
-                      (bind ?patologia (str-cat ?patologia (create_string_rule ?x:struttura ?x:sintomo ?x:valore) (format nil "%n") ) )
+                      (bind ?patologia (str-cat ?patologia (create_string_rule ?x:object ?x:attribute ?x:value) (format nil "%n") ) )
                       
     )
     (printout data (str-cat ?patologia "=>" (format nil "%n")) )

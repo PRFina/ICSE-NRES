@@ -1,7 +1,7 @@
 (defrule expert_quest
-    (mode_engeneering)
+    ?f <- (mode_engeneering)
     =>
-
+    (retract ?f)
     (printout t "Inserire il nome della malattia: ")
     (bind ?desease (read))
     (printout t "Inserire la categoria a cui appartiene: ")
@@ -11,9 +11,15 @@
     (assert (phases symptom_question))
 )
 
+(defrule check_symptom_quest
+    ?f <- (phases symptom_question)
+    =>
+    (assert (desease (name ?desease) (category ?category)))
+)
+
 (defrule symptom_quest
     ?f <- (phases symptom_question)
-    ?f1 <- (desease (name ?desease) (category ?category) )
+    ?f1 <- (desease (name ?desease) (category ?category))
     =>
     (retract ?f)
     (printout t "Inserisci la struttura colpita dal sintomo: (radice | ceppo | tralcio | foglia | infiorescenza | grappolo)" crlf)
@@ -31,11 +37,11 @@
     (printout t "La malattia ha altri sintomi? (si | no)")
     (bind ?ans (read))
     (switch ?ans 
-        (case "si" then 
+        (case si then 
             (assert (phases symptom_question))
             (run)
         )
-        (case "no" then
+        (case no then
             (create_patologia_deffacts ?desease ?category)
             (create_patologia_rule ?desease)
             (select_option_system)
