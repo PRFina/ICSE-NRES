@@ -27,6 +27,14 @@
     (assert (update_rank ?c ?s ?n))
 )
 
+(deffunction calculate_rank (?category_belief ?structure_lifetime ?symptoms_freq ?w1 ?w2 ?w3)
+    (bind ?op1 (** ?category_belief ?w1))
+    (bind ?op2 (** ?structure_lifetime ?w2))
+    (bind ?op3 (** (log10 (+ ?symptoms_freq 1)) ?w3))
+
+    (return (* ?op1 ?op2 ?op3))
+)
+
 
 ;update increasing by 1 damaged_structs_rank elements
 ;most damaged plant parts grouped by category
@@ -36,17 +44,17 @@
     ?f1 <- (damaged_structs_rank (categoria ?c)
                                  (struttura ?s)
                                  (counter ?cnt)
-                                 (asserted_slots $?as)
-                                 (global_rank ?gr))
-    (categoria (nome ?c) (punteggio ?val))
+                                 (asserted_slots $?as))
+    (categoria (nome ?c) (punteggio ?cat_belief))
     =>
     (retract ?update_rank_fact)
-    (bind ?count (+ ?cnt 1))
-    (bind ?glob (* ?val ?count))
-    (if (not(member ?n ?as)) then (bind ?as (insert$ ?as 1 ?n)))
-    (modify ?f1 (counter ?count)
+    (bind ?freq (+ ?cnt 1))
+    (bind ?rank (calculate_rank ?cat_belief 0.6 ?freq 1 1 1))
+    (if (not(member ?n ?as)) 
+        then (bind ?as (insert$ ?as 1 ?n)))
+    (modify ?f1 (counter ?freq)
                 (asserted_slots ?as)
-                (global_rank ?glob))
+                (global_rank ?rank))
 )
 
 (defrule check_fine_update
@@ -96,15 +104,6 @@
     (retract ?fs)
     (retract ?f)
 ) 
-
-
-(deffunction calculate_rank (?category_belief ?structure_lifetime ?symptoms_freq ?w1 ?w2 ?w3)
-    (bind ?op1 (** ?category_belief ?w1))
-    (bind ?op2 (** ?structure_lifetime ?w2))
-    (bind ?op3 (** (log10 (+ ?symptoms_freq 1)) ?w3))
-
-    (return (* ?op1 ?op2 ?op3))
-)
 
 
 
