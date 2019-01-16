@@ -35,6 +35,10 @@
     (return (* ?op1 ?op2 ?op3))
 )
 
+(deffunction get_stucture_lifetime (?lifetime)
+    (return (moment-defuzzify ?lifetime))
+)
+
 
 ;update increasing by 1 damaged_structs_rank elements
 ;most damaged plant parts grouped by category
@@ -45,11 +49,15 @@
                                  (struttura ?s)
                                  (counter ?cnt)
                                  (asserted_slots $?as))
-    (categoria (nome ?c) (punteggio ?cat_belief))
+    (categoria (nome ?c) 
+               (punteggio ?cat_belief))
+
+    (grapevine (structure ?s)
+                      (value ?lifetime))
     =>
     (retract ?update_rank_fact)
     (bind ?freq (+ ?cnt 1))
-    (bind ?rank (calculate_rank ?cat_belief 0.6 ?freq 1 1 1))
+    (bind ?rank (calculate_rank ?cat_belief (get_stucture_lifetime ?lifetime) ?freq 1 1 1))
     (if (not(member ?n ?as)) 
         then (bind ?as (insert$ ?as 1 ?n)))
     (modify ?f1 (counter ?freq)
