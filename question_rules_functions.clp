@@ -46,12 +46,13 @@
 
 (defrule generate_question
     (phase-question) ;; activation flag
-    ?f <-(damaged_structs_rank (struttura ?s)
+    ?f <-(damaged_structs_rank
+                               (struttura ?s)
                                (asserted_slots $? ?as $?))    
     (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
     =>   
     (bind ?answer (build_question ?s ?as))
-    (assert (oav (object ?s) (attribute ?smo) (value ?risp)))
+    (assert (oav (object ?s) (attribute ?as) (value ?answer)))
     (assert (QandA (struttura ?s)
                  (sintomo ?as)
                  (risposta ?answer)))
