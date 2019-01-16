@@ -1,3 +1,4 @@
-(deftemplate oav (slot struttura)
-                 (slot sintomo)
-                 (slot valore))
+;modella 
+(deftemplate oav (slot object)
+                 (slot attribute)
+                 (slot value))

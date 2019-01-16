@@ -20,28 +20,9 @@
         
     )
 )
-; Relative humidity
-(deftemplate humidity
-    0 100 percent 
-    (
-        (low (z 0 30))
-        (middle (pi 30 50))
-        (high (s 80 100))
-    )
-)
+
 
 ; Express how much a given plant structure is visibile
-
-;(deftemplate lifetime
-;    0 105 point 
-;    (
-;        (absent (pi 15 15)) ;weight: 0
-;        (growing (pi 15 40)) ;weight: 0,8
-;        (full (pi 15 65)) ;weight: 0,6
-;        (decline (pi 15 90)) ;weight: 0,3
-;    )
-;)
-
 (deftemplate lifetime
     0 1 point 
     (
@@ -52,6 +33,7 @@
     )
 )
 
+;
 (deftemplate memb
    0 100
     (
@@ -61,13 +43,14 @@
     )
 )
 
+;
 (deftemplate category
        (slot name)
        (slot membership (type FUZZY-VALUE memb))
 )
 
 ; Models fase fenologica with fuzzy values / used for debug
-(deftemplate fase
+(deftemplate phenological
     0 120 point
     (   
         (riposo (0 1) (10 1) (30 0)) 
@@ -80,12 +63,18 @@
 )
 
 ; Grapevine structure with fuzzy values
-(deftemplate grapevine
-    (slot fase (type FUZZY-VALUE fase)) ;/ used for debug
-    (slot radice (type FUZZY-VALUE lifetime))
-    (slot ceppo (type FUZZY-VALUE lifetime))
-    (slot tralcio (type FUZZY-VALUE lifetime))
-    (slot foglia (type FUZZY-VALUE lifetime))
-    (slot infiorescenza (type FUZZY-VALUE lifetime))
-    (slot grappolo (type FUZZY-VALUE lifetime))
+;(deftemplate grapevine
+;    (slot fase (type FUZZY-VALUE fase)) ;/ used for debug
+;    (slot radice (type FUZZY-VALUE lifetime))
+;    (slot ceppo (type FUZZY-VALUE lifetime))
+;    (slot tralcio (type FUZZY-VALUE lifetime))
+;    (slot foglia (type FUZZY-VALUE lifetime))
+;    (slot infiorescenza (type FUZZY-VALUE lifetime))
+;    (slot grappolo (type FUZZY-VALUE lifetime))
+;)
+
+(deftemplate grapevine 
+    (slot phenological_phase (type FUZZY-VALUE phenological))
+    (slot structure (allowed-values radice ceppo tralcio foglia infiorescenza grappolo))
+    (slot value (type FUZZY-VALUE lifetime))
 )

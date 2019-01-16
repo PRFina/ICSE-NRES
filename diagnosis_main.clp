@@ -2,10 +2,7 @@
 (load "diagnosis_rule.clp")
 
 
-(assert (oav(struttura foglia)(sintomo colore)(valore rosso)))
-(assert (oav(struttura foglia)(sintomo macchia)(valore si)))
-(assert (oav(struttura grappolo)(sintomo colore)(valore rosso)))
-(assert (oav(struttura ceppo)(sintomo macchia)(valore si)))
-
-; (create_patologia_deffacts oidio funghi)
-; (create_patologia_rule oidio)
+(assert (oav(object foglia)     (attribute colore)  (value rosso)))
+(assert (oav(object foglia)     (attribute macchia) (value si)))
+(assert (oav(object grappolo)   (attribute colore)  (value rosso)))
+(assert (oav(object ceppo)      (attribute macchia) (value si)))

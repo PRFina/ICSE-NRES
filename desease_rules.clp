@@ -17,38 +17,71 @@
 ;check all struttura and categoria elements that matchs
 (defrule check_update_rank
     (phase-rank)
-    ?f <- (sintomo (struttura ?s)(nome ?x))
-    (patologia (nome ?x)(categoria ?c))
+    ?f <- (symptom (desease ?d)
+                   (structure ?s)
+                   (name ?n))
+          
+          (desease (name ?d)
+                   (category ?c))
     =>
-    (assert (update_rank ?c ?s ?f))
+    (assert (update_rank ?c ?s ?n))
+)
+
+(deffunction calculate_rank (?category_belief ?structure_lifetime ?symptoms_freq ?w1 ?w2 ?w3)
+    (bind ?op1 (** ?category_belief ?w1))
+    (bind ?op2 (** ?structure_lifetime ?w2))
+    (bind ?op3 (** (log10 (+ ?symptoms_freq 1)) ?w3))
+
+    (return (* ?op1 ?op2 ?op3))
+)
+
+(deffunction get_stucture_lifetime (?lifetime)
+    (return (moment-defuzzify ?lifetime))
 )
 
 
 ;update increasing by 1 damaged_structs_rank elements
 ;most damaged plant parts grouped by category
+;TODO add plant structure scoring (fulll, growing, absent,ecc..)
 (defrule update_rank
-    ?update_rank_fact <- (update_rank ?c ?s ?f)
-    ?f1 <- (damaged_structs_rank (categoria ?c)(struttura ?s)(counter ?cnt)(asserted_slots $?as)(global_rank ?gr))
-    (categoria (nome ?c) (punteggio ?val))
+    ?update_rank_fact <- (update_rank ?c ?s ?n)
+    ?f1 <- (damaged_structs_rank (categoria ?c)
+                                 (struttura ?s)
+                                 (counter ?cnt)
+                                 (asserted_slots $?as))
+    (categoria (nome ?c) 
+               (punteggio ?cat_belief))
+
+    (grapevine (structure ?s)
+                      (value ?lifetime))
     =>
     (retract ?update_rank_fact)
-    (bind ?count (+ ?cnt 1))
-    (bind ?glob (* ?val ?count))
-    (modify ?f1 (counter ?count)
-                (asserted_slots (get_asserted_slot_names_from_sintomo ?f ?as))
-                (global_rank ?glob))
+    (bind ?freq (+ ?cnt 1))
+    (bind ?rank (calculate_rank ?cat_belief (get_stucture_lifetime ?lifetime) ?freq 1 1 1))
+    (if (not(member ?n ?as)) 
+        then (bind ?as (insert$ ?as 1 ?n)))
+    (modify ?f1 (counter ?freq)
+                (asserted_slots ?as)
+                (global_rank ?rank))
+)
+
+(defrule check_fine_update
+    (phase-rank)
+    (not (update_rank))
+    =>
+    (printout t "Fase update_rank finita" crlf)
 )
 
 ;;TODO maybe is useless?? (is counter != 0 when glob =0?)
 (defrule clean_rank_counter
-    (phase-delete)
+    (phase-clean)
     ?f <- (damaged_structs_rank (counter ?c&:(eq ?c 0)))   
     =>
     (retract ?f)
 )
 
 (defrule clean_rank_global
-    (phase-delete)
+    (phase-clean)
     ?f <- (damaged_structs_rank (global_rank ?gr&:(eq ?gr 0)))   
     =>
     (retract ?f)
@@ -64,47 +97,20 @@
 )
 
 
-(defrule check_fine_update
-    (not (update_rank))
-    =>
-    (printout t "Fase update_rank finita" crlf)
-)
-; Retract symptoms that doesn't match with user anser
-(defrule clean_sintomi
+
+; Retract symptoms related with with question
+(defrule clean_sintomi_by_evidence
     ?ph <- (phase-question)
-    ?f <- (QandA (struttura ?s)
+    ?f  <- (QandA (struttura ?s)
                  (sintomo ?smo)
                  (risposta ?risp))
+    ?fs  <- (symptom (structure ?s)
+                     (name ?smo))
 
     =>
-    (assert (aov (struttura ?s) (sintomo ?smo) (valore ?risp)))
+    (retract ?fs)
     (retract ?f)
-    (do-for-all-facts ((?fs sintomo))
-                      (and (eq ?fs:struttura ?s) ; same symptom structure as question
-                           (neq (fact-slot-value ?fs ?smo) ?risp) 
-                           (neq (fact-slot-value ?fs ?smo) nil)
-                      )  
-                      (retract ?fs) ; retract symptom
-                      (retract ?ph) ;stop asking questions if ?fs is retracted
-    )
-    ; TODO check this
-    (do-for-all-facts ((?fs sintomo))
-                      (and (eq ?fs:struttura ?s) ; same symptom structure as question
-                           (eq (fact-slot-value ?fs ?smo) ?risp) 
-                           (neq (fact-slot-value ?fs ?smo) nil)
-                      )  
-                      (retract ?fs) ; retract symptom
-    )
 ) 
-
-
-(deffunction calculate_rank (?category_belief ?structure_lifetime ?symptoms_freq ?w1 ?w2 ?w3)
-    (bind ?op1 (** ?category_belief ?w1))
-    (bind ?op2 (** ?structure_lifetime ?w2))
-    (bind ?op3 (** (log10 (+ ?symptoms_freq 1)) ?w3))
-
-    (return (* ?op1 ?op2 ?op3))
-)
 
 
 

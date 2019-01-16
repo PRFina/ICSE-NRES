@@ -7,25 +7,19 @@
         else (return ?r))  
 )
 
-(deffunction system_to_real_calendar(?day)
-    (bind ?r (mod (- (+ ?day 15) 1) 365) )
-    (if (< ?r 0) 
-        then (return (+ ?r 365))
-        else (return ?r))  
-)
-(deffunction init_rank_assertions()
+(deffunction init_rank()
+(bind ?categories (deftemplate-slot-allowed-values desease category))
+(bind ?structures (deftemplate-slot-allowed-values symptom structure))
 
-(bind ?categorie (deftemplate-slot-allowed-values patologia categoria))
-(bind ?strutture (deftemplate-slot-allowed-values sintomo struttura))
-
-   (loop-for-count (?i 1 (- (length$ ?categorie) 1))
+   (loop-for-count (?i 1 (length$ ?categories))
        do
-       (bind ?categoria (nth$ ?i ?categorie))
-       (loop-for-count (?j 1 (- (length$ ?strutture) 1))
+       (bind ?category (nth$ ?i ?categories))
+       
+       (loop-for-count (?j 1 (length$ ?structures))
            do
-           (bind ?struttura (nth$ ?j ?strutture))
-           (assert (damaged_structs_rank (categoria ?categoria)
-                                         (struttura ?struttura)
+           (bind ?structure (nth$ ?j ?structures))
+           (assert (damaged_structs_rank (categoria ?category)
+                                         (struttura ?structure)
                                          (counter 0)
                                          (asserted_slots (create$))
                                          (global_rank 0)))
@@ -33,6 +27,42 @@
    )
 )
 
+;Function to star app
+(deffunction select_option_system()
+    (printout t "" crlf)
+    (printout t "" crlf)
+    (printout t "****************************************************************************************************" crlf)
+    (printout t "*                                                                                                  *" crlf)
+    (printout t "*                                                                                                  *" crlf)
+    (printout t "*   |||||                 |||   ||||||||||||||||||       ||||||||||||||||||   ||||||||||||||||||   *" crlf)
+    (printout t "*   ||| |||               |||   |||            ||||      |||                  |||                  *" crlf)
+    (printout t "*   |||   |||             |||   |||             ||||     |||                  |||                  *" crlf)
+    (printout t "*   |||     |||           |||   |||            ||||      |||                  |||                  *" crlf)
+    (printout t "*   |||       |||         |||   ||||||||||||||||||       ||||||||             ||||||||||||||||||   *" crlf)
+    (printout t "*   |||         |||       |||   |||            |||       |||                                 |||   *" crlf)
+    (printout t "*   |||           |||     |||   |||             |||      |||                                 |||   *" crlf)
+    (printout t "*   |||             |||   |||   |||              |||     |||                                 |||   *" crlf)
+    (printout t "*   |||               ||| |||   |||               |||    |||                                 |||   *" crlf)
+    (printout t "*   |||                 |||||   |||                |||   ||||||||||||||||||   ||||||||||||||||||   *" crlf)
+    (printout t "*                                                                                                  *" crlf)
+    (printout t "*                                                                                                  *" crlf)
+    (printout t "****************************************************************************************************" crlf)
+    (printout t "" crlf)    
+    (printout t "                                                                                      NRES v 1.0" crlf)
+    (printout t "" crlf)
+    (printout t "" crlf)
+    (printout t "Benvenuto" crlf)
+    (printout t "Digitare 1 se si vuole effettuare una nuova diagnosi o 2 se si vuole inserire una nuova patologia ")
+    (bind ?answer (read))
+    (if (= ?answer 1)
+      then
+      (assert (phase-environment))
+      (run)
+      else
+      (assert (mmmmmmmmmm))
+      (run)
+      )
+)
 ; To use in production
 ;(deffunction real_to_system_calendar()
 ;    (bind ?day (nth$ 8 (create$ (local-time))))
@@ -42,25 +72,3 @@
 ;        then (return (+ ?r 365))
 ;        else (return ?r))  
 ;)
-
-; Function to return a multifield filled with asserted slots (not nil) from deftemplate sintomo facts
-(deffunction get_asserted_slot_names_from_sintomo (?fact ?old_asserted_slots)  
-    (bind ?slot_names (fact-slot-names ?fact)) ;get sintomo slots from a fact
-    (bind ?attributes (subseq$ ?slot_names 2 (- (length ?slot_names) 1))) ; filter slot_names removing struttura and nome slots
-   
-    ;;(bind ?asserted_attributes (create$))
-    ;create a multifield adding the slot name only if its value is different from nil
-    (progn$ (?field ?attributes)  
-            (if
-                (and (neq (fact-slot-value ?fact ?field) nil)
-                     (not (and (deftemplate-slot-multip sintomo ?field) ; check if ?field is a multislot and it's empty
-                               (eq (nth$ 1 (fact-slot-value ?fact ?field)) nil))
-                     )
-                     (not (member$ ?field ?old_asserted_slots))
-                )
-            then 
-                (bind ?old_asserted_slots (insert$ ?old_asserted_slots 1 ?field))
-            )
-    )
-    (return ?old_asserted_slots)
-)
