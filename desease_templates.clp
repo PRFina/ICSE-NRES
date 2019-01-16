@@ -19,11 +19,6 @@
                             (slot rank)
 )
 
-;modella le categorie gestite nel modulo environment
-(deftemplate categoria (slot nome)
-                       (slot punteggio)
-)
-
 ;modella la risposta dell'utente
 (deftemplate QandA (slot struttura)
                    (slot sintomo)
