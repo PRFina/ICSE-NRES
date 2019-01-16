@@ -475,27 +475,3 @@
     =>
     (printout t "La malattia è: Arricciamento Fogliare" crlf)
 )
-
-
-
-;Create
-(deffunction create_sintomo_string(?patologia ?struttura ?sintomo ?valore)
-    ;(bind ?f (format nil "(symptom (structure %s)%n" ?struttura))
-    (bind ?sintomi "")
-    (bind ?sintomi (str-cat ?sintomi (format nil "(symptom (desease %s)%n" ?patologia)))
-    (bind ?sintomi (str-cat ?sintomi (format nil "(structure %s)%n" ?struttura)))
-    (bind ?sintomi (str-cat ?sintomi (format nil "(name %s)%n(value %s))%n" ?sintomo ?valore)))
-    (return ?sintomi)
-)
-
-(deffunction create_patologia_string(?nome ?categoria)
-    (open "learned-deffacts.txt" data "a")
-    (bind ?patologia "")
-    (bind ?patologia (format nil "(deffacts %s %n%n(desease (name %s) %n(category %s))%n%n" ?nome ?nome ?categoria))
-    (do-for-all-facts ((?x aov))
-                      (eq 1 1)
-                      (bind ?patologia (str-cat ?patologia (create_sintomo_string ?nome ?x:struttura ?x:sintomo ?x:valore) (format nil "%n")))
-    )
-    (printout data (str-cat ?patologia ")") crlf)
-    (close)
-)
