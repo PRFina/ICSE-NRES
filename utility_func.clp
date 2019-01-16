@@ -52,16 +52,20 @@
     (printout t "" crlf)
     (printout t "" crlf)
     (printout t "Benvenuto" crlf)
-    (printout t "Premere: 1 per effettuare una nuova diagnosi, 2 per inserire una nuova patologia, 3 per avviare la modalità debug ")
+    (printout t "Premere:" crlf
+                         "1) per effettuare una nuova diagnosi" crlf
+                         "2) per inserire una nuova patologia" crlf
+                         "3) per avviare la modalità debug" crlf)
     (bind ?answer (read))
     (switch ?answer
         
         (case 1 then 
+            (assert (phase-environment))
             (assert (mode_diagnosis))
             (run)
         )
         (case 2 then 
-            (assert (mode_engeneering))
+            (assert (mode_engineering))
             (run)
         )
         (case 3 then 
