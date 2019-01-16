@@ -49,15 +49,15 @@
                                  (struttura ?s)
                                  (counter ?cnt)
                                  (asserted_slots $?as))
-    (categoria (nome ?c) 
-               (punteggio ?cat_belief))
+    (category (name ?c) 
+              (membership ?cat_belief))
 
     (grapevine (structure ?s)
                       (value ?lifetime))
     =>
     (retract ?update_rank_fact)
     (bind ?freq (+ ?cnt 1))
-    (bind ?rank (calculate_rank ?cat_belief (get_stucture_lifetime ?lifetime) ?freq 1 1 1))
+    (bind ?rank (calculate_rank (moment-defuzzify ?cat_belief) (get_stucture_lifetime ?lifetime) ?freq 1 1 1))
     (if (not(member ?n ?as)) 
         then (bind ?as (insert$ ?as 1 ?n)))
     (modify ?f1 (counter ?freq)
