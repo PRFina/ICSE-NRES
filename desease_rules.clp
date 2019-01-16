@@ -35,14 +35,19 @@
     (return (* ?op1 ?op2 ?op3))
 )
 
-(deffunction get_stucture_lifetime (?lifetime)
-    (return (moment-defuzzify ?lifetime))
+(deffunction get_structure_lifetime (?structure ?lifetime)
+    (bind ?lifetime (moment-defuzzify ?lifetime))
+    ;if structure is (tralcio,radice or ceppo) decrement by 0.66 the contribution
+    ;since these structure are always present
+    (if (member$ ?structure (create$ tralcio radice ceppo)) 
+        then (bind ?lifetime (* ?lifetime 0.66)))
+    
+    (return ?lifetime)
 )
 
 
 ;update increasing by 1 damaged_structs_rank elements
 ;most damaged plant parts grouped by category
-;TODO add plant structure scoring (fulll, growing, absent,ecc..)
 (defrule update_rank
     ?update_rank_fact <- (update_rank ?c ?s ?n)
     ?f1 <- (damaged_structs_rank (categoria ?c)
@@ -57,7 +62,7 @@
     =>
     (retract ?update_rank_fact)
     (bind ?freq (+ ?cnt 1))
-    (bind ?rank (calculate_rank (moment-defuzzify ?cat_belief) (get_stucture_lifetime ?lifetime) ?freq 1 1 1))
+    (bind ?rank (calculate_rank (moment-defuzzify ?cat_belief) (get_structure_lifetime ?s ?lifetime) ?freq 1 1 1))
     (if (not(member ?n ?as)) 
         then (bind ?as (insert$ ?as 1 ?n)))
     (modify ?f1 (counter ?freq)
@@ -87,7 +92,6 @@
     (retract ?f)
 )
 
-;; TODO maybe reset also asserted slot to reflect sintomo retraction changes?
 (defrule reset_rank
     (phase-reset)
     ?f <- (damaged_structs_rank (counter ?c&:(neq ?c 0))
@@ -95,7 +99,6 @@
     =>
     (modify ?f (counter 0) (global_rank 0) (asserted_slots))
 )
-
 
 
 ; Retract symptoms related with with question
