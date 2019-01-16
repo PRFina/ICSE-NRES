@@ -1,0 +1,23 @@
+(defrule oidio 
+(desease (name oidio) 
+(category funghi))
+
+(oav(structure foglia)
+(name colore)
+(value rosso))
+
+(oav(structure foglia)
+(name macchia)
+(value si))
+
+(oav(structure grappolo)
+(name colore)
+(value rosso))
+
+(oav(structure ceppo)
+(name macchia)
+(value si))
+
+=>
+(printout t "La malattia è:  oidio " crlf)
+)
