@@ -52,16 +52,23 @@
     (printout t "" crlf)
     (printout t "" crlf)
     (printout t "Benvenuto" crlf)
-    (printout t "Digitare 1 se si vuole effettuare una nuova diagnosi o 2 se si vuole inserire una nuova patologia ")
+    (printout t "Premere: 1 per effettuare una nuova diagnosi, 2 per inserire una nuova patologia, 3 per avviare la modalità debug ")
     (bind ?answer (read))
-    (if (= ?answer 1)
-      then
-      (assert (phase-environment))
-      (run)
-      else
-      (assert (mmmmmmmmmm))
-      (run)
-      )
+    (switch ?answer
+        
+        (case 1 then 
+            (assert (mode_diagnosis))
+            (run)
+        )
+        (case 2 then 
+            (assert (mode_engeneering))
+            (run)
+        )
+        (case 3 then 
+            (assert (mode_debug))
+            (run)
+        )
+    ) 
 )
 ; To use in production
 ;(deffunction real_to_system_calendar()
