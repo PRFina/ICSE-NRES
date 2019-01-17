@@ -1,6 +1,7 @@
 
 (deftemplate SYS::system_status (slot phase)
-                                (slot mode))
+                                (slot mode)
+                                (multislot sequence))
 
 
 (deffunction SYS::select_option_system()
@@ -36,8 +37,8 @@
         
         (case 1 then 
             (assert (system_status (phase init)
-                                   (mode diagnosys)))
-            (focus ENV PROC QGEN )
+                                   (mode diagnosys)
+                                   (sequence ENV PROC QGEN)))
         )
         (case 2 then 
             (assert (mode_engineering))
@@ -48,6 +49,17 @@
             (run)
         )
     ) 
+)
+
+(defrule SYS::next_phase
+    ?f <- (system_status (phase ?p)
+                   (mode ?m)
+                   (sequence ?next $?tail))
+    =>
+    (focus ?next)
+    (modify ?f (phase ?next) (mode ?m) (sequence ?tail ?next))
+
+
 )
 
 (defrule SYS::init_system

@@ -188,7 +188,7 @@
 
 
 (defrule ENV::day_question
-    (system_status (phase init)
+    (system_status (phase ENV)
                    (mode diagnosys))
     =>
     (bind $?range_day (range_two_val 1  365))
