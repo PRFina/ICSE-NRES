@@ -1,3 +1,7 @@
+(defmodule ENV 
+    (export deftemplate grapevine lifetime category memb))
+
+
 ;(defmodule CALC (export ?ALL))
 ;(defmodule MAIN (import CALC ?ALL))
 (load "diagnosis_templates.clp")

@@ -1,5 +1,5 @@
 ;; Season Rules
-(defrule define_season
+(defrule ENV::define_season
     (current_day ?day)
     =>
     (bind ?range 5)
@@ -18,26 +18,26 @@
 
 
 ;; Temperature Rules
-(defrule define_temperature_low
+(defrule ENV::define_temperature_low
     (season winter)
     =>
     (assert (temperature low))
 )
 
-(defrule define_temperature_middle
+(defrule ENV::define_temperature_middle
     (season spring or autumn)
     =>
     (assert (temperature middle))
 )
 
-(defrule define_temperature_high
+(defrule ENV::define_temperature_high
     (season summer)
     =>
     (assert (temperature high))
 )
 
 ;; Regole fase fenologica
-(defrule fase_fenologica_riposo
+(defrule ENV::fase_fenologica_riposo
     (season winter)
     (temperature low)
     =>
@@ -49,7 +49,7 @@
     (assert (grapevine (phenological_phase riposo)(structure grappolo)(value absent)))
 )
 
-(defrule fase_fenologica_riposo_vegetativa
+(defrule ENV::fase_fenologica_riposo_vegetativa
     (season winter)
     (temperature middle)
     =>
@@ -61,7 +61,7 @@
     (assert (grapevine (phenological_phase riposo_vegetativa)(structure grappolo)(value absent)))
 )
 
-(defrule fase_fenologica_vegetativa
+(defrule ENV::fase_fenologica_vegetativa
     (season somewhat spring and not winter)
     (temperature somewhat middle and not low)
     =>
@@ -73,7 +73,7 @@
     (assert (grapevine (phenological_phase vegetativa)(structure grappolo)(value absent)))
 )
 
-(defrule fase_fenologica_vegetativa_riproduttiva
+(defrule ENV::fase_fenologica_vegetativa_riproduttiva
     (season somewhat spring and not summer)
     (temperature somewhat middle and not high)
     =>
@@ -85,7 +85,7 @@
     (assert (grapevine (phenological_phase vegetativa_riproduttiva)(structure grappolo)(value growing)))
 )
 
-(defrule fase_fenologica_riproduttiva
+(defrule ENV::fase_fenologica_riproduttiva
     (season somewhat summer and not spring)
     (temperature somewhat high and not middle)
     =>
@@ -97,7 +97,7 @@
     (assert (grapevine (phenological_phase riproduttiva)(structure grappolo)(value full)))
 )
 
-(defrule fase_fenologica_riproduttiva_riposo
+(defrule ENV::fase_fenologica_riproduttiva_riposo
     (season very autumn)
     (temperature very middle)
     =>
@@ -110,7 +110,7 @@
 )
 
 ;; Regole cateogorie malattie
-(defrule estensione_localizzata
+(defrule ENV::estensione_localizzata
    (estensione localizzata)
    =>
    (assert (category(name insetti)(membership high)))
@@ -121,7 +121,7 @@
    (assert (category(name fitoplasmi)(membership low)))
 )
 
-(defrule estensione_estesa
+(defrule ENV::estensione_estesa
    (estensione estesa)
    =>
    (assert (category(name insetti)(membership low)))
@@ -134,7 +134,7 @@
 
 
 ;; Debug rules
-(defrule plot_season
+(defrule ENV::plot_season
     ?f <- (season ?x)
     =>
     ;(plot-fuzzy-value t "*+-,^" 1 365
@@ -147,7 +147,7 @@
     (printout t "Defuzzified Season: " (moment-defuzzify ?f) crlf)
 )
 
-(defrule plot_temperature
+(defrule ENV::plot_temperature
     ?f <- (temperature ?x)
     =>
     ;(plot-fuzzy-value t ".+-^" -15 40
@@ -159,7 +159,7 @@
     (printout t "Defuzzified Temperature: " (moment-defuzzify ?f) crlf)
 )
 
-(defrule plot_membership
+(defrule ENV::plot_membership
     ?f <- (category (name ?x) (membership ?y))
     =>
     ;(bind ?value (nth$ 2 (deftemplate-slot-allowed-values category (get-fuzzy-slot ?f membership) ) ))
@@ -173,7 +173,7 @@
     (printout t "Defuzzified Membership: "?x crlf (moment-defuzzify (get-fuzzy-slot ?f membership)) crlf)
 )
 
-(defrule debug_fase_struttura
+(defrule ENV::debug_fase_struttura
     (mode-debug)
     ?f <- (grapevine (phenological_phase ?fase)
                      (structure ?structure)
