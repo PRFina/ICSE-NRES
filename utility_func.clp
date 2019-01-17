@@ -60,13 +60,10 @@
     (switch ?answer
         
         (case 1 then 
-            (assert (phase-environment))
-            (assert (mode_diagnosis))
-            (run)
+            (batch "diagnosis_desease.clp")
         )
         (case 2 then 
-            (assert (mode_engineering))
-            (run)
+            (batch "create_desease.clp")
         )
         (case 3 then 
             (assert (mode_debug))
