@@ -1,9 +1,3 @@
-(defmodule ENV 
-    (export deftemplate grapevine lifetime category memb))
-
-
-;(defmodule CALC (export ?ALL))
-;(defmodule MAIN (import CALC ?ALL))
 (load "diagnosis_templates.clp")
 (load "desease_templates.clp")
 (load "environment_templates.clp")
@@ -17,7 +11,17 @@
 (load "environment_rules.clp")
 (load "metarules.clp")
 
+(defmodule ENV 
+    (export deftemplate grapevine lifetime category memb))
 
+(defmodule PROC 
+    (export deftemplate symptom QandA))
+
+(defmodule QGEN 
+    (import deftemplate damage_struct QandA oav))
+
+(defmodule DGNSYS 
+    (import deftemplate damage_struct QandA))
 
 (reset)
 (init_rank)

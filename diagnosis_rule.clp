@@ -4,7 +4,7 @@
 ;;; FUNGHI ;;;
 ;;;;;;;;;;;;;;
 
-(defrule peronospora  
+(defrule DGNSYS::peronospora  
     (oav(object foglia)
         (attribute macchiaforma)
         (value regolare))
@@ -36,7 +36,7 @@
 )
 
 
-(defrule oidio
+(defrule DGNSYS::oidio
 
     (oav(object foglia)
         (attribute macchiacolore)
@@ -70,7 +70,7 @@
 )
 
 
-(defrule botrite
+(defrule DGNSYS::botrite
     (oav(object foglia)
         (attribute macchiacolore)
         (value giallo))
@@ -93,7 +93,7 @@
 )
 
 
-(defrule marciumeradicale    
+(defrule DGNSYS::marciumeradicale    
     (oav(object foglia)
         (attribute disseccamento)
         (value si))
@@ -110,7 +110,7 @@
 )
 
 
-(defrule verticilliosi
+(defrule DGNSYS::verticilliosi
     (oav(object foglia)
         (attribute disseccamento)
         (value si))
@@ -123,7 +123,7 @@
 )
 
 
-(defrule maldellesca
+(defrule DGNSYS::maldellesca
     (oav(object foglia)
         (attribute macchiacolore)
         (value giallo))
@@ -155,7 +155,7 @@
 )
 
 
-(defrule marciumebianco
+(defrule DGNSYS::marciumebianco
 
     (oav(object grappolo)
         (attribute macchiacolore)
@@ -172,7 +172,7 @@
 )             
 
 
-(defrule marciumenero
+(defrule DGNSYS::marciumenero
     (oav(object foglia)
         (attribute colore)
         (value bruno))
@@ -203,7 +203,7 @@
 ;;;; BATTERI ;;;
 ;;;;;;;;;;;;;;;;
 
-(defrule rognadellavite
+(defrule DGNSYS::rognadellavite
     (oav(object tralcio)
         (attribute tacche)
         (value si))
@@ -232,7 +232,7 @@
 ;;;; FITOPLASMI DELLA VITE ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defrule fitoplasmidellavite
+(defrule DGNSYS::fitoplasmidellavite
     (oav(object foglia)
         (attribute colore)
         (value giallo|rosso))
@@ -269,7 +269,7 @@
 ;;;; NEMATODI ;;;
 ;;;;;;;;;;;;;;;;;
 
-(defrule nematodi
+(defrule DGNSYS::nematodi
     (oav(object ceppo)
         (attribute escrescenze)
         (value si))
@@ -286,7 +286,7 @@
 ;;;; INSETTI ;;;
 ;;;;;;;;;;;;;;;;
 
-(defrule cocciniglia
+(defrule DGNSYS::cocciniglia
     (oav(object foglia)
         (attribute disseccamento)
         (value si))
@@ -302,7 +302,7 @@
 )
 
 
-(defrule tripidedellavite
+(defrule DGNSYS::tripidedellavite
     (oav(object foglia)
         (attribute macchiacolore)
         (value giallo))
@@ -328,7 +328,7 @@
 )
 
 
-(defrule tignolettadellavite    
+(defrule DGNSYS::tignolettadellavite    
     (oav(object grappolo)
         (attribute colore)
         (value bruno))
@@ -340,7 +340,7 @@
 )
 
 
-(defrule tignola   
+(defrule DGNSYS::tignola   
     (oav(object foglia)
         (attribute disseccamento)
         (value si))
@@ -360,7 +360,7 @@
 )
 
 
-(defrule tetranichidae   
+(defrule DGNSYS::tetranichidae   
 
     (oav(object foglia)
         (attribute colore)
@@ -384,7 +384,7 @@
 ;;;; VIRUS ;;;
 ;;;;;;;;;;;;;;
 
-(defrule legnoriccio
+(defrule DGNSYS::legnoriccio
     (oav(object foglia)
         (attribute colore)
         (value giallo))
@@ -401,7 +401,7 @@
 )
 
 
-(defrule accartocciamento
+(defrule DGNSYS::accartocciamento
     (oav(object foglia)
         (attribute deformazione)
         (value si))
@@ -421,7 +421,7 @@
 )
 
 
-(defrule arricciamento
+(defrule DGNSYS::arricciamento
     (oav(object foglia)
         (attribute deformazione)
         (value si))

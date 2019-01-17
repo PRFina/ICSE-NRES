@@ -1,5 +1,5 @@
 
-(deffunction ask_question (?question $?allowed-values)
+(deffunction QGEN::ask_question (?question $?allowed-values)
    (printout t ?question crlf)
    (bind ?answer (read))
    (if (lexemep ?answer) 
@@ -18,14 +18,14 @@
    ?answer
 )
 
-(deffunction binary_question (?question)
+(deffunction QGEN::binary_question (?question)
    (bind ?response (ask_question ?question yes no y n))
    (if (or (eq ?response yes) (eq ?response y))
         then TRUE 
     else FALSE)
 )
 
-(deffunction get_allowed_values (?struttura ?sintomo)
+(deffunction QGEN::get_allowed_values (?struttura ?sintomo)
     (bind ?allowed_values (create$))
 
     (do-for-all-facts ((?s symptom))
@@ -37,14 +37,14 @@
     (insert$ ?allowed_values (+ 1 (length$ ?allowed_values)) altro)
 )
 
-(deffunction build_question (?struttura ?sintomo)
+(deffunction QGEN::build_question (?struttura ?sintomo)
     (bind ?allowed_values (get_allowed_values ?struttura ?sintomo))
     (bind ?answer (ask_question (format nil "La struttura %s presenta %s? (%s)" ?struttura ?sintomo (implode$ ?allowed_values))
                   ?allowed_values))
     ?answer
 )
 
-(defrule generate_question
+(defrule QGEN::generate_question
     (phase-question) ;; activation flag
     ?f <-(damaged_struct (structure ?s)
                          (symptoms $? ?as $?))    
@@ -57,7 +57,7 @@
                    (answer ?answer)))
 )
 
-(deffunction range_two_val(?first ?second)
+(deffunction QGEN::range_two_val(?first ?second)
     (bind $?value (create$))
     (if (< ?first ?second)
     then
@@ -68,7 +68,7 @@
 $?value
 )
  
-(defrule day_question
+(defrule QGEN::day_question
     (phase-environment)
     =>
     (bind $?range_day (range_two_val 1  365))
@@ -76,7 +76,7 @@ $?value
     (assert (current_day (real_to_system_calendar ?value)))
 )
 
-(defrule estensione_question
+(defrule QGEN::estensione_question
     (current_day ?x)
     =>
     (bind ?ans (ask_question "L'estensione della malattia è localizzata o estesa a tutta la vigna? (localizzata | estesa)" localizzata estesa))

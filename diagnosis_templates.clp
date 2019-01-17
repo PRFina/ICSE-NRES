@@ -1,4 +1,4 @@
 ;modella 
-(deftemplate oav (slot object)
+(deftemplate DGNSYS::oav (slot object)
                  (slot attribute)
                  (slot value))
