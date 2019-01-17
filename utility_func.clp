@@ -1,34 +1,15 @@
 
 ; To use in dev
-(deffunction real_to_system_calendar(?day)
+(deffunction MAIN::real_to_system_calendar(?day)
     (bind ?r (+ 1 (mod (- ?day 15) 365)))
     (if (< ?r 0) 
         then (return (+ ?r 365))
         else (return ?r))  
 )
 
-(deffunction init_rank()
-(bind ?categories (deftemplate-slot-allowed-values desease category))
-(bind ?structures (deftemplate-slot-allowed-values symptom structure))
-
-   (loop-for-count (?i 1 (length$ ?categories))
-       do
-       (bind ?category (nth$ ?i ?categories))
-       
-       (loop-for-count (?j 1 (length$ ?structures))
-           do
-           (bind ?structure (nth$ ?j ?structures))
-           (assert (damaged_struct (category ?category)
-                                   (structure ?structure)
-                                   (symptoms_freq 0)
-                                   (symptoms (create$))
-                                   (rank 0)))
-       )
-   )
-)
 
 ;Function to star app
-(deffunction select_option_system()
+(deffunction MAIN::select_option_system()
     (printout t "" crlf)
     (printout t "" crlf)
     (printout t "****************************************************************************************************" crlf)

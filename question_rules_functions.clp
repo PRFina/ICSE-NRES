@@ -1,4 +1,20 @@
 
+;get the fact-address of damaged_struct  with category category in the pos rank position
+(deffunction QGEN::get_rank_pos(?pos)
+    (bind ?facts_to_be_sorted
+        (find-all-facts ((?f damaged_struct))
+            (neq ?f:symptoms_freq 0)
+        )
+    )
+    (bind ?sorted_facts (sort sorting ?facts_to_be_sorted))
+    (return (nth$ ?pos ?sorted_facts))
+)
+
+;funzione di ordinamento decrescente
+(deffunction QGEN::sorting(?a ?b)
+    (return (< (fact-slot-value ?a rank)(fact-slot-value ?b rank)))
+)
+
 (deffunction QGEN::ask_question (?question $?allowed-values)
    (printout t ?question crlf)
    (bind ?answer (read))

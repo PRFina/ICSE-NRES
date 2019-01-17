@@ -1,6 +1,6 @@
 ;; FUZZY VARIABLES
 
-(deftemplate season
+(deftemplate ENV::season
     1 365 day 
     (
         (spring (PI 55 90))
@@ -11,7 +11,7 @@
 )
 
 ; Typical range of Italy's climates
-(deftemplate temperature
+(deftemplate ENV::temperature
     -5 38 celsius 
     (
         (low (z -5 10))
@@ -23,7 +23,7 @@
 
 
 ; Express how much a given plant structure is visibile
-(deftemplate lifetime
+(deftemplate ENV::lifetime
     0 1 point 
     (
         (absent (z 0 0.28)) ;weight: 0
@@ -34,7 +34,7 @@
 )
 
 ;
-(deftemplate memb
+(deftemplate ENV::memb
    0 100
     (
         (low (z 0 30))
@@ -44,13 +44,13 @@
 )
 
 ;
-(deftemplate category
+(deftemplate ENV::category
        (slot name)
        (slot membership (type FUZZY-VALUE memb))
 )
 
 ; Models fase fenologica with fuzzy values / used for debug
-(deftemplate phenological
+(deftemplate ENV::phenological
     0 120 point
     (   
         (riposo (0 1) (10 1) (30 0)) 
@@ -62,7 +62,7 @@
     )
 )
 
-(deftemplate grapevine 
+(deftemplate ENV::grapevine 
     (slot phenological_phase (type FUZZY-VALUE phenological))
     (slot structure (allowed-values radice ceppo tralcio foglia infiorescenza grappolo))
     (slot value (type FUZZY-VALUE lifetime))

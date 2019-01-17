@@ -1,18 +1,4 @@
-;get the fact-address of damaged_struct  with category category in the pos rank position
-(deffunction PROC::get_rank_pos(?pos)
-    (bind ?facts_to_be_sorted
-        (find-all-facts ((?f damaged_struct))
-            (neq ?f:symptoms_freq 0)
-        )
-    )
-    (bind ?sorted_facts (sort sorting ?facts_to_be_sorted))
-    (return (nth$ ?pos ?sorted_facts))
-)
 
-;funzione di ordinamento decrescente
-(deffunction PROC::sorting(?a ?b)
-    (return (< (fact-slot-value ?a rank)(fact-slot-value ?b rank)))
-)
 
 ;check all struttura and category elements that matchs
 (defrule PROC::check_update_rank
@@ -109,6 +95,36 @@
     (retract ?fs)
     (retract ?f)
 ) 
+
+(defrule PROC::from_rank_to_clean
+    ?fp <- (phase-rank)
+    (not (update_rank))
+    =>
+    (retract ?fp)
+    (assert (phase-clean))
+    (printout t "Fase rank finita, starting cleaning" crlf)
+)
+
+(deffunction PROC::init_rank()
+    (bind ?categories (deftemplate-slot-allowed-values desease category))
+    (bind ?structures (deftemplate-slot-allowed-values symptom structure))
+
+    (loop-for-count (?i 1 (length$ ?categories))
+        do
+        (bind ?category (nth$ ?i ?categories))
+        
+        (loop-for-count (?j 1 (length$ ?structures))
+            do
+            (bind ?structure (nth$ ?j ?structures))
+            (assert (damaged_struct (category ?category)
+                                    (structure ?structure)
+                                    (symptoms_freq 0)
+                                    (symptoms (create$))
+                                    (rank 0)))
+        )
+    )
+)
+
 
 
 
