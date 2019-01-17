@@ -185,3 +185,20 @@
     (printout t "Defuzzified value: " (moment-defuzzify (get-fuzzy-slot ?f value)) crlf)
     (printout t "-------------------------" crlf)
 )
+
+
+(defrule ENV::day_question
+    (system_status (phase init)
+                   (mode diagnosys))
+    =>
+    (bind $?range_day (range_two_val 1  365))
+    (bind ?value (ask_question "Inserire giorno: (1 - 365)" $?range_day))
+    (assert (current_day (real_to_system_calendar ?value)))
+)
+
+(defrule ENV::estensione_question
+    (current_day ?x)
+    =>
+    (bind ?ans (ask_question "L'estensione della malattia è localizzata o estesa a tutta la vigna? (localizzata | estesa)" localizzata estesa))
+    (assert (estensione ?ans))
+)

@@ -7,54 +7,45 @@
         else (return ?r))  
 )
 
-
-;Function to star app
-(deffunction MAIN::select_option_system()
-    (printout t "" crlf)
-    (printout t "" crlf)
-    (printout t "****************************************************************************************************" crlf)
-    (printout t "*                                                                                                  *" crlf)
-    (printout t "*                                                                                                  *" crlf)
-    (printout t "*   |||||                 |||   ||||||||||||||||||       ||||||||||||||||||   ||||||||||||||||||   *" crlf)
-    (printout t "*   ||| |||               |||   |||            ||||      |||                  |||                  *" crlf)
-    (printout t "*   |||   |||             |||   |||             ||||     |||                  |||                  *" crlf)
-    (printout t "*   |||     |||           |||   |||            ||||      |||                  |||                  *" crlf)
-    (printout t "*   |||       |||         |||   ||||||||||||||||||       ||||||||             ||||||||||||||||||   *" crlf)
-    (printout t "*   |||         |||       |||   |||            |||       |||                                 |||   *" crlf)
-    (printout t "*   |||           |||     |||   |||             |||      |||                                 |||   *" crlf)
-    (printout t "*   |||             |||   |||   |||              |||     |||                                 |||   *" crlf)
-    (printout t "*   |||               ||| |||   |||               |||    |||                                 |||   *" crlf)
-    (printout t "*   |||                 |||||   |||                |||   ||||||||||||||||||   ||||||||||||||||||   *" crlf)
-    (printout t "*                                                                                                  *" crlf)
-    (printout t "*                                                                                                  *" crlf)
-    (printout t "****************************************************************************************************" crlf)
-    (printout t "" crlf)    
-    (printout t "                                                                                      NRES v 1.0" crlf)
-    (printout t "" crlf)
-    (printout t "" crlf)
-    (printout t "Benvenuto" crlf)
-    (printout t "Premere:" crlf
-                         "1) per effettuare una nuova diagnosi" crlf
-                         "2) per inserire una nuova patologia" crlf
-                         "3) per avviare la modalità debug" crlf)
-    (bind ?answer (read))
-    (switch ?answer
-        
-        (case 1 then 
-            (assert (phase-environment))
-            (assert (mode_diagnosis))
-            (run)
-        )
-        (case 2 then 
-            (assert (mode_engineering))
-            (run)
-        )
-        (case 3 then 
-            (assert (mode_debug))
-            (run)
-        )
-    ) 
+(deffunction MAIN::ask_question (?question $?allowed-values)
+   (printout t ?question crlf)
+   (bind ?answer (read))
+   (if (lexemep ?answer) 
+       then (bind ?answer (lowcase ?answer)))
+   (while (not (member$ ?answer ?allowed-values)) do
+      (printout t ?question)
+      (bind ?answer (read))
+      (if (lexemep ?answer) 
+          then (bind ?answer (lowcase ?answer)))
+   )
+   (if (eq ?answer altro) 
+        then (printout t "quale?")
+             (bind ?answer (read)))
+    (if (lexemep ?answer) 
+        then (bind ?answer (lowcase ?answer))) 
+   ?answer
 )
+
+(deffunction MAIN::binary_question (?question)
+   (bind ?response (ask_question ?question yes no y n))
+   (if (or (eq ?response yes) (eq ?response y))
+        then TRUE 
+    else FALSE)
+)
+
+(deffunction MAIN::range_two_val(?first ?second)
+    (bind $?value (create$))
+    (if (< ?first ?second)
+    then
+        (loop-for-count (?i ?first ?second) do
+            (bind $?value (insert$ ?value 1 ?i))
+        )
+    )
+$?value
+)
+ 
+;Function to star app
+
 ; To use in production
 ;(deffunction real_to_system_calendar()
 ;    (bind ?day (nth$ 8 (create$ (local-time))))

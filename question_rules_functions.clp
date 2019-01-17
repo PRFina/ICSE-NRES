@@ -15,31 +15,7 @@
     (return (< (fact-slot-value ?a rank)(fact-slot-value ?b rank)))
 )
 
-(deffunction QGEN::ask_question (?question $?allowed-values)
-   (printout t ?question crlf)
-   (bind ?answer (read))
-   (if (lexemep ?answer) 
-       then (bind ?answer (lowcase ?answer)))
-   (while (not (member$ ?answer ?allowed-values)) do
-      (printout t ?question)
-      (bind ?answer (read))
-      (if (lexemep ?answer) 
-          then (bind ?answer (lowcase ?answer)))
-   )
-   (if (eq ?answer altro) 
-        then (printout t "quale?")
-             (bind ?answer (read)))
-    (if (lexemep ?answer) 
-        then (bind ?answer (lowcase ?answer))) 
-   ?answer
-)
 
-(deffunction QGEN::binary_question (?question)
-   (bind ?response (ask_question ?question yes no y n))
-   (if (or (eq ?response yes) (eq ?response y))
-        then TRUE 
-    else FALSE)
-)
 
 (deffunction QGEN::get_allowed_values (?struttura ?sintomo)
     (bind ?allowed_values (create$))
@@ -71,30 +47,4 @@
     (assert (QandA (structure ?s)
                    (symptom ?as)
                    (answer ?answer)))
-)
-
-(deffunction QGEN::range_two_val(?first ?second)
-    (bind $?value (create$))
-    (if (< ?first ?second)
-    then
-        (loop-for-count (?i ?first ?second) do
-            (bind $?value (insert$ ?value 1 ?i))
-        )
-    )
-$?value
-)
- 
-(defrule QGEN::day_question
-    (phase-environment)
-    =>
-    (bind $?range_day (range_two_val 1  365))
-    (bind ?value (ask_question "Inserire giorno: (1 - 365)" $?range_day))
-    (assert (current_day (real_to_system_calendar ?value)))
-)
-
-(defrule QGEN::estensione_question
-    (current_day ?x)
-    =>
-    (bind ?ans (ask_question "L'estensione della malattia è localizzata o estesa a tutta la vigna? (localizzata | estesa)" localizzata estesa))
-    (assert (estensione ?ans))
 )
