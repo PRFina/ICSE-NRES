@@ -19,7 +19,7 @@
 
 (deffunction create_string_rule(?struttura ?sintomo ?valore)
     (bind ?string "")
-    (bind ?string (str-cat ?string (format nil "(oav(structure %s)%n(name %s)%n(value %s))%n" ?struttura ?sintomo ?valore)))
+    (bind ?string (str-cat ?string (format nil "(oav(object %s)%n(attribute %s)%n(value %s))%n" ?struttura ?sintomo ?valore)))
     (return ?string)
 )
 
