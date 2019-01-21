@@ -56,7 +56,7 @@
 
 (reset)
 (focus SYS)
-(watch focus)
-(watch rules)
-(watch facts)
+;(watch focus)
+;(watch rules)
+;(watch facts)
 (run 500)
