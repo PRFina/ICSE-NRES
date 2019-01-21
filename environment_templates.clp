@@ -33,13 +33,22 @@
     )
 )
 
-;
+;old memb
+;(deftemplate memb
+;   0 100
+;    (
+;        (low (z 0 30))
+;        (middle (pi 20 50))
+;        (high (s 70 100))
+;    )
+;)
+
+;new memb
 (deftemplate memb
-   0 100
+    0 1 point
     (
-        (low (z 0 30))
-        (middle (pi 20 50))
-        (high (s 70 100))
+        (low (z 0 0.52))
+        (high (s 0.48 1))
     )
 )
 

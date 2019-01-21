@@ -1,14 +1,3 @@
-;Semantica: in inverno (quindi con temperature basse) gli insetti sono in letargo quindi poco probabili
-(defrule def_temp_low
-    (season winter)
-    (temperature low)
-    ?f <- (category (name insetti) (membership high))
-    =>
-    (modify ?f (membership (create-fuzzy-value memb middle)))
-    (printout t "Inverno -> Insetti letargo" crlf)
-)
-
-
 ;Semantica: temperature medie (10-26°), quindi primavera e autunno,
 ;           insieme alle pioggie e al clima umido (precipitazioni piovose e ristagno acqua)
 ;           favoriscono la formazione di funghi
@@ -29,32 +18,9 @@
 )
 
 
-;Semantica: in primavera e con il clima mite iniziano a comparire gli insetti
-(defrule def_temp_mid_insetti
-    (season spring)
-    (temperature middle)
-    ?f <- (category (name insetti) (membership ?x))
-    =>
-    (assert (category (name insetti)(membership middle)))
-    (printout t "Primavera + Temperature medie -> inizio Insetti" crlf)
-)
 
 
-;Semantica: temperature alte (>26°) e clima secco, quindi estate, limitano le patologie dei funghi,
-;           inoltre favoriscono gli insetti 
-(defrule def_temp_high
-    (season summer)
-    ?f <- (temperature ?x)
-    =>
-    (bind ?value (moment-defuzzify ?f))
-    (if (>= ?value 26)
-        then
-            (assert (category(name insetti)(membership high)))
-            (printout t "Estate -> Insetti" crlf)
-            (assert (category(name funghi)(membership low)))
-            (printout t "Estate + Temperatura alta -> Clima secco -> no Funghi" crlf)
-    )
-)
+
 
 
 ;La regola dei "tre dieci" è generalmente legata alla peronospora ma presenta condizioni favorevoli allo sviluppo di FUNGHI (aggiungere?)
@@ -95,54 +61,36 @@
 )
 
 
+
+;FATTE (unite)
 ;Semantica: la potatura invernale può causare sulle strutture presenti (tralcio e ceppo) ferite (tacche) nelle quali
 ;           trovano terreno fertile i batteri
-(defrule potatura_inverno
-    (potatura si)
-    =>
-    (assert (category(name batteri)(membership middle)))
-    ;(assert (sintomo (struttura tralcio) 
-    ;                 (tacche si)))
-    ;(assert (sintomo (struttura ceppo) 
-    ;                 (tacche si)))
-    (printout t "Potatura invernale -> Tacche -> Batteri" crlf)
-)
-
+;(defrule potatura_inverno
+;    (potatura si)
+;    =>
+;    (assert (category(name batteri)(membership high)))
+;    ;(assert (sintomo (struttura tralcio) 
+;    ;                 (tacche si)))
+;    ;(assert (sintomo (struttura ceppo) 
+;    ;                 (tacche si)))
+;    (printout t "Potatura invernale -> Tacche -> Batteri" crlf)
+;)
+;
 
 ;Semantica: la potatura primaverile (effettuata prima dello sviluppo di foglia e frutto) può causare sulle 
 ;           strutture presenti (tralcio, ceppo e infiorescenza - ma non foglia e grappolo) ferite (tacche) nelle quali
 ;           trovano terreno fertile i batteri
-(defrule potatura_primavera
-    (potatura si)
-    =>
-    (assert (category(name batteri)(membership middle)))
-    ;(assert (sintomo (struttura tralcio) 
-    ;                 (tacche si)))
-    ;(assert (sintomo (struttura ceppo) 
-    ;                 (tacche si)))
-    ;(assert (sintomo (struttura infiorescenza) 
-    ;                 (tacche si)))
-    (printout t "Potatura primaverile -> Tacche -> Batteri" crlf)
-)
+;(defrule potatura_primavera
+;    (potatura si)
+;    =>
+;    (assert (category(name batteri)(membership middle)))
+;    ;(assert (sintomo (struttura tralcio) 
+;    ;                 (tacche si)))
+;    ;(assert (sintomo (struttura ceppo) 
+;    ;                 (tacche si)))
+;    ;(assert (sintomo (struttura infiorescenza) 
+;    ;                 (tacche si)))
+;    (printout t "Potatura primaverile -> Tacche -> Batteri" crlf)
+;)
 
 
-;Semantica: la grandine, in qualsiasi stagione, può causare sulle strutture presenti, ferite (tacche) nelle quali trovano
-;           terreno fertile i batteri
-(defrule grandine
-    (precipitazioni grandine)
-    =>
-    (assert (category(name batteri)(membership middle)))
-    ;(if (and (season summer)
-    ;         (temperatura high))
-    ;    then (printout t "grandine estiva" crlf))
-    (printout t "Grandine -> Tacche -> Batteri" crlf)
-)
-
-
-;Semantica: i nematodi possono essere vettori di virus
-(defrule nematodi_virus
-    (category (name nematodi)(membership high))
-    =>
-    (assert (category (name virus)(membership middle)))
-    (printout t "Nematodi -> Virus" crlf)
-)

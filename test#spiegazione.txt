@@ -1,0 +1,14 @@
+1@ Ho bisogno di sapere in che giorno è richiesta la diagnosi
+1@ per contestualizzarlo in una stagione, dedurre la temperatura
+1@ e le strutture presenti sulla pianta in base alla sua fase
+1@ fenologica al fine di fare domande giuste sui sintomi.
+2@ Ho bisogno di sapere se il problema è esteso o localizzato 
+2@ per capire quali categorie potrebbero essere più probabili e 
+2@ instradare la diagnosi verso quella giusta.
+3@ Ho bisogno di sapere se nell'ultimo periodo si sono verificate 
+3@ precipitazioni e di che tipo per determinare la loro influenza 
+3@ sulle categorie di patologie che conosco. 
+4@ So che stai richiedendo la diagnosi in inverno o primavera, 
+4@ in genere in queste stagioni si eseguono operazioni di manutenzione 
+4@ sulla vite, ho bisogno di sapere se sono state effettuate perchè 
+4@ potrebbero essere influenti su alcune categorie.
