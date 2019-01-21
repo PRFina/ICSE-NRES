@@ -54,9 +54,12 @@
 (load* "test_deffacts.clp")
 
 
-(reset)
-(focus SYS)
-;(watch focus)
-;(watch rules)
-;(watch facts)
-(run 500)
+
+;(reset)
+(watch focus)
+(watch rules)
+
+(watch activations)
+(watch facts)
+;(focus SYS)
+(run 350)

@@ -1,10 +1,20 @@
 ;regole che si attivano in caso di malattie diagnosticate
 
+
+(deffunction diagnosys_completed (?name ?status_fact)
+    (printout t "La malattia è: " ?name  crlf)
+	(modify ?status_fact (phase FOUND) (sequence))
+    (focus SYS)
+)
+
+
 ;;;;;;;;;;;;;;
 ;;; FUNGHI ;;;
 ;;;;;;;;;;;;;;
 
-(defrule DGNSYS::peronospora  
+(defrule DGNSYS::peronospora
+?f <- (system_status (mode diagnosys))  
+
     (oav(object foglia)
         (attribute macchiaforma)
         (value regolare))
@@ -32,11 +42,13 @@
         (attribute disseccamento)
         (value si))
     =>
-    (printout t "La malattia è: Peronospora" crlf)
+	(diagnosys_completed "Peronospora" ?f)
+	
 )
 
 
 (defrule DGNSYS::oidio
+?f <- (system_status (mode diagnosys))
 
     (oav(object foglia)
         (attribute macchiacolore)
@@ -66,11 +78,13 @@
         (attribute deformazione)
         (value si))
     =>
-    (printout t "La malattia è: Oidio" crlf)
+	(diagnosys_completed "Oidio" ?f)
+	
 )
 
 
 (defrule DGNSYS::botrite
+?f <- (system_status (mode diagnosys))
     (oav(object foglia)
         (attribute macchiacolore)
         (value giallo))
@@ -89,12 +103,15 @@
         (attribute colore)
         (value bruno))
 	=>
-    (printout t "La malattia è: Botrite" crlf)
+	(diagnosys_completed "Botrite" ?f)
+	
+    
 )
 
 
-(defrule DGNSYS::marciumeradicale    
-    (oav(object foglia)
+(defrule DGNSYS::marciumeradicale
+?f <- (system_status (mode diagnosys))
+   (oav(object foglia)
         (attribute disseccamento)
         (value si))
 
@@ -106,11 +123,14 @@
         (attribute macchiacolore)
         (value bianco))
     =>
-    (printout t "La malattia è: Marciume Radicale" crlf)
+	(diagnosys_completed "Marciume Radicale" ?f)
+	
+    
 )
 
 
 (defrule DGNSYS::verticilliosi
+?f <- (system_status (mode diagnosys))
     (oav(object foglia)
         (attribute disseccamento)
         (value si))
@@ -119,11 +139,13 @@
         (attribute tacche)
         (value si))
     =>
-    (printout t "La malattia è: Verticilliosi" crlf)
+	(diagnosys_completed "Verticilliosi" ?f)
+	
 )
 
 
 (defrule DGNSYS::maldellesca
+?f <- (system_status (mode diagnosys))
     (oav(object foglia)
         (attribute macchiacolore)
         (value giallo))
@@ -151,11 +173,13 @@
         (attribute deformazione)
         (value si))
     =>
-    (printout t "La malattia è: Mal dell' esca" crlf)
+	(diagnosys_completed "Mal dell' esca" ?f)
+	
 )
 
 
 (defrule DGNSYS::marciumebianco
+?f <- (system_status (mode diagnosys))
 
     (oav(object grappolo)
         (attribute macchiacolore)
@@ -168,11 +192,13 @@
         (attribute tacche)
         (value si))
     =>
-    (printout t "La malattia è: Marciume Bianco" crlf)
+	(diagnosys_completed "Marciume Bianco" ?f)
+	
 )             
 
 
 (defrule DGNSYS::marciumenero
+?f <- (system_status (mode diagnosys))
     (oav(object foglia)
         (attribute colore)
         (value bruno))
@@ -195,7 +221,8 @@
         (value bianco|bruno|nero))
 
     =>
-    (printout t "La malattia è: Marciume Nero" crlf)
+	(diagnosys_completed "Marciume Nero" ?f)
+	
 )
 
 
@@ -204,6 +231,7 @@
 ;;;;;;;;;;;;;;;;
 
 (defrule DGNSYS::rognadellavite
+?f <- (system_status (mode diagnosys))
     (oav(object tralcio)
         (attribute tacche)
         (value si))
@@ -224,7 +252,8 @@
         (attribute colore)
         (value bruno))
     =>
-    (printout t "La malattia è: Rogna della Vite" crlf)
+	(diagnosys_completed "Rogna della Vite" ?f)
+	
 )
 
 
@@ -233,6 +262,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defrule DGNSYS::fitoplasmidellavite
+?f <- (system_status (mode diagnosys))
     (oav(object foglia)
         (attribute colore)
         (value giallo|rosso))
@@ -261,7 +291,8 @@
         (attribute macchiaforma)
         (value puntiforme))
     =>
-    (printout t "La malattia è: Fitoplasmi della Vite" crlf)
+	(diagnosys_completed "Fitoplasmi della Vite" ?f)
+	
 )
 
 
@@ -270,6 +301,7 @@
 ;;;;;;;;;;;;;;;;;
 
 (defrule DGNSYS::nematodi
+?f <- (system_status (mode diagnosys))
     (oav(object ceppo)
         (attribute escrescenze)
         (value si))
@@ -278,7 +310,8 @@
         (attribute escrescenze)
         (value si))
     =>
-    (printout t "La malattia è: Nematodi" crlf)
+	(diagnosys_completed "Nematodi" ?f)
+	
 )
 
 
@@ -287,6 +320,7 @@
 ;;;;;;;;;;;;;;;;
 
 (defrule DGNSYS::cocciniglia
+?f <- (system_status (mode diagnosys))
     (oav(object foglia)
         (attribute disseccamento)
         (value si))
@@ -298,11 +332,13 @@
         (attribute fattoredsm)
         (value basso))
     =>
-    (printout t "La malattia è: Cocciniglia" crlf)
+	(diagnosys_completed "Cocciniglia" ?f)
+	
 )
 
 
 (defrule DGNSYS::tripidedellavite
+?f <- (system_status (mode diagnosys))
     (oav(object foglia)
         (attribute macchiacolore)
         (value giallo))
@@ -324,11 +360,13 @@
         (attribute macchiacolore)
         (value giallo))
     =>
-    (printout t "La malattia è: Tripide della Vite" crlf)
+	(diagnosys_completed "Tripide della Vite" ?f)
+	
 )
 
 
-(defrule DGNSYS::tignolettadellavite    
+(defrule DGNSYS::tignolettadellavite
+?f <- (system_status (mode diagnosys))    
     (oav(object grappolo)
         (attribute colore)
         (value bruno))
@@ -336,11 +374,13 @@
         (attribute puntura)
         (value si))
     =>
-    (printout t "La malattia è: Tignoletta della Vite" crlf)
+	(diagnosys_completed "Tignoletta della Vite" ?f)
+	
 )
 
 
-(defrule DGNSYS::tignola   
+(defrule DGNSYS::tignola
+?f <- (system_status (mode diagnosys))   
     (oav(object foglia)
         (attribute disseccamento)
         (value si))
@@ -356,11 +396,13 @@
         (attribute fattoredsm)
         (value aborto))
     =>
-    (printout t "La malattia è: Tignola" crlf)
+	(diagnosys_completed "Tignola" ?f)
+	
 )
 
 
-(defrule DGNSYS::tetranichidae   
+(defrule DGNSYS::tetranichidae
+?f <- (system_status (mode diagnosys))   
 
     (oav(object foglia)
         (attribute colore)
@@ -376,7 +418,8 @@
         (attribute fattoredsm)
         (value basso))
     =>
-    (printout t "La malattia è: Tetranichidae" crlf)
+	(diagnosys_completed "Tetranichidae" ?f)
+	
 )
 
 
@@ -385,6 +428,7 @@
 ;;;;;;;;;;;;;;
 
 (defrule DGNSYS::legnoriccio
+?f <- (system_status (mode diagnosys))
     (oav(object foglia)
         (attribute colore)
         (value giallo))
@@ -397,11 +441,13 @@
         (attribute tacche)
         (value si))
     =>
-    (printout t "La malattia è: Legno Riccio" crlf)
+	(diagnosys_completed "Legno Riccio" ?f)
+	
 )
 
 
 (defrule DGNSYS::accartocciamento
+?f <- (system_status (mode diagnosys))
     (oav(object foglia)
         (attribute deformazione)
         (value si))
@@ -417,11 +463,13 @@
         (attribute fattoredsm)
         (value irregolare))
     =>
-    (printout t "La malattia è: Accartocciamento Fogliare" crlf)
+	(diagnosys_completed "Accartocciamento Fogliare" ?f)
+	
 )
 
 
 (defrule DGNSYS::arricciamento
+?f <- (system_status (mode diagnosys))
     (oav(object foglia)
         (attribute deformazione)
         (value si))
@@ -443,5 +491,6 @@
         (attribute fattoredsm)
         (value aborto))
     =>
-    (printout t "La malattia è: Arricciamento Fogliare" crlf)
+	(diagnosys_completed "Arricciamento Fogliare" ?f)
+	
 )
