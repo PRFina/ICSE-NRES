@@ -62,5 +62,5 @@
 
     =>
     (retract ?fs)
-    (retract ?f)
+
 ) 
