@@ -59,15 +59,6 @@
 
 
 
-;;TODO maybe is useless?? (is counter != 0 when glob =0?)
-(defrule PROC::clean_rank_counter
-    (system_status (phase PROC-clean)
-                          (mode diagnosys))
-    ?f <- (damaged_struct (symptoms_freq ?c&:(eq ?c 0)))   
-    =>
-    (retract ?f)
-)
-
 (defrule PROC::clean_rank_global
     (system_status (phase PROC-clean)
                    (mode diagnosys))
@@ -76,8 +67,8 @@
     (retract ?f)
 )
 
-(defrule PROC::reset_rank
-    (system_status (phase PROC-reset)
+(defrule CLEAN::reset_rank
+    (system_status (phase CLEAN)
                    (mode diagnosys))
     ?f <- (damaged_struct (symptoms_freq ?c&:(neq ?c 0))
                           (rank ?gr&:(neq ?gr 0)))
@@ -92,8 +83,7 @@
     (not (update_rank))
     =>
     (modify ?fp (phase PROC-clean))
-    (assert (phase-clean))
-    (printout t "Fase rank finita, starting cleaning" crlf)
+
 )
 
 

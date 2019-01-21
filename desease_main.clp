@@ -24,6 +24,10 @@
 (load "environment_templates.clp")
 (load "environment_rules.clp")
 
+(defmodule CLEAN
+    (import SYS ?ALL)
+)
+
 (defmodule PROC 
     (export deftemplate symptom damaged_struct QandA desease)
     (export deffunction init_rank)
@@ -55,4 +59,4 @@
 (watch focus)
 (watch rules)
 (watch facts)
-(run)
+(run 500)
