@@ -59,15 +59,8 @@
                   (answer ?risp))
     ?fs  <- (symptom (structure ?s)
                      (name ?smo))
-(deffunction range_two_val(?first ?second)
-    (bind $?value (create$))
-    (if (< ?first ?second)
-    then
-        (loop-for-count (?i ?first ?second) do
-            (bind $?value (insert$ ?value 1 ?i))
-        )
-    )
-    $?value
+    =>
+    (retract ?fs)
 )
 
 (deffunction why_explanation(?r)
@@ -92,21 +85,6 @@
     (close)
 )
 
-(defrule day_question
-    (phase-environment)
-    =>
-    (bind $?range_day (range_two_val 1 365))
-    (bind ?x x)
-    (while (eq ?x x)
-        (bind ?value (ask_question "Inserire giorno: (1 - 365) | perchè? [x]" $?range_day x))
-        (if (eq ?value x)
-            then (why_explanation 1)
-            else
-                (assert (current_day (real_to_system_calendar ?value)))
-                (bind ?x a)
-        )
-    )
-)
 
 ;(defrule how_environment
 ;    (how-explanation)
@@ -123,24 +101,6 @@
 ;    )
 ;)
 
-(defrule estensione_question
-    (current_day ?x)
-    =>
-    (retract ?fs)
-
-) 
-
-    (bind ?x x)
-    (while (eq ?x x)
-        (bind ?ans (ask_question "L'estensione della malattia è localizzata o estesa a tutta la vigna? (localizzata | estesa) | perchè? [x]" localizzata estesa x))
-        (if (eq ?ans x)
-            then (why_explanation 2)
-            else 
-                (assert (estensione ?ans))
-                (bind ?x a)
-        )
-    )
-)
 
 ;Domanda che potrebbe triggerare le euristiche: grandine, tre_dieci, due_quindici, def_temp_mid_funghi
 (defrule precipitazioni_question
