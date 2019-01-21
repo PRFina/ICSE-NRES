@@ -42,13 +42,17 @@
 
 (deffunction SYS::select_option_system()
     (bind ?answer (read))
+    (while (not (member$ ?answer (create$ 1 2 3)))
+        (printout t "Scegli un opzione valida!" crlf)
+        (bind ?answer (read))
+    )
     (switch ?answer
         
         (case 1 then 
             (init_rank)
             (assert (system_status (phase ENV)
                                    (mode diagnosys)
-                                   (sequence PROC QGEN DGNSYS)))
+                                   (sequence PROC QGEN DGNSYS CLEAN)))
             (focus ENV)
         )
         (case 2 then 
