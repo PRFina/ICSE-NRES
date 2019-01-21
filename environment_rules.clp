@@ -1,5 +1,5 @@
 ;; Season Rules
-(defrule define_season
+(defrule ENV::define_season
     (current_day ?day)
     =>
     (bind ?range 5)
@@ -18,26 +18,26 @@
 
 
 ;; Temperature Rules
-(defrule define_temperature_low
+(defrule ENV::define_temperature_low
     (season winter)
     =>
     (assert (temperature low))
 )
 
-(defrule define_temperature_middle
+(defrule ENV::define_temperature_middle
     (season spring or autumn)
     =>
     (assert (temperature middle))
 )
 
-(defrule define_temperature_high
+(defrule ENV::define_temperature_high
     (season summer)
     =>
     (assert (temperature high))
 )
 
 ;; Regole fase fenologica
-(defrule fase_fenologica_riposo
+(defrule ENV::fase_fenologica_riposo
     (season winter)
     (temperature low)
     =>
@@ -49,7 +49,7 @@
     (assert (grapevine (phenological_phase riposo)(structure grappolo)(value absent)))
 )
 
-(defrule fase_fenologica_riposo_vegetativa
+(defrule ENV::fase_fenologica_riposo_vegetativa
     (season winter)
     (temperature middle)
     =>
@@ -61,7 +61,7 @@
     (assert (grapevine (phenological_phase riposo_vegetativa)(structure grappolo)(value absent)))
 )
 
-(defrule fase_fenologica_vegetativa
+(defrule ENV::fase_fenologica_vegetativa
     (season somewhat spring and not winter)
     (temperature somewhat middle and not low)
     =>
@@ -73,7 +73,7 @@
     (assert (grapevine (phenological_phase vegetativa)(structure grappolo)(value absent)))
 )
 
-(defrule fase_fenologica_vegetativa_riproduttiva
+(defrule ENV::fase_fenologica_vegetativa_riproduttiva
     (season somewhat spring and not summer)
     (temperature somewhat middle and not high)
     =>
@@ -85,7 +85,7 @@
     (assert (grapevine (phenological_phase vegetativa_riproduttiva)(structure grappolo)(value growing)))
 )
 
-(defrule fase_fenologica_riproduttiva
+(defrule ENV::fase_fenologica_riproduttiva
     (season somewhat summer and not spring)
     (temperature somewhat high and not middle)
     =>
@@ -97,7 +97,7 @@
     (assert (grapevine (phenological_phase riproduttiva)(structure grappolo)(value full)))
 )
 
-(defrule fase_fenologica_riproduttiva_riposo
+(defrule ENV::fase_fenologica_riproduttiva_riposo
     (season very autumn)
     (temperature very middle)
     =>
@@ -110,7 +110,7 @@
 )
 
 ;; Regole cateogorie malattie
-(defrule estensione_localizzata
+(defrule ENV::estensione_localizzata
    (estensione localizzata)
    =>
    (assert (category(name insetti)(membership high)))
@@ -121,7 +121,7 @@
    (assert (category(name fitoplasmi)(membership low)))
 )
 
-(defrule estensione_estesa
+(defrule ENV::estensione_estesa
    (estensione estesa)
    =>
    (assert (category(name insetti)(membership low)))
@@ -134,47 +134,46 @@
 
 
 ;; Debug rules
-(defrule plot_season
+(defrule ENV::plot_season
+    (system_status (phase ENV)
+                   (mode debug))
     ?f <- (season ?x)
     =>
-    ;(plot-fuzzy-value t "*+-,^" 1 365
-    ;    (create-fuzzy-value season winter)
-    ;    (create-fuzzy-value season spring)
-    ;    (create-fuzzy-value season summer)
-    ;    (create-fuzzy-value season autumn)
-    ;    ?f   
-    ;)
+    (plot-fuzzy-value t "*+-,^" 1 365
+        (create-fuzzy-value season winter)
+        (create-fuzzy-value season spring)
+        (create-fuzzy-value season summer)
+        (create-fuzzy-value season autumn)
+        ?f   
+    )
     (printout t "Defuzzified Season: " (moment-defuzzify ?f) crlf)
 )
 
-(defrule plot_temperature
+(defrule ENV::plot_temperature
+    (system_status (phase ENV)
+                   (mode debug))
     ?f <- (temperature ?x)
     =>
-    ;(plot-fuzzy-value t ".+-^" -15 40
-    ;    (create-fuzzy-value temperature low)
-    ;    (create-fuzzy-value temperature middle)
-    ;    (create-fuzzy-value temperature high)
-    ;    ?f   
-    ;)
+    (plot-fuzzy-value t ".+-^" -15 40
+        (create-fuzzy-value temperature low)
+        (create-fuzzy-value temperature middle)
+        (create-fuzzy-value temperature high)
+        ?f   
+    )
     (printout t "Defuzzified Temperature: " (moment-defuzzify ?f) crlf)
 )
 
-(defrule plot_membership
+(defrule ENV::plot_membership
+    (system_status (phase ENV)
+                   (mode debug))
     ?f <- (category (name ?x) (membership ?y))
     =>
-    ;(bind ?value (nth$ 2 (deftemplate-slot-allowed-values category (get-fuzzy-slot ?f membership) ) ))
-    ;(plot-fuzzy-value t “.+-^” 0 100
-    ;    ;(create-fuzzy-value memb ?y)
-    ;    (create-fuzzy-value memb low)
-    ;    (create-fuzzy-value memb middle)
-    ;    (create-fuzzy-value memb high)
-    ;    ;?f
-    ;)
     (printout t "Defuzzified Membership: "?x crlf (moment-defuzzify (get-fuzzy-slot ?f membership)) crlf)
 )
 
-(defrule debug_fase_struttura
-    (mode-debug)
+(defrule ENV::debug_fase_struttura
+    (system_status (phase ENV)
+                   (mode debug))
     ?f <- (grapevine (phenological_phase ?fase)
                      (structure ?structure)
                      (value ?value))
@@ -184,4 +183,22 @@
     (printout t "Defuzzified structure: " ?structure crlf)
     (printout t "Defuzzified value: " (moment-defuzzify (get-fuzzy-slot ?f value)) crlf)
     (printout t "-------------------------" crlf)
+)
+
+
+(defrule ENV::day_question
+    (system_status (phase ENV)
+                   (mode diagnosys))
+    =>
+    (printout t "Inserire data (gg-mm-aaaa)" crlf)
+    (bind ?value (read))
+    (bind ?value (get-day-from-date ?value))
+    (assert (current_day (real_to_system_calendar ?value)))
+)
+
+(defrule ENV::estensione_question
+    (current_day ?x)
+    =>
+    (bind ?ans (ask_question "L'estensione della malattia è localizzata o estesa a tutta la vigna? (localizzata | estesa)" localizzata estesa))
+    (assert (estensione ?ans))
 )

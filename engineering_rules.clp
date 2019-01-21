@@ -1,4 +1,4 @@
-(defrule expert_quest
+(defrule LEARN::expert_quest
     ?f <- (mode_engineering)
     =>
     (retract ?f)
@@ -12,13 +12,13 @@
     (assert (phases symptom_question))
 )
 
-;(defrule check_symptom_quest
-;    ?f <- (phases symptom_question)
-;    =>
-;    (assert (desease (name ?desease) (category ?category)))
-;)
+(defrule LEARN::check_symptom_quest
+    ?f <- (phases symptom_question)
+    =>
+    (assert (desease (name ?desease) (category ?category)))
+)
 
-(defrule symptom_quest
+(defrule LEARN::symptom_quest
     ?f <- (phases symptom_question)
     ?f1 <- (desease (name ?desease) (category ?category))
     =>

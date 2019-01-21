@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;
 ;;; FUNGHI ;;;
 ;;;;;;;;;;;;;;
-(deffacts initial_patologie
+(deffacts PROC::initial_patologie
     (desease(name peronospora)
             (category funghi))
     (symptom(desease peronospora)

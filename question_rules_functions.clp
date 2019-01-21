@@ -1,31 +1,23 @@
 
-(deffunction ask_question (?question $?allowed-values)
-    (printout t ?question crlf)
-    (bind ?answer (read))
-    (if (lexemep ?answer) 
-        then (bind ?answer (lowcase ?answer)))
-    (while (not (member$ ?answer ?allowed-values)) do
-        (printout t ?question)
-        (bind ?answer (read))
-        (if (lexemep ?answer) 
-            then (bind ?answer (lowcase ?answer)))
+;get the fact-address of damaged_struct  with category category in the pos rank position
+(deffunction QGEN::get_rank_pos(?pos)
+    (bind ?facts_to_be_sorted
+        (find-all-facts ((?f damaged_struct))
+            (neq ?f:symptoms_freq 0)
+        )
     )
-    (if (eq ?answer altro) 
-        then (printout t "quale?")
-             (bind ?answer (read)))
-    (if (lexemep ?answer) 
-        then (bind ?answer (lowcase ?answer))) 
-    ?answer
+    (bind ?sorted_facts (sort sorting ?facts_to_be_sorted))
+    (return (nth$ ?pos ?sorted_facts))
 )
 
-(deffunction binary_question (?question)
-    (bind ?response (ask_question ?question yes no y n))
-    (if (or (eq ?response yes) (eq ?response y))
-        then TRUE 
-    else FALSE)
+;funzione di ordinamento decrescente
+(deffunction QGEN::sorting(?a ?b)
+    (return (< (fact-slot-value ?a rank)(fact-slot-value ?b rank)))
 )
 
-(deffunction get_allowed_values (?struttura ?sintomo)
+
+
+(deffunction QGEN::get_allowed_values (?struttura ?sintomo)
     (bind ?allowed_values (create$))
 
     (do-for-all-facts ((?s symptom))
@@ -37,15 +29,16 @@
     (insert$ ?allowed_values (+ 1 (length$ ?allowed_values)) altro)
 )
 
-(deffunction build_question (?struttura ?sintomo)
+(deffunction QGEN::build_question (?struttura ?sintomo)
     (bind ?allowed_values (get_allowed_values ?struttura ?sintomo))
     (bind ?answer (ask_question (format nil "La struttura %s presenta %s? (%s)" ?struttura ?sintomo (implode$ ?allowed_values))
                   ?allowed_values))
     ?answer
 )
 
-(defrule generate_question
-    (phase-question) ;; activation flag
+(defrule QGEN::generate_question
+    (system_status (phase QGEN)
+                   (mode diagnosys))
     ?f <-(damaged_struct (structure ?s)
                          (symptoms $? ?as $?))    
     (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
@@ -57,6 +50,15 @@
                    (answer ?answer)))
 )
 
+; Retract symptoms related with question
+(defrule QGEN::clean_symptoms_by_evidence
+    (system_status (phase QGEN)
+                   (mode diagnosys))
+    ?f  <- (QandA (structure ?s)
+                  (symptom ?smo)
+                  (answer ?risp))
+    ?fs  <- (symptom (structure ?s)
+                     (name ?smo))
 (deffunction range_two_val(?first ?second)
     (bind $?value (create$))
     (if (< ?first ?second)
@@ -124,6 +126,10 @@
 (defrule estensione_question
     (current_day ?x)
     =>
+    (retract ?fs)
+
+) 
+
     (bind ?x x)
     (while (eq ?x x)
         (bind ?ans (ask_question "L'estensione della malattia è localizzata o estesa a tutta la vigna? (localizzata | estesa) | perchè? [x]" localizzata estesa x))
