@@ -57,12 +57,19 @@
             (focus ENV)
         )
         (case 2 then 
-             (assert (system_status (phase ENV)
-                                    (mode engineering)))
+            (assert (system_status (phase LEARN)
+                                   (mode engineering)))
             (run)
         )
-        (case 3 then 
-            (assert (mode_debug))
+        (case 3 then
+            (watch focus)
+            (watch rules)
+            (watch activations)
+            (watch facts)
+            (assert (system_status (phase ENV)
+                                   (mode diagnosys)
+                                   (sequence PROC QGEN DGNSYS CLEAN)))
+            (focus ENV)
             (run)
         )
     ) 

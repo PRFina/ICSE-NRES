@@ -56,10 +56,6 @@
 
 
 ;(reset)
-(watch focus)
-(watch rules)
 
-(watch activations)
-(watch facts)
 ;(focus SYS)
 (run 350)
