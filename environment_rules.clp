@@ -168,14 +168,6 @@
                    (mode debug))
     ?f <- (category (name ?x) (membership ?y))
     =>
-    (bind ?value (nth$ 2 (deftemplate-slot-allowed-values category (get-fuzzy-slot ?f membership) ) ))
-    (plot-fuzzy-value t “.+-^” 0 100
-        ;(create-fuzzy-value memb ?y)
-        (create-fuzzy-value memb low)
-        (create-fuzzy-value memb middle)
-        (create-fuzzy-value memb high)
-        ;?f
-    )
     (printout t "Defuzzified Membership: "?x crlf (moment-defuzzify (get-fuzzy-slot ?f membership)) crlf)
 )
 
