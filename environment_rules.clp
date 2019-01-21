@@ -190,8 +190,9 @@
     (system_status (phase ENV)
                    (mode diagnosys))
     =>
-    (bind $?range_day (range_two_val 1  365))
-    (bind ?value (ask_question "Inserire giorno: (1 - 365)" $?range_day))
+    (printout t "Inserire data (gg-mm-aaaa)" crlf)
+    (bind ?value (read))
+    (bind ?value (get-day-from-date ?value))
     (assert (current_day (real_to_system_calendar ?value)))
 )
 
