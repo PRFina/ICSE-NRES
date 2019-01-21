@@ -43,6 +43,12 @@
     )
 $?value
 )
+
+;; Needed because restart clear the focus stack and return the focus to the main module
+(defrule MAIN::init 
+    =>
+    (focus SYS)
+)
  
 ;Function to star app
 
