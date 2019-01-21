@@ -16,6 +16,7 @@
                    (mode ?m)
                    (sequence ?next $?tail))
     =>
+    ;(facts *)
     (focus ?next)
     (modify ?f (phase ?next) (mode ?m) (sequence ?tail ?next))
 )
@@ -76,6 +77,15 @@
     (close data)
 )
 
+(defrule SYS::restart_system
+    ?f <- (system_status (phase FOUND)
+                         (mode diagnosys))
+    =>
+    ;(facts *)
+    (retract ?f)
+    (show_interface "interface.gui")
+    (select_option_system)
+)
 
 (defrule SYS::init_system
     =>
