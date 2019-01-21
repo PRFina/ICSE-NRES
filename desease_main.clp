@@ -9,9 +9,10 @@
 (load "utility_func.clp")
 
 (defmodule SYS (export ?ALL))
-(load "metarules.clp")
+(load "system.clp")
 
 (defmodule DGNSYS 
+    (import SYS ?ALL)
     (export deftemplate oav))
 (load "diagnosis_templates.clp")
 (load "diagnosis_rule.clp")
@@ -19,13 +20,14 @@
 (defmodule ENV 
     (export deftemplate category lifetime grapevine memb)
     (import MAIN ?ALL)
-    (import SYS deftemplate system_status))
+    (import SYS ?ALL))
 (load "environment_templates.clp")
 (load "environment_rules.clp")
 
 (defmodule PROC 
     (export deftemplate symptom damaged_struct QandA desease)
     (export deffunction init_rank)
+    (import SYS ?ALL)
     (import ENV deftemplate category lifetime grapevine memb))
 (load "desease_templates.clp")
 (load "desease_rules.clp")
@@ -33,7 +35,7 @@
 (defmodule QGEN 
     (import PROC deftemplate symptom damaged_struct QandA)
     (import DGNSYS deftemplate oav)
-    (import SYS deftemplate system_status)
+    (import SYS ?ALL)
     (import MAIN ?ALL))
 (load "question_rules_functions.clp")
 
@@ -51,6 +53,6 @@
 (reset)
 (focus SYS)
 (watch focus)
-(watch facts)
 (watch rules)
+(watch facts)
 (run)

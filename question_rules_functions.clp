@@ -37,7 +37,8 @@
 )
 
 (defrule QGEN::generate_question
-    (phase-question) ;; activation flag
+    (system_status (phase QGEN)
+                   (mode diagnosys))
     ?f <-(damaged_struct (structure ?s)
                          (symptoms $? ?as $?))    
     (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
@@ -48,3 +49,18 @@
                    (symptom ?as)
                    (answer ?answer)))
 )
+
+; Retract symptoms related with question
+(defrule QGEN::clean_symptoms_by_evidence
+    (system_status (phase QGEN)
+                   (mode diagnosys))
+    ?f  <- (QandA (structure ?s)
+                  (symptom ?smo)
+                  (answer ?risp))
+    ?fs  <- (symptom (structure ?s)
+                     (name ?smo))
+
+    =>
+    (retract ?fs)
+    (retract ?f)
+) 

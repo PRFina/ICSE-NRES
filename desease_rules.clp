@@ -2,7 +2,8 @@
 
 ;check all struttura and category elements that matchs
 (defrule PROC::check_update_rank
-    (phase-rank)
+    (system_status (phase PROC)
+                   (mode diagnosys))
     ?f <- (symptom (desease ?d)
                    (structure ?s)
                    (name ?n))
@@ -60,21 +61,24 @@
 
 ;;TODO maybe is useless?? (is counter != 0 when glob =0?)
 (defrule PROC::clean_rank_counter
-    (phase-clean)
+    (system_status (phase PROC-clean)
+                          (mode diagnosys))
     ?f <- (damaged_struct (symptoms_freq ?c&:(eq ?c 0)))   
     =>
     (retract ?f)
 )
 
 (defrule PROC::clean_rank_global
-    (phase-clean)
+    (system_status (phase PROC-clean)
+                   (mode diagnosys))
     ?f <- (damaged_struct (rank ?gr&:(eq ?gr 0)))   
     =>
     (retract ?f)
 )
 
 (defrule PROC::reset_rank
-    (phase-reset)
+    (system_status (phase PROC-reset)
+                   (mode diagnosys))
     ?f <- (damaged_struct (symptoms_freq ?c&:(neq ?c 0))
                           (rank ?gr&:(neq ?gr 0)))
     =>
@@ -82,48 +86,16 @@
 )
 
 
-; Retract symptoms related with with question
-(defrule PROC::clean_sintomi_by_evidence
-    ?ph <- (phase-question)
-    ?f  <- (QandA (structure ?s)
-                  (symptom ?smo)
-                  (answer ?risp))
-    ?fs  <- (symptom (structure ?s)
-                     (name ?smo))
-
-    =>
-    (retract ?fs)
-    (retract ?f)
-) 
-
 (defrule PROC::from_rank_to_clean
-    ?fp <- (phase-rank)
+    ?fp <- (system_status (phase PROC)
+                          (mode diagnosys))
     (not (update_rank))
     =>
-    (retract ?fp)
+    (modify ?fp (phase PROC-clean))
     (assert (phase-clean))
     (printout t "Fase rank finita, starting cleaning" crlf)
 )
 
-(deffunction PROC::init_rank()
-    (bind ?categories (deftemplate-slot-allowed-values desease category))
-    (bind ?structures (deftemplate-slot-allowed-values symptom structure))
-
-    (loop-for-count (?i 1 (length$ ?categories))
-        do
-        (bind ?category (nth$ ?i ?categories))
-        
-        (loop-for-count (?j 1 (length$ ?structures))
-            do
-            (bind ?structure (nth$ ?j ?structures))
-            (assert (damaged_struct (category ?category)
-                                    (structure ?structure)
-                                    (symptoms_freq 0)
-                                    (symptoms (create$))
-                                    (rank 0)))
-        )
-    )
-)
 
 
 

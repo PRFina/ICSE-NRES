@@ -11,13 +11,7 @@
 )
 
 
-;template per classificare gli elementi di struttura
-(deftemplate PROC::damaged_struct (slot category)
-                            (slot structure)
-                            (slot symptoms_freq)
-                            (multislot symptoms)
-                            (slot rank)
-)
+
 
 ;modella la risposta dell'utente
 (deftemplate PROC::QandA (slot structure)

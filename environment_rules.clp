@@ -135,46 +135,53 @@
 
 ;; Debug rules
 (defrule ENV::plot_season
+    (system_status (phase ENV)
+                   (mode debug))
     ?f <- (season ?x)
     =>
-    ;(plot-fuzzy-value t "*+-,^" 1 365
-    ;    (create-fuzzy-value season winter)
-    ;    (create-fuzzy-value season spring)
-    ;    (create-fuzzy-value season summer)
-    ;    (create-fuzzy-value season autumn)
-    ;    ?f   
-    ;)
+    (plot-fuzzy-value t "*+-,^" 1 365
+        (create-fuzzy-value season winter)
+        (create-fuzzy-value season spring)
+        (create-fuzzy-value season summer)
+        (create-fuzzy-value season autumn)
+        ?f   
+    )
     (printout t "Defuzzified Season: " (moment-defuzzify ?f) crlf)
 )
 
 (defrule ENV::plot_temperature
+    (system_status (phase ENV)
+                   (mode debug))
     ?f <- (temperature ?x)
     =>
-    ;(plot-fuzzy-value t ".+-^" -15 40
-    ;    (create-fuzzy-value temperature low)
-    ;    (create-fuzzy-value temperature middle)
-    ;    (create-fuzzy-value temperature high)
-    ;    ?f   
-    ;)
+    (plot-fuzzy-value t ".+-^" -15 40
+        (create-fuzzy-value temperature low)
+        (create-fuzzy-value temperature middle)
+        (create-fuzzy-value temperature high)
+        ?f   
+    )
     (printout t "Defuzzified Temperature: " (moment-defuzzify ?f) crlf)
 )
 
 (defrule ENV::plot_membership
+    (system_status (phase ENV)
+                   (mode debug))
     ?f <- (category (name ?x) (membership ?y))
     =>
-    ;(bind ?value (nth$ 2 (deftemplate-slot-allowed-values category (get-fuzzy-slot ?f membership) ) ))
-    ;(plot-fuzzy-value t “.+-^” 0 100
-    ;    ;(create-fuzzy-value memb ?y)
-    ;    (create-fuzzy-value memb low)
-    ;    (create-fuzzy-value memb middle)
-    ;    (create-fuzzy-value memb high)
-    ;    ;?f
-    ;)
+    (bind ?value (nth$ 2 (deftemplate-slot-allowed-values category (get-fuzzy-slot ?f membership) ) ))
+    (plot-fuzzy-value t “.+-^” 0 100
+        ;(create-fuzzy-value memb ?y)
+        (create-fuzzy-value memb low)
+        (create-fuzzy-value memb middle)
+        (create-fuzzy-value memb high)
+        ;?f
+    )
     (printout t "Defuzzified Membership: "?x crlf (moment-defuzzify (get-fuzzy-slot ?f membership)) crlf)
 )
 
 (defrule ENV::debug_fase_struttura
-    (mode-debug)
+    (system_status (phase ENV)
+                   (mode debug))
     ?f <- (grapevine (phenological_phase ?fase)
                      (structure ?structure)
                      (value ?value))
