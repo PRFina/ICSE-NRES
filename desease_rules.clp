@@ -64,7 +64,7 @@
     =>
     (retract ?update_rank_fact)
     (bind ?freq (+ ?cnt 1))
-    (bind ?rank (calculate_rank (moment-defuzzify ?cat_belief) (get_structure_lifetime ?s ?lifetime) ?freq 1 1 1))
+    (bind ?rank (calculate_rank (moment-defuzzify ?cat_belief) (get_structure_lifetime ?s ?lifetime) ?freq 0.8 1 1))
     (if (not(member ?n ?as)) 
         then (bind ?as (insert$ ?as 1 ?n)))
     (modify ?f1 (symptoms_freq ?freq)

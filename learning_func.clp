@@ -10,7 +10,7 @@
     (bind ?patologia "")
     (bind ?patologia (format nil "(deffacts PROC::%s %n%n(desease (name %s) %n(category %s))%n%n" ?nome ?nome ?categoria))
     (do-for-all-facts ((?x oav))
-                      (eq 1 1)
+                      ((neq ?x:value no))
                       (bind ?patologia (str-cat ?patologia (create_string_deffacts ?nome ?x:object ?x:attribute ?x:value) (format nil "%n")))
     )
     (printout data (str-cat ?patologia ")") crlf crlf)
@@ -29,7 +29,7 @@
     (bind ?patologia (format nil "(defrule DGNSYS::%s %n%n" ?nome))
     (bind ?patologia (str-cat ?patologia (format nil "?f <- (system_status (mode diagnosys))%n")))
     (do-for-all-facts ((?x oav))
-                      (eq 1 1)
+                      ((neq ?x:value no))
                       (bind ?patologia (str-cat ?patologia (create_string_rule ?x:object ?x:attribute ?x:value) (format nil "%n") ) )
                       
     )
