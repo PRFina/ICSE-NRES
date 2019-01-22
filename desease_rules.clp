@@ -1,4 +1,15 @@
 
+(defrule PROC::go_to_learn
+    ?f <- (system_status (phase ?x)
+                         (mode diagnosys))
+    (not (symptom))
+    =>
+    (modify ?f (phase LEARN) (sequence))
+    (printout t crlf crlf "************** NO MORE SYMPTOMS ***************" crlf crlf)
+    (focus SYS)
+)
+
+
 
 ;check all struttura and category elements that matchs
 (defrule PROC::check_update_rank

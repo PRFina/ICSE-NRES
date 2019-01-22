@@ -13,10 +13,10 @@
 
 (defrule SYS::next_phase
     ?f <- (system_status (phase ?p)
-                   (mode ?m)
-                   (sequence ?next $?tail))
+                         (mode ?m)
+                         (sequence ?next $?tail))
     =>
-    (facts *)
+    ;(facts *)
     (focus ?next)
     (modify ?f (phase ?next) (mode ?m) (sequence ?tail ?next))
 )
@@ -85,7 +85,7 @@
 )
 
 (defrule SYS::restart_system
-    ?f <- (system_status (phase FOUND)
+    ?f <- (system_status (phase FOUND|LEARN)
                          (mode diagnosys))
     =>
     (reset)

@@ -56,6 +56,7 @@
 
 
 ;(reset)
-
+(watch focus)
+(watch rules)
 ;(focus SYS)
 (run 350)
