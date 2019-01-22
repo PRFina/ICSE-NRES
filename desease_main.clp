@@ -49,14 +49,15 @@
     (import PROC deftemplate desease)
     (import SYS ?ALL)
     (import MAIN ?ALL))
-
 (load* "learning_func.clp")
-
+(load* "learned_rules.clp")
+(load* "learned_deffacts.clp")
 (load* "test_deffacts.clp")
 
 
 
 ;(reset)
+;(watch facts)
 (watch focus)
 (watch rules)
 ;(focus SYS)

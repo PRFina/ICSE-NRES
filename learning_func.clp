@@ -6,7 +6,7 @@
 )
 
 (deffunction LEARN::create_patologia_deffacts(?nome ?categoria)
-    (open "learned-deffacts.txt" data "a")
+    (open "learned_deffacts.clp" data "a")
     (bind ?patologia "")
     (bind ?patologia (format nil "(deffacts PROC::%s %n%n(desease (name %s) %n(category %s))%n%n" ?nome ?nome ?categoria))
     (do-for-all-facts ((?x oav))
@@ -24,7 +24,7 @@
 )
 
 (deffunction LEARN::create_patologia_rule(?nome)
-    (open "learned-rule.txt" data "a")
+    (open "learned_rules.clp" data "a")
     (bind ?patologia "")
     (bind ?patologia (format nil "(defrule DGNSYS::%s %n%n" ?nome))
     (bind ?patologia (str-cat ?patologia (format nil "?f <- (system_status (mode diagnosys))%n")))
@@ -47,7 +47,7 @@
     =>
     (printout t "Inserire il nome della malattia: ")
     (bind ?desease (read))
-    (bind ?category (ask_question "Inserire la categoria a cui appartiene: (funghi | nematodi | batteri | fitoplasmidellavite | virus | insetti)" funghi nematodi batteri fitoplasmidellavite virus insetti))
+    (bind ?category (ask_question "Inserire la categoria a cui appartiene: (funghi | nematodi | batteri | fitoplasmi | virus | insetti)" funghi nematodi batteri fitoplasmi virus insetti))
     (assert (desease (name ?desease) (category ?category)))
     (assert (phases symptom_question))
 )
@@ -58,7 +58,7 @@
     =>
     (printout t "Inserire il nome della malattia: ")
     (bind ?desease (read))
-    (bind ?category (ask_question "Inserire la categoria a cui appartiene: (funghi | nematodi | batteri | fitoplasmidellavite | virus | insetti)" funghi nematodi batteri fitoplasmidellavite virus insetti))
+    (bind ?category (ask_question "Inserire la categoria a cui appartiene: (funghi | nematodi | batteri | fitoplasmi | virus | insetti)" funghi nematodi batteri fitoplasmi virus insetti))
     (assert (desease (name ?desease) (category ?category)))
     (bind ?ans (binary_question "La malattia ha altri sintomi? (yes y | no n)"))
     (switch ?ans 
@@ -96,9 +96,9 @@
     (switch ?ans 
         (case (or y yes) then 
             (assert (phases symptom_question))
-            (run)
         )
         (default
+            (printout t "*********************** out ***************************" crlf)
             (create_patologia_deffacts ?desease ?category)
             (create_patologia_rule ?desease)
             (modify ?fs (phase START) (sequence))

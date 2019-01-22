@@ -16,7 +16,7 @@
                          (mode ?m)
                          (sequence ?next $?tail))
     =>
-    ;(facts *)
+    (facts *)
     (focus ?next)
     (modify ?f (phase ?next) (mode ?m) (sequence ?tail ?next))
 )
@@ -87,8 +87,10 @@
 
 (defrule SYS::restart_system
     ?f <- (system_status (phase START)
-                         (mode diagnosys))
+                         (mode diagnosys|engineering))
     =>
+    (load* "learned_rules.clp")
+    (load* "learned_deffacts.clp")
     (reset)
     ;(facts *)
     (retract ?f)
