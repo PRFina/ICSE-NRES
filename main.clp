@@ -53,13 +53,13 @@
 (load* "learning_func.clp")
 (load* "learned_rules.clp")
 (load* "learned_deffacts.clp")
-(load* "test_deffacts.clp")
+(load* "desease_facts.clp")
 
 
 
 ;(reset)
 ;(watch facts)
-(watch focus)
-(watch rules)
+;(watch focus)
+;(watch rules)
 ;(focus SYS)
-(run 350)
+(run)
