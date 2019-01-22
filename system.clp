@@ -13,8 +13,8 @@
 
 (defrule SYS::next_phase
     ?f <- (system_status (phase ?p)
-                   (mode ?m)
-                   (sequence ?next $?tail))
+                         (mode ?m)
+                         (sequence ?next $?tail))
     =>
     (facts *)
     (focus ?next)
@@ -59,6 +59,7 @@
         (case 2 then 
             (assert (system_status (phase LEARN)
                                    (mode engineering)))
+            (focus LEARN)
             (run)
         )
         (case 3 then
@@ -85,9 +86,11 @@
 )
 
 (defrule SYS::restart_system
-    ?f <- (system_status (phase FOUND)
-                         (mode diagnosys))
+    ?f <- (system_status (phase START)
+                         (mode diagnosys|engineering))
     =>
+    (load* "learned_rules.clp")
+    (load* "learned_deffacts.clp")
     (reset)
     ;(facts *)
     (retract ?f)

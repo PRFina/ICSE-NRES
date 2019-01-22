@@ -6,14 +6,14 @@
 )
 
 (deffunction LEARN::create_patologia_deffacts(?nome ?categoria)
-    (open "learned-deffacts.txt" data "a")
+    (open "learned_deffacts.clp" data "a")
     (bind ?patologia "")
-    (bind ?patologia (format nil "(deffacts %s %n%n(desease (name %s) %n(category %s))%n%n" ?nome ?nome ?categoria))
+    (bind ?patologia (format nil "(deffacts PROC::%s %n%n(desease (name %s) %n(category %s))%n%n" ?nome ?nome ?categoria))
     (do-for-all-facts ((?x oav))
                       (eq 1 1)
                       (bind ?patologia (str-cat ?patologia (create_string_deffacts ?nome ?x:object ?x:attribute ?x:value) (format nil "%n")))
     )
-    (printout data (str-cat ?patologia ")") crlf)
+    (printout data (str-cat ?patologia ")") crlf crlf)
     (close)
 )
 
@@ -24,42 +24,64 @@
 )
 
 (deffunction LEARN::create_patologia_rule(?nome)
-    (open "learned-rule.txt" data "a")
+    (open "learned_rules.clp" data "a")
     (bind ?patologia "")
-    (bind ?patologia (format nil "(defrule %s %n%n" ?nome))
+    (bind ?patologia (format nil "(defrule DGNSYS::%s %n%n" ?nome))
+    (bind ?patologia (str-cat ?patologia (format nil "?f <- (system_status (mode diagnosys))%n")))
     (do-for-all-facts ((?x oav))
                       (eq 1 1)
                       (bind ?patologia (str-cat ?patologia (create_string_rule ?x:object ?x:attribute ?x:value) (format nil "%n") ) )
                       
     )
     (printout data (str-cat ?patologia "=>" (format nil "%n")) )
-    (printout data "(printout t \"La malattia è:  ")
+    (printout data "(diagnosys_completed \"")
     (printout data ?nome)
-    (printout data " \" ")
-    (printout data "crlf)" crlf ")" crlf)
+    (printout data "\" ")
+    (printout data "?f)" crlf ")" crlf crlf)
     (close)
 )
 
-(defrule LEARN::expert_quest
-    ?f <- (mode_engineering)
+(defrule LEARN::expert_question
+    (system_status (phase LEARN)
+                   (mode engineering))
     =>
-    (retract ?f)
     (printout t "Inserire il nome della malattia: ")
     (bind ?desease (read))
-    (printout t "Inserire la categoria a cui appartiene: ")
-    (bind ?category (read))
-
+    (bind ?category (ask_question "Inserire la categoria a cui appartiene: (funghi | nematodi | batteri | fitoplasmi | virus | insetti)" funghi nematodi batteri fitoplasmi virus insetti))
     (assert (desease (name ?desease) (category ?category)))
     (assert (phases symptom_question))
 )
 
+(defrule LEARN::learn_question
+    ?fs <- (system_status (phase LEARN)
+                   (mode diagnosys))
+    =>
+    (printout t "Inserire il nome della malattia: ")
+    (bind ?desease (read))
+    (bind ?category (ask_question "Inserire la categoria a cui appartiene: (funghi | nematodi | batteri | fitoplasmi | virus | insetti)" funghi nematodi batteri fitoplasmi virus insetti))
+    (assert (desease (name ?desease) (category ?category)))
+    (bind ?ans (binary_question "La malattia ha altri sintomi? (yes y | no n)"))
+    (switch ?ans 
+        (case (or y yes) then 
+            (assert (phases symptom_question))
+        )
+        (default
+            (create_patologia_deffacts ?desease ?category)
+            (create_patologia_rule ?desease)
+            (modify ?fs (phase START) (sequence))
+            (focus SYS)
+        )
+    )
+)
+
 (defrule LEARN::symptom_quest
+    ?fs <-  (system_status (phase LEARN)
+                           (mode engineering|diagnosys))
     ?f <- (phases symptom_question)
     ?f1 <- (desease (name ?desease) (category ?category))
     =>
-    (retract ?f)
-    (printout t "Inserisci la struttura colpita dal sintomo: (radice | ceppo | tralcio | foglia | infiorescenza | grappolo)" crlf)
-    (bind ?object (read))
+    (retract ?f )
+    (bind ?object (ask_question "Inserisci la struttura colpita dal sintomo: (radice | ceppo | tralcio | foglia | infiorescenza | grappolo)" radice ceppo tralcio foglia infiorescenza grappolo))
     (printout t "Inserisci il nome del sintomo: (colore | macchiacolore | macchiaforma | melatafumag | fattoredsm | disseccamento | deformazione...)" crlf)
     (bind ?attribute (read))
     (printout t "Inserisci il valore del sintomo: (giallo | macchiacolore | macchiaforma | melatafumag | fattoredsm | si | no...)" crlf)
@@ -70,17 +92,26 @@
             )
     )
     (printout t crlf crlf) 
-    (printout t "La malattia ha altri sintomi? (si | no)")
-    (bind ?ans (read))
+    (bind ?ans (binary_question "La malattia ha altri sintomi? (yes y | no n)"))
     (switch ?ans 
-        (case si then 
+        (case (or y yes) then 
             (assert (phases symptom_question))
-            (run)
         )
-        (case no then
+        (default
+            (printout t "*********************** out ***************************" crlf)
             (create_patologia_deffacts ?desease ?category)
             (create_patologia_rule ?desease)
-            (select_option_system)
+            (modify ?fs (phase START) (sequence))
+            (focus SYS)
         )
     )
+)
+(defrule print_oav
+    ?f <- (system_status (phase LEARN)
+                         (mode diagnosys))
+    ?f1 <- (oav (object ?o)
+                (attribute ?a)
+                (value ?v))      
+    =>
+    (printout t "Sulla struttura " ?o " è presente " ?a " " ?v crlf)
 )

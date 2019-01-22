@@ -1,4 +1,19 @@
 
+(defrule PROC::no_more_symptoms
+    ?f <- (system_status (phase ?x) ;TODO maybe replace ?x with PROC and remove focus SYS
+                         (mode diagnosys))
+    (not (symptom))
+    =>
+    (bind ?ans (binary_question "Non abbiamo trovato nessuna patologia per le informazioni acquisite, vuoi memorizzarle per una futura diagnosi? (yes y|no n)"))
+    (if (eq ?ans TRUE) then 
+        (modify ?f (phase LEARN) (sequence LEARN)) ; change phase
+    else 
+        (modify ?f (phase START) (sequence))
+    )
+    (focus SYS)
+)
+
+
 
 ;check all struttura and category elements that matchs
 (defrule PROC::check_update_rank
