@@ -81,3 +81,13 @@ $?value
     )
     ?flag
 )
+
+(deffunction MAIN::str_replace (?string ?char ?replace)
+    (bind ?new_string "")
+    (loop-for-count (?i 1 (length$ ?string)) do
+        (bind ?c (sub-string ?i ?i ?string))
+        (if (eq ?c ?char) then (bind ?c ?replace))
+        (bind ?new_string (str-cat ?new_string ?c))
+    )
+    ?new_string
+)

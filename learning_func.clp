@@ -46,7 +46,7 @@
                    (mode engineering))
     =>
     (printout t "Inserire il nome della malattia: ")
-    (bind ?desease (read))
+    (bind ?desease (str_replace (readline) " " "_"))
     (bind ?category (ask_question "Inserire la categoria a cui appartiene: (funghi | nematodi | batteri | fitoplasmi | virus | insetti)" funghi nematodi batteri fitoplasmi virus insetti))
     (assert (desease (name ?desease) (category ?category)))
     (assert (phases symptom_question))
@@ -54,10 +54,10 @@
 
 (defrule LEARN::learn_question
     ?fs <- (system_status (phase LEARN)
-                   (mode diagnosys))
+                          (mode diagnosys))
     =>
     (printout t "Inserire il nome della malattia: ")
-    (bind ?desease (read))
+    (bind ?desease (str_replace (readline) " " "_"))
     (bind ?category (ask_question "Inserire la categoria a cui appartiene: (funghi | nematodi | batteri | fitoplasmi | virus | insetti)" funghi nematodi batteri fitoplasmi virus insetti))
     (assert (desease (name ?desease) (category ?category)))
     (bind ?ans (binary_question "La malattia ha altri sintomi? (yes y | no n)"))
@@ -83,9 +83,9 @@
     =>
     (retract ?f )
     (bind ?object (ask_question "Inserisci la struttura colpita dal sintomo: (radice | ceppo | tralcio | foglia | infiorescenza | grappolo)" radice ceppo tralcio foglia infiorescenza grappolo))
-    (printout t "Inserisci il nome del sintomo: (colore | macchiacolore | macchiaforma | melatafumag | fattoredsm | disseccamento | deformazione...)" crlf)
+    (printout t "Inserisci il nome del sintomo: (es. colore, macchiacolore, macchiaforma, melatafumag,fattoredsm, disseccamento, deformazione, ecc...)" crlf)
     (bind ?attribute (read))
-    (printout t "Inserisci il valore del sintomo: (giallo | macchiacolore | macchiaforma | melatafumag | fattoredsm | si | no...)" crlf)
+    (printout t "Inserisci il valore del sintomo: (giallo, rosso, regolare, irregolare, si, no, ecc...)" crlf)
     (bind ?value (read))
     (assert (oav(object ?object)     
                 (attribute ?attribute)  

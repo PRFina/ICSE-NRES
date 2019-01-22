@@ -2,7 +2,7 @@
 
 
 (deffunction diagnosys_completed (?name ?status_fact)
-    (printout t crlf crlf "************** La malattia è: " ?name " **************" crlf crlf)
+    (printout t crlf crlf "******************************* La malattia diagnosticata è: "?name" *******************************" crlf crlf) 
 	(modify ?status_fact (phase START) (sequence))
     (focus SYS)
 )
