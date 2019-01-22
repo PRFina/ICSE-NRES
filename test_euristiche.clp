@@ -1,5 +1,5 @@
 ;1) Semantica: in inverno (quindi con temperature basse) gli insetti sono in letargo quindi poco probabili
-(defrule insetti_low
+(defrule ENV::insetti_low
     (season winter)
     (temperature low)
     =>
@@ -20,7 +20,7 @@
 ;    (printout t "Nematodi -> Virus" crlf)
 ;)
 
-(defrule batteri_high
+(defrule ENV::batteri_high
     (maintenance si)
     =>
     (assert (category (name batteri)(membership high)))
@@ -33,7 +33,7 @@
 
 ;Semantica: la grandine, in qualsiasi stagione, può causare sulle strutture presenti, ferite (tacche) nelle quali trovano
 ;           terreno fertile i batteri
-(defrule grandine
+(defrule ENV::grandine
     (precipitations grandine)
     =>
     (assert (category(name batteri)(membership high)))
@@ -46,7 +46,7 @@
 
 ;7) Semantica: in primavera e con il clima mite iniziano a comparire gli insetti che rimangono
 ;           favoriti in estate con il clima caldo
-(defrule def_insetti
+(defrule ENV::def_insetti
     (season spring or summer)
     (temperature middle or high)
     =>
@@ -60,7 +60,7 @@
 
 ;Semantica: temperature alte (>26°) e clima secco, quindi estate, limitano le patologie dei funghi,
 ;           inoltre favoriscono gli insetti 
-(defrule def_temp_high
+(defrule ENV::def_temp_high
     (season very summer)
     ;?f <- (temperature ?x)
     (precipitations no)
@@ -73,7 +73,7 @@
     ;)
 )
 
-(defrule def_mid_funghi
+(defrule ENV::def_mid_funghi
     (season spring or autumn)
     (temperature very middle)
     (precipitations pioggia)

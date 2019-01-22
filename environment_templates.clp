@@ -34,7 +34,7 @@
 
 ; Models fuzzy-variable in category
 (deftemplate ENV::memb
-   0 100
+    0 1 point
     (
         (low (z 0 0.52))
         (high (s 0.48 1))
