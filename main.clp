@@ -23,6 +23,7 @@
     (import SYS ?ALL))
 (load* "environment_templates.clp")
 (load* "environment_rules.clp")
+(load* "test_euristiche.clp")
 
 (defmodule CLEAN
     (import SYS ?ALL)
