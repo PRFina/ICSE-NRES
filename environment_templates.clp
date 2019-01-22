@@ -1,12 +1,12 @@
-;; FUZZY VARIABLES
-
+; FUZZY VARIABLES
+; Models fuzzy-variable season in envitonment rules
 (deftemplate ENV::season
     1 365 day 
     (
         (spring (PI 55 90))
         (summer (PI 55 180))
         (autumn (PI 55 270))
-        (winter (1 1) (55 0) (305 0) (365 1)) ;TODO smoothing singleton values
+        (winter (1 1) (55 0) (305 0) (365 1))
     )
 )
 
@@ -21,7 +21,6 @@
     )
 )
 
-
 ; Express how much a given plant structure is visibile
 (deftemplate ENV::lifetime
     0 1 point 
@@ -33,7 +32,7 @@
     )
 )
 
-;
+; Models fuzzy-variable in category
 (deftemplate ENV::memb
    0 100
     (
@@ -42,13 +41,13 @@
     )
 )
 
-;
+; Models categories and their related "belief" value
 (deftemplate ENV::category
        (slot name)
        (slot membership (type FUZZY-VALUE memb))
 )
 
-; Models fase fenologica with fuzzy values / used for debug
+; Models fase fenologica with fuzzy values
 (deftemplate ENV::phenological
     0 120 point
     (   
@@ -61,6 +60,7 @@
     )
 )
 
+; Models plant structure, its phenological phase and the lifetime for every part
 (deftemplate ENV::grapevine 
     (slot phenological_phase (type FUZZY-VALUE phenological))
     (slot structure (allowed-values radice ceppo tralcio foglia infiorescenza grappolo))
