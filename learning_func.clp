@@ -68,6 +68,7 @@
         (default
             (create_patologia_deffacts ?desease ?category)
             (create_patologia_rule ?desease)
+            (printout t "***************************************** Patologia acquisita! *****************************************" crlf)
             (modify ?fs (phase START) (sequence))
             (focus SYS)
         )
@@ -92,13 +93,13 @@
             )
     )
     (printout t crlf crlf) 
-    (bind ?ans (binary_question "La malattia ha altri sintomi? (yes y | no n)"))
+    (bind ?ans (binary_question "La patologia presenta altri sintomi? (yes y | no n)"))
     (switch ?ans 
         (case (or y yes) then 
             (assert (phases symptom_question))
         )
         (default
-            (printout t "*********************** out ***************************" crlf)
+            (printout t "***************************************** Patologia acquisita! *****************************************" crlf)
             (create_patologia_deffacts ?desease ?category)
             (create_patologia_rule ?desease)
             (modify ?fs (phase START) (sequence))

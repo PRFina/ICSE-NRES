@@ -16,7 +16,7 @@
                          (mode ?m)
                          (sequence ?next $?tail))
     =>
-    (facts *)
+    ;(facts *)
     (focus ?next)
     (modify ?f (phase ?next) (mode ?m) (sequence ?tail ?next))
 )
