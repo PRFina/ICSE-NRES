@@ -85,7 +85,7 @@
 )
 
 (defrule SYS::restart_system
-    ?f <- (system_status (phase FOUND|LEARN)
+    ?f <- (system_status (phase START)
                          (mode diagnosys))
     =>
     (reset)

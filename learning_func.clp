@@ -84,3 +84,13 @@
         )
     )
 )
+(defrule welcome
+   ?f <- (system_status (phase LEARN))
+                         
+    =>
+    (printout t crlf crlf "***************** WELCOME TO LEARNING MODE *************"crlf crlf)
+    (modify ?f (phase START) (sequence))
+    
+
+
+)

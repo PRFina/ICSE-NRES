@@ -1,11 +1,10 @@
 
-(defrule PROC::go_to_learn
-    ?f <- (system_status (phase ?x)
+(defrule PROC::no_more_symptoms
+    ?f <- (system_status (phase ?x) ;TODO maybe replace ?x with PROC and remove focus SYS
                          (mode diagnosys))
     (not (symptom))
     =>
-    (modify ?f (phase LEARN) (sequence))
-    (printout t crlf crlf "************** NO MORE SYMPTOMS ***************" crlf crlf)
+    (modify ?f (phase LEARN) (sequence LEARN)) ; change phase
     (focus SYS)
 )
 
