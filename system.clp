@@ -59,6 +59,7 @@
         (case 2 then 
             (assert (system_status (phase LEARN)
                                    (mode engineering)))
+            (focus LEARN)
             (run)
         )
         (case 3 then
