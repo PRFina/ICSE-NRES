@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 (defmodule MAIN (export ?ALL))
 (load* "utility_func.clp")
 
