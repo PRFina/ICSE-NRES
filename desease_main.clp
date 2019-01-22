@@ -32,6 +32,7 @@
     (export deftemplate symptom damaged_struct QandA desease)
     (export deffunction init_rank)
     (import SYS ?ALL)
+    (import MAIN ?ALL)
     (import ENV deftemplate category lifetime grapevine memb))
 (load* "desease_templates.clp")
 (load* "desease_rules.clp")

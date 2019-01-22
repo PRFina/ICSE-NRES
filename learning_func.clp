@@ -13,7 +13,7 @@
                       (eq 1 1)
                       (bind ?patologia (str-cat ?patologia (create_string_deffacts ?nome ?x:object ?x:attribute ?x:value) (format nil "%n")))
     )
-    (printout data (str-cat ?patologia ")") crlf)
+    (printout data (str-cat ?patologia ")") crlf crlf)
     (close)
 )
 
@@ -37,16 +37,14 @@
     (printout data "(diagnosys_completed \"")
     (printout data ?nome)
     (printout data "\" ")
-    (printout data "?f)" crlf ")")
+    (printout data "?f)" crlf ")" crlf crlf)
     (close)
 )
 
-(defrule LEARN::expert_quest
-    ;?f <- (mode_engineering)
-    ?f <- (system_status(phase LEARN)
-                        (mode engineering))
+(defrule LEARN::expert_question
+    (system_status (phase LEARN)
+                   (mode engineering))
     =>
-    (retract ?f)
     (printout t "Inserire il nome della malattia: ")
     (bind ?desease (read))
     (bind ?category (ask_question "Inserire la categoria a cui appartiene: (funghi | nematodi | batteri | fitoplasmidellavite | virus | insetti)" funghi nematodi batteri fitoplasmidellavite virus insetti))
@@ -54,11 +52,35 @@
     (assert (phases symptom_question))
 )
 
+(defrule LEARN::learn_question
+    ?fs <- (system_status (phase LEARN)
+                   (mode diagnosys))
+    =>
+    (printout t "Inserire il nome della malattia: ")
+    (bind ?desease (read))
+    (bind ?category (ask_question "Inserire la categoria a cui appartiene: (funghi | nematodi | batteri | fitoplasmidellavite | virus | insetti)" funghi nematodi batteri fitoplasmidellavite virus insetti))
+    (assert (desease (name ?desease) (category ?category)))
+    (bind ?ans (binary_question "La malattia ha altri sintomi? (yes y | no n)"))
+    (switch ?ans 
+        (case (or y yes) then 
+            (assert (phases symptom_question))
+        )
+        (default
+            (create_patologia_deffacts ?desease ?category)
+            (create_patologia_rule ?desease)
+            (modify ?fs (phase START) (sequence))
+            (focus SYS)
+        )
+    )
+)
+
 (defrule LEARN::symptom_quest
+    ?fs <-  (system_status (phase LEARN)
+                           (mode engineering|diagnosys))
     ?f <- (phases symptom_question)
     ?f1 <- (desease (name ?desease) (category ?category))
     =>
-    (retract ?f)
+    (retract ?f )
     (bind ?object (ask_question "Inserisci la struttura colpita dal sintomo: (radice | ceppo | tralcio | foglia | infiorescenza | grappolo)" radice ceppo tralcio foglia infiorescenza grappolo))
     (printout t "Inserisci il nome del sintomo: (colore | macchiacolore | macchiaforma | melatafumag | fattoredsm | disseccamento | deformazione...)" crlf)
     (bind ?attribute (read))
@@ -79,17 +101,17 @@
         (default
             (create_patologia_deffacts ?desease ?category)
             (create_patologia_rule ?desease)
+            (modify ?fs (phase START) (sequence))
             (focus SYS)
         )
     )
 )
-(defrule welcome
-   ?f <- (system_status (phase LEARN))
-                         
+(defrule print_oav
+    ?f <- (system_status (phase LEARN)
+                         (mode diagnosys))
+    ?f1 <- (oav (object ?o)
+                (attribute ?a)
+                (value ?v))      
     =>
-    (printout t crlf crlf "***************** WELCOME TO LEARNING MODE *************"crlf crlf)
-    (modify ?f (phase START) (sequence))
-    
-
-
+    (printout t "Sulla struttura " ?o " è presente " ?a " " ?v crlf)
 )

@@ -4,7 +4,12 @@
                          (mode diagnosys))
     (not (symptom))
     =>
-    (modify ?f (phase LEARN) (sequence LEARN)) ; change phase
+    (bind ?ans (binary_question "Non abbiamo trovato nessuna patologia per le informazioni acquisite, vuoi memorizzarle per una futura diagnosi? (yes y|no n)"))
+    (if (eq ?ans TRUE) then 
+        (modify ?f (phase LEARN) (sequence LEARN)) ; change phase
+    else 
+        (modify ?f (phase START) (sequence))
+    )
     (focus SYS)
 )
 
