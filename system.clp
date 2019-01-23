@@ -92,7 +92,6 @@
     (load* "learned_rules.clp")
     (load* "learned_deffacts.clp")
     (reset)
-    ;(facts *)
     (retract ?f)
     (show_interface "interface.gui")
     (select_option_system)

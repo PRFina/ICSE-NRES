@@ -1,5 +1,5 @@
 
-;get the fact-address of damaged_struct  with category category in the pos rank position
+;; get the fact-address of the damaged_struct fact in the ?pos ranking position
 (deffunction QGEN::get_rank_pos(?pos)
     (bind ?facts_to_be_sorted
         (find-all-facts ((?f damaged_struct))
@@ -10,13 +10,14 @@
     (return (nth$ ?pos ?sorted_facts))
 )
 
-;funzione di ordinamento decrescente
+;; sort by rank value in ascending order the damaged_struct facts
 (deffunction QGEN::sorting(?a ?b)
     (return (< (fact-slot-value ?a rank)(fact-slot-value ?b rank)))
 )
 
 
-
+;; return a multifield where each value is
+;; the name of an sserted symptom fact
 (deffunction QGEN::get_allowed_values (?struttura ?sintomo)
     (bind ?allowed_values (create$))
 
@@ -29,6 +30,8 @@
     (insert$ ?allowed_values (+ 1 (length$ ?allowed_values)) altro)
 )
 
+;; create the user question based on grammar presented in @documentazione.pdf
+;; return the user answer
 (deffunction QGEN::build_question (?struttura ?sintomo)
     (bind ?allowed_values (get_allowed_values ?struttura ?sintomo))
     (bind ?answer (ask_question (format nil "La struttura %s presenta %s? (%s)" ?struttura ?sintomo (implode$ ?allowed_values))
@@ -36,12 +39,14 @@
     ?answer
 )
 
+;; generate a question for each value of symptoms of the highest ranking 
+;; damaged_struct fact
 (defrule QGEN::generate_question
     (system_status (phase QGEN)
                    (mode diagnosys))
     ?f <-(damaged_struct (structure ?s)
                          (symptoms $? ?as $?))    
-    (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest rank position
+    (test (eq ?f (get_rank_pos 1))) ; match only on fact with highest ranking position
     =>   
     (bind ?answer (build_question ?s ?as))
     (assert (oav (object ?s) (attribute ?as) (value ?answer)))
@@ -50,7 +55,8 @@
                    (answer ?answer)))
 )
 
-; Retract symptoms related with question
+;; Retract symptoms related with question 
+;; (see Delete section of @documentazione.pdf for additional info)
 (defrule QGEN::clean_symptoms_by_evidence
     (system_status (phase QGEN)
                    (mode diagnosys))
