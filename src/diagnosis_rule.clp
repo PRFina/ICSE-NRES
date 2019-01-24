@@ -1,8 +1,9 @@
-;regole che si attivano in caso di malattie diagnosticate
 
 
+;; Utility to function to avoid code duplication, 
+;; once a diagnosys is completed tell to the system to restart it self
 (deffunction diagnosys_completed (?name ?status_fact)
-    (printout t crlf crlf "******************************* La malattia diagnosticata è: "?name" *******************************" crlf crlf) 
+    (printout t crlf crlf "************************* La malattia diagnosticata è: "?name" *************************" crlf crlf) 
 	(modify ?status_fact (phase START) (sequence))
     (focus SYS)
 )
