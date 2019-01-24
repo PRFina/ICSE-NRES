@@ -58,26 +58,7 @@ $?value
     =>
     (focus SYS)
 )
- 
-(deffunction MAIN::check_date(?date)
-    (bind ?flag false)
-    (if (neq ?date x)
-    then
-        (bind ?day (integer (string-to-field (sub-string 1 2 (str-cat ?date)))))
-        (bind ?month (integer (string-to-field (sub-string 4 5 (str-cat ?date)))))
-        (bind ?year (integer (string-to-field (sub-string 7 10 (str-cat ?date))))) 
-        (if (and (< ?day 32)
-                (> ?day 0)
-            (< ?month 13)
-                (> ?month 0)
-            (< ?year 2100)
-                (> ?year 420))
-            then (bind ?flag true)
-        )
-        ?flag
-    )
-    ?flag
-)
+
 
 (deffunction MAIN::str_replace (?string ?char ?replace)
     (bind ?new_string "")
