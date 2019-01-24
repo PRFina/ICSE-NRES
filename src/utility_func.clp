@@ -9,6 +9,8 @@
         else (return ?r))  
 )
 
+;; Function to ask a question to user
+;; return the answer from user input
 (deffunction MAIN::ask_question (?question $?allowed-values)
     (printout t ?question crlf)
     (bind ?answer (read))
@@ -28,6 +30,8 @@
     ?answer
 )
 
+;; Binary question to get yes or no from user
+;; return true if yes, false otherwise
 (deffunction MAIN::binary_question (?question)
    (bind ?response (ask_question ?question yes no y n))
    (if (or (eq ?response yes) (eq ?response y))
@@ -35,6 +39,8 @@
     else FALSE)
 )
 
+;; Generate a multifield with each value from first to second argument
+;; return multifield
 (deffunction MAIN::range_two_val(?first ?second)
     (bind $?value (create$))
     (if (< ?first ?second)

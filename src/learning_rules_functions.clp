@@ -1,10 +1,11 @@
-;Create
+;; Create a string with a symptom which contains the name of the desease, the damaged struct, the name of the symptom, and its value. Used for deffacts
 (deffunction LEARN::create_string_deffacts(?patologia ?struttura ?sintomo ?valore)
     (bind ?sintomi "")
     (bind ?sintomi (str-cat ?sintomi (format nil "(symptom (desease %s)%n(structure %s)%n(name %s)%n(value %s))%n" ?patologia ?struttura ?sintomo ?valore)))
     (return ?sintomi)
 )
 
+;; Create a unique deffacts string that corresponds to a desease
 (deffunction LEARN::create_patologia_deffacts(?nome ?categoria)
     (open "learned_deffacts.clp" data "a")
     (bind ?patologia "")
@@ -17,12 +18,14 @@
     (close)
 )
 
+;; Create a string with a symptom which contains the damaged struct, the name of the symptom, and its value. Used for rule
 (deffunction LEARN::create_string_rule(?struttura ?sintomo ?valore)
     (bind ?string "")
     (bind ?string (str-cat ?string (format nil "(oav(object %s)%n(attribute %s)%n(value %s))%n" ?struttura ?sintomo ?valore)))
     (return ?string)
 )
 
+;; Create a unique defrule string that corresponds to a desease
 (deffunction LEARN::create_patologia_rule(?nome)
     (open "learned_rules.clp" data "a")
     (bind ?patologia "")
@@ -41,6 +44,7 @@
     (close)
 )
 
+;; Rule to to get a name and a category from user input from engineering mode
 (defrule LEARN::expert_question
     (system_status (phase LEARN)
                    (mode engineering))
@@ -52,6 +56,7 @@
     (assert (phases symptom_question))
 )
 
+;; Rule to to get a name and a category from user input from diagnosys mode and check for more
 (defrule LEARN::learn_question
     ?fs <- (system_status (phase LEARN)
                           (mode diagnosys))
@@ -75,6 +80,7 @@
     )
 )
 
+;; Rule to get the values for a desease in object-attribute-value form
 (defrule LEARN::symptom_quest
     ?fs <-  (system_status (phase LEARN)
                            (mode engineering|diagnosys))
@@ -107,6 +113,8 @@
         )
     )
 )
+
+;; Print every assertions after getting a diagnosys 
 (defrule print_oav
     ?f <- (system_status (phase LEARN)
                          (mode diagnosys))
