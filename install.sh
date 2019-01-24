@@ -14,3 +14,8 @@ case "$(uname -s)" in
 esac
 
 cp $SRC_DIR/$EXEC_SRC $DEST_DIR/$EXEC_DEST
+if [ $? -eq 0 ]; then
+    echo "NRES is installed, type ./NRES.sh"
+else
+    echo "Something wrong appened!"
+fi
