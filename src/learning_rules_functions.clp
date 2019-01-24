@@ -56,7 +56,7 @@
     (assert (phases symptom_question))
 )
 
-;; Rule to to get a name and a category from user input from diagnosys mode and check for more
+;; Rule to to get a name and a category from user input from diagnosys mode and check for more symptoms
 (defrule LEARN::learn_question
     ?fs <- (system_status (phase LEARN)
                           (mode diagnosys))
@@ -80,7 +80,7 @@
     )
 )
 
-;; Rule to get the values for a desease in object-attribute-value form
+;; Rule to get the values for a desease in object-attribute-value form and check for more symptoms
 (defrule LEARN::symptom_quest
     ?fs <-  (system_status (phase LEARN)
                            (mode engineering|diagnosys))
