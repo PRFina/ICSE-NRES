@@ -44,7 +44,7 @@
     (close)
 )
 
-;; Rule to to get a name and a category from user input from engineering mode
+;; Rule to get a name and a category from user input from engineering mode
 (defrule LEARN::expert_question
     (system_status (phase LEARN)
                    (mode engineering))
@@ -56,7 +56,7 @@
     (assert (phases symptom_question))
 )
 
-;; Rule to to get a name and a category from user input from diagnosys mode and check for more symptoms
+;; Rule to get a name and a category from user input from diagnosys mode and check for more symptoms
 (defrule LEARN::learn_question
     ?fs <- (system_status (phase LEARN)
                           (mode diagnosys))
