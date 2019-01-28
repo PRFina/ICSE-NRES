@@ -80,6 +80,7 @@
             (watch rules)
             (watch activations)
             (watch facts)
+            (init_rank)
             (assert (system_status (phase ENV)
                                    (mode diagnosys)
                                    (sequence PROC QGEN DGNSYS CLEAN)))
